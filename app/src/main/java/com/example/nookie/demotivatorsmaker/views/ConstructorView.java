@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.example.nookie.demotivatorsmaker.Demotivator;
 import com.example.nookie.demotivatorsmaker.ImagePicker;
 import com.example.nookie.demotivatorsmaker.ImageSetter;
 import com.example.nookie.demotivatorsmaker.R;
@@ -101,7 +102,8 @@ public class ConstructorView extends FrameLayout implements ImageSetter{
     @Override
     public void setImage(Bitmap pic) {
         //Bitmap dem = createBitmap(image);
-        image.setImageBitmap(pic);
+        Demotivator demotivator = new Demotivator(pic,"","");
+        image.setImageBitmap(demotivator.toBitmap());
         selectImageText.setVisibility(GONE);
     }
 
