@@ -22,10 +22,13 @@ public class Demotivator {
     private String text;
     private Paint paint;
 
+
+
     public static final int DEFAULT_WIDTH = 800;
     public static final int DEFAULT_HEIGHT = 600;
-    public static final int X_PADDING_DP = 20;
-    public static final int Y_PADDING_DP = 20;
+
+    public static final int X_PADDING_DP = 40;//10%
+    public static final int Y_PADDING_DP = 20;//6%
 
     public Demotivator(Bitmap image, String caption, String text) {
         this.image = image;
@@ -34,20 +37,21 @@ public class Demotivator {
     }
 
     public Bitmap toBitmap() {
-        caption = "caption";
-        text = "text";
+        caption = "Caption";
+        text = "text text text text text text ";
 
-        Bitmap output = Bitmap.createBitmap(DEFAULT_WIDTH, DEFAULT_HEIGHT, Bitmap.Config.ARGB_8888);
         Bitmap scaledImage = scaleImage(image);
+
+        Bitmap output = Bitmap.createBitmap(scaledImage.getWidth()*2, scaledImage.getHeight()*2, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(output);
         if (paint==null)
             paint = new Paint();
         //background
-        paint.setColor(Color.BLACK);
+        paint.setColor(Color.GRAY);
         paint.setStyle(Paint.Style.FILL);
-        //c.drawPaint(paint);
+        c.drawPaint(paint);
 
-        //c.drawBitmap(scaledImage,output.getWidth()/2-scaledImage.getWidth()/2,(float)dpToPx(Y_PADDING_DP),paint);
+        c.drawBitmap(scaledImage, output.getWidth() / 2 - scaledImage.getWidth() / 2, (float) dpToPx(Y_PADDING_DP), paint);
 
         c = placeText(c);
 
@@ -70,15 +74,15 @@ public class Demotivator {
         int originalH = image.getHeight();
 
         int width = DEFAULT_WIDTH - dpToPx(X_PADDING_DP)*2;
-        int height = DEFAULT_HEIGHT - dpToPx(Y_PADDING_DP)*3;
+        int height = DEFAULT_HEIGHT - dpToPx(Y_PADDING_DP)*2;
 
-        float ratio = originalW / (float) originalH;
+        float ratio = originalH / (float) originalW;
 
         if (ratio<1){
-            width = (int)(originalH * ratio);
+            height = (int)(originalW * ratio);
         }
         else{
-            height = (int)(originalW/ratio);
+            width = (int)(originalH/ratio);
         }
 
         return Bitmap.createScaledBitmap(image,width,height,false);
@@ -110,29 +114,31 @@ public class Demotivator {
     }
 
     private Canvas placeText(Canvas canvas){
+
+        int restorePoint = canvas.save();
         if (hasText()) {
-            canvas.translate(100,50);
             TextPaint smallTP = new TextPaint();
-            smallTP.setStyle(Paint.Style.STROKE);
-            smallTP.setColor(Color.YELLOW);
-            smallTP.setTextSize(10);
+            smallTP.setColor(Color.WHITE);
+            smallTP.setTextSize(40);
+
             StaticLayout smallTextSL = new StaticLayout(getText(),
-                    smallTP,0, Layout.Alignment.ALIGN_CENTER,0,0,false);
+                    smallTP,canvas.getWidth(), Layout.Alignment.ALIGN_CENTER,1,1,true);
+
+            canvas.translate(0, canvas.getHeight() - smallTextSL.getHeight());
             smallTextSL.draw(canvas);
-            canvas.save();
-            canvas.restore();
         }
         if (hasCaption()) {
-            canvas.translate(200,50);
             TextPaint captionTP = new TextPaint();
-            captionTP.setStyle(Paint.Style.STROKE);
-            captionTP.setColor(Color.YELLOW);
-            captionTP.setTextSize(20);
-            StaticLayout captionSL = new StaticLayout(getText(),
-                    captionTP,0, Layout.Alignment.ALIGN_CENTER,0,0,false);
+            captionTP.setColor(Color.WHITE);
+            captionTP.setTextSize(65);
+            StaticLayout captionSL = new StaticLayout(getCaption(),
+                    captionTP,canvas.getWidth(), Layout.Alignment.ALIGN_CENTER,1,1,false);
+
+            canvas.translate(0, (hasText() ? 0 : canvas.getHeight())
+                    -captionSL.getHeight());
             captionSL.draw(canvas);
-            canvas.save();
-            canvas.restore();
+
+            canvas.restoreToCount(restorePoint);
         }
 
         return canvas;
