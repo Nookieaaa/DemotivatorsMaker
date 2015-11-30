@@ -42,7 +42,9 @@
                 android:layout_margin="3dp"
                 android:background="#ffffff"
                 android:minHeight="200dp"
-                android:minWidth="200dp" />
+                android:minWidth="200dp"
+                android:scaleType="fitXY"
+                android:nestedScrollingEnabled="false" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -69,7 +71,9 @@
                 android:minWidth="100dp"
                 android:hint="caption"
                 android:textSize="30sp"
-                android:gravity="center_horizontal" />
+                android:gravity="center_horizontal"
+                android:focusableInTouchMode="true"
+                android:focusable="true" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -86,7 +90,10 @@
                 android:layout_height="match_parent"
                 android:minWidth="100dp"
                 android:hint="text"
-                android:gravity="center_horizontal" />
+                android:gravity="center_horizontal"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                />
         </android.support.design.widget.TextInputLayout>
 
 

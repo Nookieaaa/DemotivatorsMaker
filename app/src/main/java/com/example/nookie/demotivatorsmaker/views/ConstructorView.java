@@ -3,10 +3,8 @@ package com.example.nookie.demotivatorsmaker.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.example.nookie.demotivatorsmaker.Demotivator;
 import com.example.nookie.demotivatorsmaker.ImagePicker;
 import com.example.nookie.demotivatorsmaker.ImageSetter;
 import com.example.nookie.demotivatorsmaker.R;
@@ -101,44 +98,21 @@ public class ConstructorView extends FrameLayout implements ImageSetter{
 
     @Override
     public void setImage(Bitmap pic) {
-        //Bitmap dem = createBitmap(image);
-        Demotivator demotivator = new Demotivator(pic,"","");
-        image.setImageBitmap(demotivator.toBitmap());
+        image.setImageBitmap(pic);
         selectImageText.setVisibility(GONE);
     }
 
-    private Bitmap createBitmap(Bitmap image) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        Bitmap dem = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(dem);
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawPaint(paint);
-
-
-
-
-        Bitmap temp = Bitmap.createScaledBitmap(image, width / 2, height / 2, false);
-
-        float bmLeft = width/2 - temp.getWidth()/2;
-        float bmTop = height/2 - temp.getHeight()/2;
-
-        canvas.drawBitmap(temp, bmLeft, bmTop, paint);
-
-        paint.setColor(Color.WHITE);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(3);
-
-        Rect r = new Rect((int)bmLeft - 10,(int)bmTop -10, (int)bmLeft + temp.getWidth() + 10, (int)bmTop + temp.getHeight()+10);
-
-        canvas.drawRect(r, paint);
-
-        paint.setTextSize(10);
-        //canvas.drawText(caption.getText().toString(),);
-
-        return dem;
+    public String getCaption(){
+        return caption.getText().toString();
     }
+
+    public String getText(){
+        return text.getText().toString();
+    }
+
+    public Bitmap getImage(){
+        Drawable img = image.getDrawable();
+        return ((BitmapDrawable)img).getBitmap();
+    }
+
 }

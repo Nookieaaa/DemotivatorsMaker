@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Environment;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -30,6 +31,9 @@ public class Demotivator {
     public static final int X_PADDING_DP = 40;//10%
     public static final int Y_PADDING_DP = 20;//6%
 
+    public static final int BORDER_WIDTH = 5;
+    public static final int BORDER_MARGIN = 10;
+
     public Demotivator(Bitmap image, String caption, String text) {
         this.image = image;
         this.caption = caption;
@@ -37,23 +41,67 @@ public class Demotivator {
     }
 
     public Bitmap toBitmap() {
-        caption = "Caption";
-        text = "text text text text text text ";
+        StaticLayout smallTextSL = null;
+        StaticLayout captionSL = null;
+
 
         Bitmap scaledImage = scaleImage(image);
 
-        Bitmap output = Bitmap.createBitmap(scaledImage.getWidth()*2, scaledImage.getHeight()*2, Bitmap.Config.ARGB_8888);
+        int calculatedHeight = scaledImage.getHeight() + dpToPx(Y_PADDING_DP)*3;
+
+        if (hasText()){
+            TextPaint smallTP = new TextPaint();
+            smallTP.setColor(Color.WHITE);
+            smallTP.setTextSize(40);
+            smallTextSL = new StaticLayout(getText(),
+                    smallTP,scaledImage.getWidth(), Layout.Alignment.ALIGN_CENTER,1,1,true);
+            calculatedHeight += smallTextSL.getHeight();
+        }
+
+        if (hasCaption()){
+            TextPaint captionTP = new TextPaint();
+            captionTP.setColor(Color.WHITE);
+            captionTP.setTextSize(65);
+            captionSL = new StaticLayout(getCaption(),
+                    captionTP,scaledImage.getWidth(), Layout.Alignment.ALIGN_CENTER,1,1,false);
+            calculatedHeight += captionSL.getHeight();
+        }
+
+
+        Bitmap output = Bitmap.createBitmap((int)(scaledImage.getWidth()+dpToPx(X_PADDING_DP)*2),
+                calculatedHeight, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(output);
         if (paint==null)
             paint = new Paint();
         //background
-        paint.setColor(Color.GRAY);
+        paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
         c.drawPaint(paint);
 
-        c.drawBitmap(scaledImage, output.getWidth() / 2 - scaledImage.getWidth() / 2, (float) dpToPx(Y_PADDING_DP), paint);
+        RectF border = new RectF(
+                pxToDp(X_PADDING_DP)+20,
+                pxToDp(Y_PADDING_DP),
+                scaledImage.getWidth()+pxToDp(X_PADDING_DP)+50,
+                scaledImage.getHeight()+pxToDp(Y_PADDING_DP)+30);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(BORDER_WIDTH);
+        c.drawRect(border,paint);
 
-        c = placeText(c);
+        c.drawBitmap(scaledImage, output.getWidth() / 2 - scaledImage.getWidth() / 2,
+                (float) dpToPx(Y_PADDING_DP), paint);
+
+        c.translate(dpToPx(X_PADDING_DP),c.getHeight()-dpToPx(Y_PADDING_DP));
+
+        if (smallTextSL!=null) {
+            c.translate(0,- smallTextSL.getHeight());
+            smallTextSL.draw(c);
+        }
+        if (captionSL!=null){
+
+            c.translate(0, -captionSL.getHeight());
+            captionSL.draw(c);
+        }
 
         File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"testdem.jpg");
         try {
@@ -73,17 +121,12 @@ public class Demotivator {
         int originalW = image.getWidth();
         int originalH = image.getHeight();
 
-        int width = DEFAULT_WIDTH - dpToPx(X_PADDING_DP)*2;
-        int height = DEFAULT_HEIGHT - dpToPx(Y_PADDING_DP)*2;
+        int width = DEFAULT_WIDTH;
+        //int height = DEFAULT_HEIGHT - dpToPx(Y_PADDING_DP)*2;
 
-        float ratio = originalH / (float) originalW;
+        float ratio = width / (float) originalW;
 
-        if (ratio<1){
-            height = (int)(originalW * ratio);
-        }
-        else{
-            width = (int)(originalH/ratio);
-        }
+        int height = (int)(originalH * ratio);
 
         return Bitmap.createScaledBitmap(image,width,height,false);
     }
@@ -111,37 +154,6 @@ public class Demotivator {
 
     private boolean hasCaption(){
         return getCaption().length()>0;
-    }
-
-    private Canvas placeText(Canvas canvas){
-
-        int restorePoint = canvas.save();
-        if (hasText()) {
-            TextPaint smallTP = new TextPaint();
-            smallTP.setColor(Color.WHITE);
-            smallTP.setTextSize(40);
-
-            StaticLayout smallTextSL = new StaticLayout(getText(),
-                    smallTP,canvas.getWidth(), Layout.Alignment.ALIGN_CENTER,1,1,true);
-
-            canvas.translate(0, canvas.getHeight() - smallTextSL.getHeight());
-            smallTextSL.draw(canvas);
-        }
-        if (hasCaption()) {
-            TextPaint captionTP = new TextPaint();
-            captionTP.setColor(Color.WHITE);
-            captionTP.setTextSize(65);
-            StaticLayout captionSL = new StaticLayout(getCaption(),
-                    captionTP,canvas.getWidth(), Layout.Alignment.ALIGN_CENTER,1,1,false);
-
-            canvas.translate(0, (hasText() ? 0 : canvas.getHeight())
-                    -captionSL.getHeight());
-            captionSL.draw(canvas);
-
-            canvas.restoreToCount(restorePoint);
-        }
-
-        return canvas;
     }
 
 }
