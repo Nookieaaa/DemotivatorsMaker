@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
     public static final int TAKE_PICTURE_CODE = 101;
 
     ImageSetter fragmentImageSetter;
+    DemotivatorSaver mDemotivatorSaver;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -54,7 +55,10 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
-        fragmentImageSetter = (ImageSetter)fragment;
+        if(fragment instanceof ConstructorFragment) {
+            fragmentImageSetter = (ImageSetter) fragment;
+            mDemotivatorSaver = (DemotivatorSaver)fragment;
+        }
     }
 
     @Override
@@ -70,8 +74,16 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                final Uri fileUri = mDemotivatorSaver.save();
+                Snackbar.make(view, "saved.", Snackbar.LENGTH_LONG)
+                        .setAction("Open", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setDataAndType(fileUri,"image/*");
+                                startActivity(intent);
+                            }
+                        }).show();
             }
         });
 
@@ -93,9 +105,11 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        /*if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -179,6 +193,10 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    public interface DemotivatorSaver{
+        public Uri save();
     }
 
 }

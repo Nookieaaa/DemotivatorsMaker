@@ -3,8 +3,6 @@ package com.example.nookie.demotivatorsmaker.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +12,20 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.example.nookie.demotivatorsmaker.R;
+import com.example.nookie.demotivatorsmaker.fragments.ConstructorFragment;
 import com.example.nookie.demotivatorsmaker.interfaces.ImagePicker;
 import com.example.nookie.demotivatorsmaker.interfaces.ImageSetter;
-import com.example.nookie.demotivatorsmaker.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ConstructorView extends FrameLayout implements ImageSetter{
+public class ConstructorView extends FrameLayout implements ImageSetter, ConstructorFragment.DemotivatorInfo{
 
     private ImagePicker mFragmentImagePicker;
 
     private int sourceMode;
+    private Bitmap originalBitmap;
 
 
     @Bind(R.id.constructor_radiogroup)
@@ -98,6 +98,7 @@ public class ConstructorView extends FrameLayout implements ImageSetter{
 
     @Override
     public void setImage(Bitmap pic) {
+        originalBitmap = pic;
         image.setImageBitmap(pic);
         selectImageText.setVisibility(GONE);
     }
@@ -111,8 +112,7 @@ public class ConstructorView extends FrameLayout implements ImageSetter{
     }
 
     public Bitmap getImage(){
-        Drawable img = image.getDrawable();
-        return ((BitmapDrawable)img).getBitmap();
+        return originalBitmap;
     }
 
 }

@@ -11,13 +11,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center"
             android:layout_marginTop="15dp">
-            <RadioButton
+            <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/constructor_rb_gallery"
                 android:text="@string/rb_gallery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true" />
-            <RadioButton
+            <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/constructor_rb_camera"
                 android:text="@string/rb_camera"
                 android:layout_width="wrap_content"
@@ -27,24 +27,19 @@
             android:id="@+id/constructor_frame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
-            android:background="#000000">
+            android:layout_gravity="center">
 
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/constructor_image"
                 android:layout_gravity="center"
-                android:layout_margin="3dp"
-                android:background="#ffffff"
-                android:minHeight="200dp"
-                android:minWidth="200dp"
-                android:scaleType="fitXY"
-                android:nestedScrollingEnabled="false" />
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/select_image"
+                android:minHeight="@dimen/constructor_image_min_height"
+                android:minWidth="@dimen/constructor_image_min_width" />
 
             <TextView
                 android:layout_width="wrap_content"

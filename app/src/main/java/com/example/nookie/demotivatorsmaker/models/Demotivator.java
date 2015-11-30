@@ -7,15 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.os.Environment;
+import android.graphics.Typeface;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import com.example.nookie.demotivatorsmaker.App;
 
 public class Demotivator {
     private Bitmap image;
@@ -24,6 +21,8 @@ public class Demotivator {
     private Paint paint;
 
 
+    public static final String TIMES_NEW_ROMAN_PATH = "fonts/Times_New_Roman.ttf";
+    public static final String TIMES_NEW_ROMAN_BOLD_PATH = "fonts/Times_New_Roman_Bold.ttf";
 
     public static final int DEFAULT_WIDTH = 800;
     public static final int DEFAULT_HEIGHT = 600;
@@ -31,7 +30,7 @@ public class Demotivator {
     public static final int X_PADDING_DP = 40;//10%
     public static final int Y_PADDING_DP = 20;//6%
 
-    public static final int BORDER_WIDTH = 5;
+    public static final int BORDER_WIDTH = 2;
     public static final int BORDER_MARGIN = 10;
 
     public Demotivator(Bitmap image, String caption, String text) {
@@ -51,6 +50,8 @@ public class Demotivator {
 
         if (hasText()){
             TextPaint smallTP = new TextPaint();
+            Typeface tnr = Typeface.createFromAsset(App.getAppContext().getAssets(),TIMES_NEW_ROMAN_PATH);
+            smallTP.setTypeface(tnr);
             smallTP.setColor(Color.WHITE);
             smallTP.setTextSize(40);
             smallTextSL = new StaticLayout(getText(),
@@ -60,6 +61,8 @@ public class Demotivator {
 
         if (hasCaption()){
             TextPaint captionTP = new TextPaint();
+            Typeface tnrb = Typeface.createFromAsset(App.getAppContext().getAssets(),TIMES_NEW_ROMAN_BOLD_PATH);
+            captionTP.setTypeface(tnrb);
             captionTP.setColor(Color.WHITE);
             captionTP.setTextSize(65);
             captionSL = new StaticLayout(getCaption(),
@@ -79,10 +82,10 @@ public class Demotivator {
         c.drawPaint(paint);
 
         RectF border = new RectF(
-                pxToDp(X_PADDING_DP)+20,
-                pxToDp(Y_PADDING_DP),
-                scaledImage.getWidth()+pxToDp(X_PADDING_DP)+50,
-                scaledImage.getHeight()+pxToDp(Y_PADDING_DP)+30);
+                dpToPx(X_PADDING_DP)-BORDER_MARGIN-BORDER_WIDTH,
+                dpToPx(Y_PADDING_DP)-BORDER_MARGIN-BORDER_WIDTH,
+                scaledImage.getWidth()+dpToPx(X_PADDING_DP)+BORDER_MARGIN+BORDER_WIDTH,
+                scaledImage.getHeight()+dpToPx(Y_PADDING_DP)+BORDER_MARGIN+BORDER_WIDTH);
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(BORDER_WIDTH);
@@ -101,17 +104,6 @@ public class Demotivator {
 
             c.translate(0, -captionSL.getHeight());
             captionSL.draw(c);
-        }
-
-        File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"testdem.jpg");
-        try {
-            FileOutputStream fos = new FileOutputStream(f);
-            output.compress(Bitmap.CompressFormat.JPEG,100,fos);
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         return output;
