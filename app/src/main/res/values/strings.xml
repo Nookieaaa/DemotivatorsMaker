@@ -13,4 +13,7 @@
     <string name="tab_constructor">Constructor</string>
     <string name="tab_my_dems">Saved dem`s</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

@@ -19,6 +19,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.nookie.demotivatorsmaker.fragments.ConstructorFragment;
+import com.example.nookie.demotivatorsmaker.fragments.SavedPicsFragment;
+import com.example.nookie.demotivatorsmaker.interfaces.ImagePicker;
+import com.example.nookie.demotivatorsmaker.interfaces.ImageSetter;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -27,7 +32,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements ImagePicker{
+public class MainActivity extends AppCompatActivity implements ImagePicker {
 
     public static final int PICK_IMAGE_CODE = 100;
     public static final int TAKE_PICTURE_CODE = 101;
@@ -142,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker{
     public void setupViewPager(ViewPager upViewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ConstructorFragment(),getString(R.string.tab_constructor));
-        adapter.addFragment(new ConstructorFragment(),getString(R.string.tab_my_dems));
+        adapter.addFragment(new SavedPicsFragment(),getString(R.string.tab_my_dems));
         viewPager.setAdapter(adapter);
     }
 

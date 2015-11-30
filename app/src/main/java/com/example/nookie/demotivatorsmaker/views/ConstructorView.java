@@ -14,8 +14,8 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.example.nookie.demotivatorsmaker.ImagePicker;
-import com.example.nookie.demotivatorsmaker.ImageSetter;
+import com.example.nookie.demotivatorsmaker.interfaces.ImagePicker;
+import com.example.nookie.demotivatorsmaker.interfaces.ImageSetter;
 import com.example.nookie.demotivatorsmaker.R;
 
 import butterknife.Bind;

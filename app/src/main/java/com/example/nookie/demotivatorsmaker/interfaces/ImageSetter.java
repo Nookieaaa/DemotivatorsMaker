@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker;
+package com.example.nookie.demotivatorsmaker.interfaces;
 
 
 import android.graphics.Bitmap;

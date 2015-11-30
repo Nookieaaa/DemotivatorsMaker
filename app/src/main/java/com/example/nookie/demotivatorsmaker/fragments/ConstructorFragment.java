@@ -1,22 +1,21 @@
-package com.example.nookie.demotivatorsmaker;
+package com.example.nookie.demotivatorsmaker.fragments;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.nookie.demotivatorsmaker.interfaces.ImagePicker;
+import com.example.nookie.demotivatorsmaker.interfaces.ImageSetter;
+import com.example.nookie.demotivatorsmaker.R;
 import com.example.nookie.demotivatorsmaker.views.ConstructorView;
 
 
 public class ConstructorFragment extends Fragment implements ImagePicker, ImageSetter {
 
-    private Camera camera;
-    private SurfaceHolder holder;
     private ImagePicker mActivityImagePicker;
     private ImageSetter mViewImageSetter;
 
@@ -35,9 +34,6 @@ public class ConstructorFragment extends Fragment implements ImagePicker, ImageS
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-
-        //SurfaceView preview = (SurfaceView)v.findViewById(R.id.surfaceView);
-        //holder = preview.getHolder();
 
         return v;
     }

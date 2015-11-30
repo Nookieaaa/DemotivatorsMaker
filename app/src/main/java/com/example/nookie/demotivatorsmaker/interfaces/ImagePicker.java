@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker;
+package com.example.nookie.demotivatorsmaker.interfaces;
 
 
 public interface ImagePicker {
