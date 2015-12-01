@@ -37,7 +37,12 @@ public class Demotivator {
     public static final int TEXT_SP_SIZE = 30;
 
     public Demotivator(Bitmap image, String caption, String text) {
-        this.image = image;
+        if (image==null){
+            this.image = Bitmap.createBitmap(1,1, Bitmap.Config.ARGB_8888);
+        }
+        else {
+            this.image = image;
+        }
         this.caption = caption;
         this.text = text;
     }
@@ -48,7 +53,6 @@ public class Demotivator {
 
         StaticLayout smallTextSL = null;
         StaticLayout captionSL = null;
-
 
         Bitmap scaledImage = scaleImage(image);
 
@@ -127,7 +131,6 @@ public class Demotivator {
         int originalH = image.getHeight();
 
         int width = DEFAULT_WIDTH;
-        //int height = DEFAULT_HEIGHT - dpToPx(Y_PADDING_DP)*2;
 
         float ratio = width / (float) originalW;
 
