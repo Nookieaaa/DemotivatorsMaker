@@ -30,8 +30,11 @@ public class Demotivator {
     public static final int X_PADDING_DP = 40;//10%
     public static final int Y_PADDING_DP = 20;//6%
 
-    public static final int BORDER_WIDTH = 2;
+    public static final int BORDER_WIDTH = 5;
     public static final int BORDER_MARGIN = 10;
+
+    public static final int CAPTION_SP_SIZE = 60;
+    public static final int TEXT_SP_SIZE = 30;
 
     public Demotivator(Bitmap image, String caption, String text) {
         this.image = image;
@@ -40,33 +43,43 @@ public class Demotivator {
     }
 
     public Bitmap toBitmap() {
+        caption = "Текст загуловка";
+        text = "Обычный текст в 2 СТРОКИ СТРОКИ";
+
         StaticLayout smallTextSL = null;
         StaticLayout captionSL = null;
 
 
         Bitmap scaledImage = scaleImage(image);
 
-        int calculatedHeight = scaledImage.getHeight() + dpToPx(Y_PADDING_DP)*3;
+        int calculatedHeight = scaledImage.getHeight() + (int)(dpToPx(Y_PADDING_DP)*2)
+                +dpToPx(BORDER_WIDTH)*2+dpToPx(BORDER_MARGIN)*2;
+
+
 
         if (hasText()){
-            TextPaint smallTP = new TextPaint();
+            TextPaint textPaint = new TextPaint();
+            textPaint.setColor(Color.WHITE);
+            textPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
             Typeface tnr = Typeface.createFromAsset(App.getAppContext().getAssets(),TIMES_NEW_ROMAN_PATH);
-            smallTP.setTypeface(tnr);
-            smallTP.setColor(Color.WHITE);
-            smallTP.setTextSize(40);
+            textPaint.setTypeface(tnr);
+
+            textPaint.setTextSize(getTextSize());
+
             smallTextSL = new StaticLayout(getText(),
-                    smallTP,scaledImage.getWidth(), Layout.Alignment.ALIGN_CENTER,1,1,true);
+                    textPaint,scaledImage.getWidth(), Layout.Alignment.ALIGN_CENTER,1,1,true);
             calculatedHeight += smallTextSL.getHeight();
         }
 
         if (hasCaption()){
-            TextPaint captionTP = new TextPaint();
+            TextPaint textPaint = new TextPaint();
+            textPaint.setColor(Color.WHITE);
+            textPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
             Typeface tnrb = Typeface.createFromAsset(App.getAppContext().getAssets(),TIMES_NEW_ROMAN_BOLD_PATH);
-            captionTP.setTypeface(tnrb);
-            captionTP.setColor(Color.WHITE);
-            captionTP.setTextSize(65);
+            textPaint.setTypeface(tnrb);
+            textPaint.setTextSize(getCaptionTextSize());
             captionSL = new StaticLayout(getCaption(),
-                    captionTP,scaledImage.getWidth(), Layout.Alignment.ALIGN_CENTER,1,1,false);
+                    textPaint,scaledImage.getWidth(), Layout.Alignment.ALIGN_CENTER,1,1,true);
             calculatedHeight += captionSL.getHeight();
         }
 
@@ -82,13 +95,13 @@ public class Demotivator {
         c.drawPaint(paint);
 
         RectF border = new RectF(
-                dpToPx(X_PADDING_DP)-BORDER_MARGIN-BORDER_WIDTH,
-                dpToPx(Y_PADDING_DP)-BORDER_MARGIN-BORDER_WIDTH,
-                scaledImage.getWidth()+dpToPx(X_PADDING_DP)+BORDER_MARGIN+BORDER_WIDTH,
-                scaledImage.getHeight()+dpToPx(Y_PADDING_DP)+BORDER_MARGIN+BORDER_WIDTH);
+                dpToPx(X_PADDING_DP)-dpToPx(BORDER_MARGIN)-dpToPx(BORDER_WIDTH),
+                dpToPx(Y_PADDING_DP)-dpToPx(BORDER_MARGIN)-dpToPx(BORDER_WIDTH),
+                scaledImage.getWidth()+dpToPx(X_PADDING_DP) +dpToPx(BORDER_MARGIN)+dpToPx(BORDER_WIDTH),
+                scaledImage.getHeight()+dpToPx(Y_PADDING_DP) +dpToPx(BORDER_MARGIN)+dpToPx(BORDER_WIDTH));
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.WHITE);
-        paint.setStrokeWidth(BORDER_WIDTH);
+        paint.setStrokeWidth(dpToPx(BORDER_WIDTH));
         c.drawRect(border,paint);
 
         c.drawBitmap(scaledImage, output.getWidth() / 2 - scaledImage.getWidth() / 2,
@@ -121,6 +134,19 @@ public class Demotivator {
         int height = (int)(originalH * ratio);
 
         return Bitmap.createScaledBitmap(image,width,height,false);
+    }
+
+    private float getCaptionTextSize(){
+        return spToPx(CAPTION_SP_SIZE);
+    }
+
+    private float getTextSize(){
+        return spToPx(TEXT_SP_SIZE);
+    }
+
+    private float spToPx(int sp){
+        float scaledDensity = Resources.getSystem().getDisplayMetrics().scaledDensity;
+        return sp * scaledDensity;
     }
 
     private int pxToDp(int px){
