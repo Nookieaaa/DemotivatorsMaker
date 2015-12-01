@@ -2,13 +2,14 @@ package com.example.nookie.demotivatorsmaker;
 
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+
+import com.example.nookie.demotivatorsmaker.models.RVItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,21 +18,16 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
-    List<Uri> data = new ArrayList<>();
+    List<RVItem> data = new ArrayList<>();
 
     public RVAdapter() {
-        data.add(Uri.parse("http://ukr.net"));
-        data.add(Uri.parse("http://ukr.net"));
-        data.add(Uri.parse("http://ukr.net"));
-        data.add(Uri.parse("http://ukr.net"));
-        data.add(Uri.parse("http://ukr.net"));
-        data.add(Uri.parse("http://ukr.net"));
-        data.add(Uri.parse("http://ukr.net"));
-        data.add(Uri.parse("http://ukr.net"));
-        data.add(Uri.parse("http://ukr.net"));
-        data.add(Uri.parse("http://ukr.net"));
-        data.add(Uri.parse("http://ukr.net"));
-        data.add(Uri.parse("http://ukr.net"));
+        refresh();
+    }
+
+    public void refresh(){
+        data.clear();
+        FileManager fileManager = FileManager.getInstance();
+        data.addAll(fileManager.queryFiles());
     }
 
     @Override
@@ -43,7 +39,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Uri uri = data.get(position);
+        //Uri uri = data.get(position);
         holder.checkBox.setChecked(true);
     }
 

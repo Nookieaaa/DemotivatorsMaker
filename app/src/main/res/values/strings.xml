@@ -17,6 +17,7 @@
     <string name="dialog_filename_title">Enter file name:</string>
     <string name="error_file_exists_overwrite">File already exists, overwrite?</string>
     <string name="error_storage_not_ready">Error. Storage is not ready.</string>
+    <string name="error_directory_not_created">Error. Failed to create directory</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

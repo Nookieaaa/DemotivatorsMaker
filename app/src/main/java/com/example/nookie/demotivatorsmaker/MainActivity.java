@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
                                     startActivity(intent);
                                 }
                             }).show();
-                } catch (FileManager.ExternalStorageNotReadyException e) {
+                } catch (FileManager.ExternalStorageNotReadyException | FileManager.DirectoryCreationFailed e) {
                     e.printStackTrace();
                     Snackbar.make(view, e.getLocalizedMessage(), Snackbar.LENGTH_LONG)
                             .show();
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
     }
 
     public interface DemotivatorSaver{
-        public Uri save() throws FileManager.ExternalStorageNotReadyException;
+        public Uri save() throws FileManager.ExternalStorageNotReadyException, FileManager.DirectoryCreationFailed;
     }
 
 }

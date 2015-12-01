@@ -63,7 +63,7 @@ public class ConstructorFragment extends Fragment implements ImagePicker, ImageS
     }
 
     @Override
-    public Uri save() throws FileManager.ExternalStorageNotReadyException {
+    public Uri save() throws FileManager.ExternalStorageNotReadyException, FileManager.DirectoryCreationFailed {
         String caption = mDemotivatorInfo.getCaption();
         String text = mDemotivatorInfo.getText();
         Bitmap image = mDemotivatorInfo.getImage();

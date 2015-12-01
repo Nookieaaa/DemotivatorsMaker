@@ -1,17 +1,22 @@
 package com.example.nookie.demotivatorsmaker;
 
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 
 import com.example.nookie.demotivatorsmaker.models.Demotivator;
+import com.example.nookie.demotivatorsmaker.models.RVItem;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileManager {
     private static FileManager instance = new FileManager();
@@ -20,6 +25,41 @@ public class FileManager {
 
 
     private FileManager(){
+    }
+
+    private File getFolder(){
+        File targetDir = new File(SAVE_TARGET_SYSTEM_PATH_EXT,SAVE_TARGET_FOLDER_NAME);
+        return targetDir;
+    }
+
+
+    public List<RVItem> queryFiles(){
+        ArrayList<RVItem> data = new ArrayList<>();
+        String targetFolder = getFolder().getAbsolutePath();
+        ContentResolver cr = App.getAppContext().getContentResolver();
+
+        Uri mImageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        Uri mThumbnailUri = MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI;
+
+        String[] imagesProjection = {MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA};
+        String imagesSelection = MediaStore.Images.Media.DATA + " LIKE ? ";
+        Cursor images = cr.query(mImageUri,imagesProjection,imagesSelection,new String[]{targetFolder+"%"},null);
+        for (images.moveToFirst();!images.isAfterLast();images.moveToNext()){
+            RVItem item = new RVItem(Uri.parse(images.getString(images.getColumnIndex(MediaStore.Images.Media.DATA))));
+            String imageID = images.getString(images.getColumnIndex(MediaStore.Images.Media._ID));
+            String[] thumbnailsProjection = {MediaStore.Images.Thumbnails.DATA};
+            String thumbnailsSelection = MediaStore.Images.Thumbnails.IMAGE_ID + " =? ";
+
+            Cursor thumbnails = cr.query(mThumbnailUri,thumbnailsProjection,thumbnailsSelection,new String[]{imageID},null);
+            if (thumbnails!=null && thumbnails.moveToFirst()){
+                String filepath = images.getString(images.getColumnIndex(MediaStore.Images.Thumbnails.DATA));
+                item.setThumbnail(Uri.parse(filepath));
+            }
+
+            data.add(item);
+        }
+
+        return data;
     }
 
     private static boolean externalStorageReadable, externalStorageWritable;
@@ -55,7 +95,7 @@ public class FileManager {
         return instance;
     }
 
-    public Uri saveDem(Demotivator demotivator) throws ExternalStorageNotReadyException{
+    public Uri saveDem(Demotivator demotivator) throws ExternalStorageNotReadyException, DirectoryCreationFailed {
 
         Bitmap result = demotivator.toBitmap();
 
@@ -63,20 +103,33 @@ public class FileManager {
             throw new ExternalStorageNotReadyException();
         }
 
-        File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),"testdem.jpg");
+        File targetDir = getFolder();
+        createFolderIfNeeded();
+
+
+        File f = new File(targetDir,"testdem.jpg");
         Uri fileUri = Uri.fromFile(f);
         try {
             FileOutputStream fos = new FileOutputStream(f);
             result.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.close();
             updateMediaScanner(fileUri);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return fileUri;
+    }
+
+
+    private void createFolderIfNeeded() throws DirectoryCreationFailed {
+        File folder = getFolder();
+        if (!folder.exists()){
+            boolean success = folder.mkdirs();
+            if (!success){
+                throw new DirectoryCreationFailed();
+            }
+        }
     }
 
     public void updateMediaScanner(Uri file){
@@ -85,10 +138,14 @@ public class FileManager {
     }
 
     public class ExternalStorageNotReadyException extends Throwable{
-
-
         public ExternalStorageNotReadyException() {
             super(App.getStringResource(R.string.error_storage_not_ready));
+        }
+    }
+
+    public class DirectoryCreationFailed extends Throwable{
+        public DirectoryCreationFailed() {
+            super(App.getStringResource(R.string.error_directory_not_created));
         }
     }
 }
