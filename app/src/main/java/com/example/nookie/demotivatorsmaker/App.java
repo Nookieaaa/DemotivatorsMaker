@@ -17,4 +17,7 @@ public class App extends Application {
         return context;
     }
 
+    public static String getStringResource(int resId){
+        return getAppContext().getString(resId);
+    }
 }

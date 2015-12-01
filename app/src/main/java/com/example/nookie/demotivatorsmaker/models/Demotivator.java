@@ -48,8 +48,6 @@ public class Demotivator {
     }
 
     public Bitmap toBitmap() {
-        caption = "Текст загуловка";
-        text = "Обычный текст в 2 СТРОКИ СТРОКИ";
 
         StaticLayout smallTextSL = null;
         StaticLayout captionSL = null;

@@ -4,23 +4,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.nookie.demotivatorsmaker.FileManager;
 import com.example.nookie.demotivatorsmaker.MainActivity;
 import com.example.nookie.demotivatorsmaker.R;
 import com.example.nookie.demotivatorsmaker.interfaces.ImagePicker;
 import com.example.nookie.demotivatorsmaker.interfaces.ImageSetter;
 import com.example.nookie.demotivatorsmaker.models.Demotivator;
 import com.example.nookie.demotivatorsmaker.views.ConstructorView;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 
 public class ConstructorFragment extends Fragment implements ImagePicker, ImageSetter, MainActivity.DemotivatorSaver {
@@ -68,26 +63,17 @@ public class ConstructorFragment extends Fragment implements ImagePicker, ImageS
     }
 
     @Override
-    public Uri save() {
+    public Uri save() throws FileManager.ExternalStorageNotReadyException {
         String caption = mDemotivatorInfo.getCaption();
         String text = mDemotivatorInfo.getText();
         Bitmap image = mDemotivatorInfo.getImage();
 
         Demotivator demotivator = new Demotivator(image,caption,text);
-        Bitmap result = demotivator.toBitmap();
 
-        File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"testdem.jpg");
-        try {
-            FileOutputStream fos = new FileOutputStream(f);
-            result.compress(Bitmap.CompressFormat.JPEG,100,fos);
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileManager fileManager = FileManager.getInstance();
+        Uri fileUri = fileManager.saveDem(demotivator);
 
-        return Uri.fromFile(f);
+        return fileUri;
     }
 
     public interface DemotivatorInfo{

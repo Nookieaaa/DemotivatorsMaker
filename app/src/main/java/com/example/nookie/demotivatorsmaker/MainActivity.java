@@ -74,16 +74,24 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Uri fileUri = mDemotivatorSaver.save();
-                Snackbar.make(view, "saved.", Snackbar.LENGTH_LONG)
-                        .setAction("Open", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setDataAndType(fileUri,"image/*");
-                                startActivity(intent);
-                            }
-                        }).show();
+                FileManager fileManager = FileManager.getInstance();
+                final Uri fileUri;
+                try {
+                    fileUri = mDemotivatorSaver.save();
+                    Snackbar.make(view, "saved.", Snackbar.LENGTH_LONG)
+                            .setAction("Open", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    intent.setDataAndType(fileUri,"image/*");
+                                    startActivity(intent);
+                                }
+                            }).show();
+                } catch (FileManager.ExternalStorageNotReadyException e) {
+                    e.printStackTrace();
+                    Snackbar.make(view, e.getLocalizedMessage(), Snackbar.LENGTH_LONG)
+                            .show();
+                }
             }
         });
 
@@ -196,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
     }
 
     public interface DemotivatorSaver{
-        public Uri save();
+        public Uri save() throws FileManager.ExternalStorageNotReadyException;
     }
 
 }

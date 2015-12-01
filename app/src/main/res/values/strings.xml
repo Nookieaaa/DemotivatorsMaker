@@ -7,11 +7,16 @@
     <string name="select_image">Tap to select an image</string>
     <string name="action_share">Share</string>
     <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_ok">Ok</string>
     <string name="action_view">View</string>
     <string name="action_delete">Delete</string>
     <string name="action_clear">Clear</string>
     <string name="tab_constructor">Constructor</string>
     <string name="tab_my_dems">Saved dem`s</string>
+    <string name="dialog_filename_title">Enter file name:</string>
+    <string name="error_file_exists_overwrite">File already exists, overwrite?</string>
+    <string name="error_storage_not_ready">Error. Storage is not ready.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

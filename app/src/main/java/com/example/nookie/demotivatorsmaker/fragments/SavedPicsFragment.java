@@ -1,9 +1,12 @@
 package com.example.nookie.demotivatorsmaker.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,12 +16,11 @@ import android.view.ViewGroup;
 
 import com.example.nookie.demotivatorsmaker.R;
 import com.example.nookie.demotivatorsmaker.RVAdapter;
-import com.example.nookie.demotivatorsmaker.interfaces.ImageSetter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SavedPicsFragment extends Fragment implements ImageSetter {
+public class SavedPicsFragment extends Fragment {
 
 
     @Bind(R.id.rv_pics)
@@ -53,11 +55,24 @@ public class SavedPicsFragment extends Fragment implements ImageSetter {
     @Override
     public void onDetach() {
         super.onDetach();
-
     }
 
-    @Override
-    public void setImage(Bitmap image) {
+    //TODO finish dialog
+    public static class FilenameDialog extends AppCompatDialogFragment{
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.dialog_filename_title)
+                    .setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //TODO check if file exists
 
+                        }
+                    })
+                    .setCancelable(true);
+            return builder.create();
+        }
     }
+
 }
