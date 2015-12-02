@@ -3,7 +3,9 @@ package com.example.nookie.demotivatorsmaker;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +22,28 @@ import butterknife.ButterKnife;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     List<RVItem> data = new ArrayList<>();
+    private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
+    private boolean mIsSelectable = false;
+
 
     public RVAdapter() {
         refresh();
+    }
+
+    private void setItemChecked(int position, boolean isChecked) {
+        mSelectedPositions.put(position, isChecked);
+    }
+
+    private boolean isItemChecked(int position) {
+        return mSelectedPositions.get(position);
+    }
+
+    private void setSelectable(boolean selectable) {
+        mIsSelectable = selectable;
+    }
+
+    private boolean isSelectable() {
+        return mIsSelectable;
     }
 
     public void refresh(){
@@ -64,16 +85,29 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         @Bind(R.id.card_checkbox)
         CheckBox checkBox;
 
+        @Bind(R.id.card)
+        CardView cardView;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            image.setOnClickListener(new View.OnClickListener() {
+            cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = getAdapterPosition();
+
+                }
+            });
+            cardView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    CheckBox checkBox = (CheckBox)v.findViewById(R.id.card_checkbox);
+                    checkBox.setVisibility(View.VISIBLE);
+                    checkBox.setChecked(!checkBox.isChecked());
+                    return true;
                 }
             });
         }
+
 
     }
 

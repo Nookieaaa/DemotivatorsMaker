@@ -43,6 +43,14 @@ public class FileManager {
     public List<RVItem> queryFiles(){
         ArrayList<RVItem> data = new ArrayList<>();
         File targetFile = new File(getFolder().getAbsolutePath());
+        if (isExternalStorageReadable()){
+            try {
+                createFolderIfNeeded();
+            } catch (DirectoryCreationFailed directoryCreationFailed) {
+                directoryCreationFailed.printStackTrace();
+                return data;
+            }
+        }
         File[] files = targetFile.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String filename) {

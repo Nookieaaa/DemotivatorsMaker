@@ -12,8 +12,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +36,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements ImagePicker {
+
+    ShareActionProvider actionProvider;
 
     public static final int PICK_IMAGE_CODE = 100;
     public static final int TAKE_PICTURE_CODE = 101;
@@ -108,8 +112,25 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.menu_share);
+
+        // Fetch and store ShareActionProvider
+        actionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        Intent shareIntent = new Intent(Intent.ACTION_SEND)
+                .setAction(Intent.ACTION_SEND)
+                .putExtra(Intent.EXTRA_TEXT, "MobiTexter")
+                .setType("text/plain");
+        setShareIntent(shareIntent);
+        //actionProvider.setShareIntent(new Intent());
         return true;
     }
+
+    public void setShareIntent(Intent shareIntent){
+        if (actionProvider!=null){
+            actionProvider.setShareIntent(shareIntent);
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
