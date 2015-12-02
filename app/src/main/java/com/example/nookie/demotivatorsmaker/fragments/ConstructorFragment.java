@@ -20,6 +20,8 @@ import com.example.nookie.demotivatorsmaker.views.ConstructorView;
 
 public class ConstructorFragment extends Fragment implements ImagePicker, ImageSetter, MainActivity.DemotivatorSaver {
 
+    public static final String TAG_NAME = ConstructorFragment.class.getSimpleName();
+
     private ImagePicker mActivityImagePicker;
     private ImageSetter mViewImageSetter;
     private DemotivatorInfo mDemotivatorInfo;
@@ -71,10 +73,10 @@ public class ConstructorFragment extends Fragment implements ImagePicker, ImageS
         Demotivator demotivator = new Demotivator(image,caption,text);
 
         FileManager fileManager = FileManager.getInstance();
-        Uri fileUri = fileManager.saveDem(demotivator);
 
-        return fileUri;
+        return fileManager.saveDem(demotivator);
     }
+
 
     public interface DemotivatorInfo{
         public String getText();

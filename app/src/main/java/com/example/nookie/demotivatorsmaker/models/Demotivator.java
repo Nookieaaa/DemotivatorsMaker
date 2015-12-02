@@ -150,10 +150,6 @@ public class Demotivator {
         return sp * scaledDensity;
     }
 
-    private int pxToDp(int px){
-        return (int)(px / Resources.getSystem().getDisplayMetrics().density);
-    }
-
     private int dpToPx(int dp){
         return (int)(dp * Resources.getSystem().getDisplayMetrics().density);
     }

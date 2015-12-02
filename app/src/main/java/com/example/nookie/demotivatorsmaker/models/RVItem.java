@@ -1,14 +1,15 @@
 package com.example.nookie.demotivatorsmaker.models;
 
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 public class RVItem {
     private Uri file;
-    private Uri thumbnail;
+    private Bitmap thumbnail;
     private boolean checked;
 
-    public RVItem(Uri file, Uri thumbnail) {
+    public RVItem(Uri file, Bitmap thumbnail) {
         this.file = file;
         this.thumbnail = thumbnail;
     }
@@ -25,11 +26,11 @@ public class RVItem {
         this.file = file;
     }
 
-    public Uri getThumbnail() {
+    public Bitmap getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(Uri thumbnail) {
+    public void setThumbnail(Bitmap thumbnail) {
         this.thumbnail = thumbnail;
     }
 

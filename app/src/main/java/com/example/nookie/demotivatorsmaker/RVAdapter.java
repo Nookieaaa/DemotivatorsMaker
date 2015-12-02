@@ -2,6 +2,7 @@ package com.example.nookie.demotivatorsmaker;
 
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +26,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     }
 
     public void refresh(){
+        RefreshTask refreshTask = new RefreshTask();
+        refreshTask.execute();
+    }
+
+    public void setData(List<RVItem> newData) {
         data.clear();
-        FileManager fileManager = FileManager.getInstance();
-        data.addAll(fileManager.queryFiles());
+        data.addAll(newData);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -40,6 +46,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         //Uri uri = data.get(position);
+        holder.image.setImageBitmap(data.get(position).getThumbnail());
         holder.checkBox.setChecked(true);
     }
 
@@ -59,8 +66,28 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                }
+            });
         }
 
+    }
+
+    private class RefreshTask extends AsyncTask<Void,Void,List<RVItem>>{
+
+        @Override
+        protected List<RVItem> doInBackground(Void... params) {
+            FileManager fileManager = FileManager.getInstance();
+            return fileManager.queryFiles();
+        }
+
+        @Override
+        protected void onPostExecute(List<RVItem> rvItems) {
+            setData(rvItems);
+        }
     }
 }

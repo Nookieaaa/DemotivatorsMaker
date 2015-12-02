@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.nookie.demotivatorsmaker.fragments.ConstructorFragment;
 import com.example.nookie.demotivatorsmaker.fragments.SavedPicsFragment;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
 
     ImageSetter fragmentImageSetter;
     DemotivatorSaver mDemotivatorSaver;
+    ListUpdater mListUpdater;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -58,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
         if(fragment instanceof ConstructorFragment) {
             fragmentImageSetter = (ImageSetter) fragment;
             mDemotivatorSaver = (DemotivatorSaver)fragment;
+        }
+        if(fragment instanceof SavedPicsFragment){
+            mListUpdater = (ListUpdater)fragment;
         }
     }
 
@@ -83,10 +88,11 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setDataAndType(fileUri,"image/*");
+                                    intent.setDataAndType(fileUri, "image/*");
                                     startActivity(intent);
                                 }
                             }).show();
+                    mListUpdater.update();
                 } catch (FileManager.ExternalStorageNotReadyException | FileManager.DirectoryCreationFailed e) {
                     e.printStackTrace();
                     Snackbar.make(view, e.getLocalizedMessage(), Snackbar.LENGTH_LONG)
@@ -133,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
             }
             case SOURCE_CAMERA:{
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,TAKE_PICTURE_CODE);
+                startActivityForResult(intent, TAKE_PICTURE_CODE);
                 break;
             }
         }
@@ -167,11 +173,38 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
     }
 
     public void setupViewPager(ViewPager upViewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ConstructorFragment(),getString(R.string.tab_constructor));
         adapter.addFragment(new SavedPicsFragment(),getString(R.string.tab_my_dems));
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (state == ViewPager.SCROLL_STATE_IDLE)
+                {
+                    if (viewPager.getCurrentItem() == 1)
+                    {
+                        ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE))
+                                .hideSoftInputFromWindow(viewPager.getWindowToken(), 0);
+                        fab.hide();
+                    }
+                    else if (viewPager.getCurrentItem() == 0){
+                        fab.show();
+                    }
+                }
+            }
+        });
     }
+
+
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -205,6 +238,10 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
 
     public interface DemotivatorSaver{
         public Uri save() throws FileManager.ExternalStorageNotReadyException, FileManager.DirectoryCreationFailed;
+    }
+
+    public interface ListUpdater{
+        public void update();
     }
 
 }

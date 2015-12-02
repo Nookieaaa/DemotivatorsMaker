@@ -14,13 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.nookie.demotivatorsmaker.MainActivity;
 import com.example.nookie.demotivatorsmaker.R;
 import com.example.nookie.demotivatorsmaker.RVAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SavedPicsFragment extends Fragment {
+public class SavedPicsFragment extends Fragment implements MainActivity.ListUpdater {
+
+    public static final String TAG_NAME = SavedPicsFragment.class.getSimpleName();
 
 
     @Bind(R.id.rv_pics)
@@ -57,6 +60,11 @@ public class SavedPicsFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void update() {
+        requestRefresh();
+    }
+
     //TODO finish dialog
     public static class FilenameDialog extends AppCompatDialogFragment{
         @Override
@@ -73,6 +81,11 @@ public class SavedPicsFragment extends Fragment {
                     .setCancelable(true);
             return builder.create();
         }
+    }
+
+    public void requestRefresh(){
+        RVAdapter adapter = (RVAdapter)recyclerView.getAdapter();
+        adapter.refresh();
     }
 
 }
