@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.nookie.demotivatorsmaker.interfaces.AdapterCallbacks;
@@ -64,6 +65,21 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
                 adapterCallbacks.openImage(data.get(position).getFile());
             }
         });
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterCallbacks.delete(data.get(position).getFile());
+                data.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, data.size());
+            }
+        });
+        holder.btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterCallbacks.share(data.get(position).getFile());
+            }
+        });
     }
 
     public void updateView(int position){
@@ -86,23 +102,16 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         @Bind(R.id.card)
         CardView cardView;
 
+        @Bind(R.id.card_ibtn_delete)
+        ImageButton btnDelete;
+
+        @Bind(R.id.card_ibtn_share)
+        ImageButton btnShare;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                }
-            });
-            /*cardView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    CheckBox checkBox = (CheckBox)v.findViewById(R.id.card_checkbox);
-                    checkBox.setChecked(!checkBox.isChecked());
-                    return true;
-                }
-            });*/
         }
 
 
@@ -113,6 +122,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         @Override
         protected List<RVItem> doInBackground(Void... params) {
             FileManager fileManager = FileManager.getInstance();
+
             return fileManager.queryFiles();
         }
 

@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class FileManager {
+    private static final String TMP_NAME = ".tmp";
     private static FileManager instance = new FileManager();
     public static final String SAVE_TARGET_SYSTEM_PATH_EXT = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath();
     public static final String SAVE_TARGET_FOLDER_NAME = "my dems";
@@ -34,6 +35,11 @@ public class FileManager {
 
 
     private FileManager(){
+        try {
+            createFolderIfNeeded();
+        } catch (DirectoryCreationFailed directoryCreationFailed) {
+            directoryCreationFailed.printStackTrace();
+        }
     }
 
     private File getFolder(){
@@ -110,6 +116,15 @@ public class FileManager {
         return instance;
     }
 
+    public void delete(Uri uri){
+        if (isExternalStorageReadableAndWritable()){
+            File deletedFile = new File(uri.getPath());
+            if (deletedFile.exists()){
+                deletedFile.delete();
+            }
+        }
+    }
+
     public Uri saveDem(Demotivator demotivator) throws ExternalStorageNotReadyException, DirectoryCreationFailed {
 
         Bitmap result = demotivator.toBitmap();
@@ -172,6 +187,14 @@ public class FileManager {
         App.getAppContext().sendBroadcast(scanIntent);
     }
 
+    public Uri getTempFileUri() {
+        if (isExternalStorageReadableAndWritable()) {
+            File tempFile = new File(getFolder(), TMP_NAME);
+            return Uri.fromFile(tempFile);
+        }
+        return null;
+    }
+
     public class ExternalStorageNotReadyException extends Throwable{
         public ExternalStorageNotReadyException() {
             super(App.getStringResource(R.string.error_storage_not_ready));
@@ -183,6 +206,7 @@ public class FileManager {
             super(App.getStringResource(R.string.error_directory_not_created));
         }
     }
+
 
 
     private int dpToPx(int dp){

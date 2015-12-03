@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
                 FileManager fileManager = FileManager.getInstance();
                 try {
                     savedDem = mDemotivatorSaver.save();
-                    Snackbar.make(view, "saved.", Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, getString(R.string.status_saved), Snackbar.LENGTH_LONG)
                             .setAction("Open", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
             }
             case SOURCE_CAMERA:{
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra( MediaStore.EXTRA_OUTPUT, FileManager.getInstance().getTempFileUri());
                 startActivityForResult(intent, TAKE_PICTURE_CODE);
                 break;
             }
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
 
             }
             case TAKE_PICTURE_CODE:{
-                Bitmap image = (Bitmap)data.getExtras().get("data");
+                Bitmap image = BitmapFactory.decodeFile(String.valueOf(data.getData()));
                 fragmentImageSetter.setImage(image);
                 break;
             }
@@ -194,8 +195,8 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
 
     public void setupViewPager(ViewPager upViewPager) {
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ConstructorFragment(),getString(R.string.tab_constructor));
-        adapter.addFragment(new SavedPicsFragment(),getString(R.string.tab_my_dems));
+        adapter.addFragment(new ConstructorFragment(),getString(R.string.tab_constructor_title));
+        adapter.addFragment(new SavedPicsFragment(),getString(R.string.tab_collection_title));
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

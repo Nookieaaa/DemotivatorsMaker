@@ -12,12 +12,16 @@
     <string name="action_view">View</string>
     <string name="action_delete">Delete</string>
     <string name="action_clear">Clear</string>
-    <string name="tab_constructor">Constructor</string>
-    <string name="tab_my_dems">Saved dem`s</string>
     <string name="dialog_filename_title">Enter file name:</string>
     <string name="error_file_exists_overwrite">File already exists, overwrite?</string>
     <string name="error_storage_not_ready">Error. Storage is not ready.</string>
     <string name="error_directory_not_created">Error. Failed to create directory</string>
+    <string name="delete_confirm_message">Are you really want to delete this file?</string>
+    <string name="dem_large_text">Large text goes here</string>
+    <string name="dem_small_text">Small text goes here</string>
+    <string name="status_saved">Saved successfully</string>
+    <string name="tab_constructor_title">Constructor</string>
+    <string name="tab_collection_title">My collection</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

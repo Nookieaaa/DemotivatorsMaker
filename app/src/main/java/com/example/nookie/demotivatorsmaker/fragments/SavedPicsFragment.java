@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.nookie.demotivatorsmaker.App;
+import com.example.nookie.demotivatorsmaker.FileManager;
 import com.example.nookie.demotivatorsmaker.MainActivity;
 import com.example.nookie.demotivatorsmaker.R;
 import com.example.nookie.demotivatorsmaker.RVAdapter;
@@ -77,6 +79,28 @@ public class SavedPicsFragment extends Fragment implements MainActivity.ListUpda
         intent.setDataAndType(uri,"image/*");
         intent.setAction(Intent.ACTION_VIEW);
         getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void delete(Uri uri) {
+        FileManager fm = FileManager.getInstance();
+        fm.delete(uri);
+    }
+
+    @Override
+    public void share(Uri uri) {
+        try{
+            MainActivity activity = (MainActivity)getActivity();
+            Intent shareIntent = new Intent(Intent.ACTION_SEND)
+                    .setAction(Intent.ACTION_SEND)
+                    .putExtra(Intent.EXTRA_STREAM, uri)
+                    .setType("image/*");
+            activity.startActivity(Intent.createChooser(shareIntent, App.getStringResource(R.string.action_share)));
+        }catch (ClassCastException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
 
