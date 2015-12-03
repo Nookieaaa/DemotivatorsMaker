@@ -28,6 +28,7 @@ import com.example.nookie.demotivatorsmaker.interfaces.ImagePicker;
 import com.example.nookie.demotivatorsmaker.interfaces.ImageSetter;
 import com.example.nookie.demotivatorsmaker.interfaces.ShareListInterface;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -87,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FileManager fileManager = FileManager.getInstance();
                 try {
                     savedDem = mDemotivatorSaver.save();
                     Snackbar.make(view, getString(R.string.status_saved), Snackbar.LENGTH_LONG)
@@ -186,9 +186,21 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
 
             }
             case TAKE_PICTURE_CODE:{
-                Bitmap image = BitmapFactory.decodeFile(String.valueOf(data.getData()));
-                fragmentImageSetter.setImage(image);
-                break;
+                if (data!=null) {
+                    Bitmap image = BitmapFactory.decodeFile(String.valueOf(data.getData()));
+                    fragmentImageSetter.setImage(image);
+                    break;
+                }
+                else{
+                    FileManager fm = FileManager.getInstance();
+                    File output = new File(fm.getTempFileUri().getPath());
+                    if(output.exists()){
+                        Bitmap image = BitmapFactory.decodeFile(output.getAbsolutePath());
+
+                        fragmentImageSetter.setImage(image);
+                    }
+
+                }
             }
         }
     }

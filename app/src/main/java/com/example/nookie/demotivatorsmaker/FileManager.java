@@ -2,11 +2,11 @@ package com.example.nookie.demotivatorsmaker;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
@@ -183,8 +183,17 @@ public class FileManager {
     }
 
     public void updateMediaScanner(Uri file){
-        Intent scanIntent = new Intent(Intent.ACTION_MEDIA_MOUNTED,file);
-        App.getAppContext().sendBroadcast(scanIntent);
+        MediaScannerConnection.scanFile(App.getAppContext(),
+                new String[]{file.getPath()},
+                new String[]{"image/*"}
+                , new MediaScannerConnection.OnScanCompletedListener() {
+                    @Override
+                    public void onScanCompleted(String path, Uri uri) {
+
+                    }
+                });
+        //Intent scanIntent = new Intent(Intent.ACTION_MEDIA_MOUNTED,file);
+        //App.getAppContext().sendBroadcast(scanIntent);
     }
 
     public Uri getTempFileUri() {
