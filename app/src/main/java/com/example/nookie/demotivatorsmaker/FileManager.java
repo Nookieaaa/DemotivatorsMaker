@@ -19,6 +19,8 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class FileManager {
@@ -58,6 +60,12 @@ public class FileManager {
             }
         });
 
+        Arrays.sort(files, new Comparator<File>() {
+            @Override
+            public int compare(File f1, File f2) {
+                return Long.valueOf(f2.lastModified()).compareTo(f1.lastModified());
+            }
+        });
         for (File file : files) {
             RVItem item = new RVItem(Uri.fromFile(file));
             Bitmap thumbnail = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), dpToPx(100), dpToPx(100));
@@ -65,21 +73,6 @@ public class FileManager {
             data.add(item);
         }
 
-        /*ContentResolver cr = App.getAppContext().getContentResolver();
-
-        Uri mImageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-
-        String[] imagesProjection = {MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA};
-        String imagesSelection = MediaStore.Images.Media.DATA + " LIKE ? ";
-        Cursor images = cr.query(mImageUri,imagesProjection,imagesSelection,new String[]{targetFolder+"%"},null);
-        for (images.moveToFirst();!images.isAfterLast();images.moveToNext()){
-            int imageID = images.getInt(images.getColumnIndex(MediaStore.Images.Media._ID));
-            String filename = images.getString(images.getColumnIndex(MediaStore.Images.Media.DATA));
-            Bitmap thumbnail = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(filename), dpToPx(100), dpToPx(100));
-            RVItem item = new RVItem(Uri.parse(filename),thumbnail);
-
-            data.add(item);
-        }*/
 
         return data;
     }

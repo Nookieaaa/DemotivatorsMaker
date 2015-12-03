@@ -1,12 +1,10 @@
 package com.example.nookie.demotivatorsmaker.fragments;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,11 +15,12 @@ import android.view.ViewGroup;
 import com.example.nookie.demotivatorsmaker.MainActivity;
 import com.example.nookie.demotivatorsmaker.R;
 import com.example.nookie.demotivatorsmaker.RVAdapter;
+import com.example.nookie.demotivatorsmaker.interfaces.AdapterCallbacks;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SavedPicsFragment extends Fragment implements MainActivity.ListUpdater {
+public class SavedPicsFragment extends Fragment implements MainActivity.ListUpdater,AdapterCallbacks {
 
     public static final String TAG_NAME = SavedPicsFragment.class.getSimpleName();
 
@@ -30,6 +29,13 @@ public class SavedPicsFragment extends Fragment implements MainActivity.ListUpda
     RecyclerView recyclerView;
 
     public SavedPicsFragment() {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (recyclerView!=null && recyclerView.getAdapter()!=null)
+            requestRefresh();
     }
 
     @Override
@@ -44,7 +50,7 @@ public class SavedPicsFragment extends Fragment implements MainActivity.ListUpda
         ButterKnife.bind(this,v);
 
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new RVAdapter());
+        recyclerView.setAdapter(new RVAdapter(this));
 
         return v;
     }
@@ -65,23 +71,14 @@ public class SavedPicsFragment extends Fragment implements MainActivity.ListUpda
         requestRefresh();
     }
 
-    //TODO finish dialog
-    public static class FilenameDialog extends AppCompatDialogFragment{
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                    .setTitle(R.string.dialog_filename_title)
-                    .setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //TODO check if file exists
-
-                        }
-                    })
-                    .setCancelable(true);
-            return builder.create();
-        }
+    @Override
+    public void openImage(Uri uri) {
+        Intent intent = new Intent();
+        intent.setDataAndType(uri,"image/*");
+        intent.setAction(Intent.ACTION_VIEW);
+        getActivity().startActivity(intent);
     }
+
 
     public void requestRefresh(){
         RVAdapter adapter = (RVAdapter)recyclerView.getAdapter();

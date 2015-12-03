@@ -26,6 +26,7 @@ import com.example.nookie.demotivatorsmaker.fragments.ConstructorFragment;
 import com.example.nookie.demotivatorsmaker.fragments.SavedPicsFragment;
 import com.example.nookie.demotivatorsmaker.interfaces.ImagePicker;
 import com.example.nookie.demotivatorsmaker.interfaces.ImageSetter;
+import com.example.nookie.demotivatorsmaker.interfaces.ShareListInterface;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -35,16 +36,19 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements ImagePicker {
+public class MainActivity extends AppCompatActivity implements ImagePicker,ShareListInterface {
 
     ShareActionProvider actionProvider;
+    List<Uri> shareList = new ArrayList<>();
 
     public static final int PICK_IMAGE_CODE = 100;
     public static final int TAKE_PICTURE_CODE = 101;
 
+    Uri savedDem;
     ImageSetter fragmentImageSetter;
     DemotivatorSaver mDemotivatorSaver;
     ListUpdater mListUpdater;
+    MenuItem shareMenuItem;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -84,19 +88,19 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
             @Override
             public void onClick(View view) {
                 FileManager fileManager = FileManager.getInstance();
-                final Uri fileUri;
                 try {
-                    fileUri = mDemotivatorSaver.save();
+                    savedDem = mDemotivatorSaver.save();
                     Snackbar.make(view, "saved.", Snackbar.LENGTH_LONG)
                             .setAction("Open", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setDataAndType(fileUri, "image/*");
+                                    intent.setDataAndType(savedDem, "image/*");
                                     startActivity(intent);
                                 }
                             }).show();
                     mListUpdater.update();
+                    updateShareIntent();
                 } catch (FileManager.ExternalStorageNotReadyException | FileManager.DirectoryCreationFailed e) {
                     e.printStackTrace();
                     Snackbar.make(view, e.getLocalizedMessage(), Snackbar.LENGTH_LONG)
@@ -110,44 +114,39 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.menu_share);
-
-        // Fetch and store ShareActionProvider
+        shareMenuItem = item;
+        shareMenuItem.setVisible(false);
         actionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        Intent shareIntent = new Intent(Intent.ACTION_SEND)
-                .setAction(Intent.ACTION_SEND)
-                .putExtra(Intent.EXTRA_TEXT, "MobiTexter")
-                .setType("text/plain");
-        setShareIntent(shareIntent);
-        //actionProvider.setShareIntent(new Intent());
+        updateShareIntent();
+
         return true;
     }
 
-    public void setShareIntent(Intent shareIntent){
+    public void updateShareIntent(){
         if (actionProvider!=null){
-            actionProvider.setShareIntent(shareIntent);
+            if (savedDem!=null){
+                shareMenuItem.setVisible(true);
+                Intent shareIntent = new Intent(Intent.ACTION_SEND)
+                        .setAction(Intent.ACTION_SEND)
+                        .putExtra(Intent.EXTRA_STREAM, savedDem)
+                        .setType("image/*");
+                actionProvider.setShareIntent(shareIntent);
+            }
+
         }
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }*/
+        int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void pickImage(int source) {
@@ -216,15 +215,37 @@ public class MainActivity extends AppCompatActivity implements ImagePicker {
                         ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE))
                                 .hideSoftInputFromWindow(viewPager.getWindowToken(), 0);
                         fab.hide();
+                        shareMenuItem.setVisible(false);
                     }
                     else if (viewPager.getCurrentItem() == 0){
                         fab.show();
+                        if(!(savedDem==null))
+                            updateShareIntent();
                     }
                 }
             }
         });
     }
 
+    @Override
+    public void add(Uri uri) {
+
+    }
+
+    @Override
+    public void remove(Uri uri) {
+
+    }
+
+    @Override
+    public List<Uri> getList() {
+        return null;
+    }
+
+    @Override
+    public void clear() {
+
+    }
 
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

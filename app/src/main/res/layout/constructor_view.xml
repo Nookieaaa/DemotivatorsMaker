@@ -2,10 +2,8 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-
         android:layout_width="match_parent" android:layout_height="wrap_content">
 
         <RadioGroup
@@ -19,11 +17,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true" />
+
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/constructor_rb_camera"
                 android:text="@string/rb_camera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
         </RadioGroup>
         <FrameLayout
             android:id="@+id/constructor_frame"
@@ -94,7 +94,6 @@
                 android:focusable="true"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
-
 
 
     </LinearLayout>

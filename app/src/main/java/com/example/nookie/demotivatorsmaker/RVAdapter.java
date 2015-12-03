@@ -5,13 +5,13 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 
+import com.example.nookie.demotivatorsmaker.interfaces.AdapterCallbacks;
 import com.example.nookie.demotivatorsmaker.models.RVItem;
 
 import java.util.ArrayList;
@@ -22,28 +22,17 @@ import butterknife.ButterKnife;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     List<RVItem> data = new ArrayList<>();
-    private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
-    private boolean mIsSelectable = false;
+    private boolean selectionMode = false;
+    private AdapterCallbacks adapterCallbacks;
 
 
-    public RVAdapter() {
+    public RVAdapter(AdapterCallbacks callbacks) {
         refresh();
-    }
-
-    private void setItemChecked(int position, boolean isChecked) {
-        mSelectedPositions.put(position, isChecked);
-    }
-
-    private boolean isItemChecked(int position) {
-        return mSelectedPositions.get(position);
-    }
-
-    private void setSelectable(boolean selectable) {
-        mIsSelectable = selectable;
-    }
-
-    private boolean isSelectable() {
-        return mIsSelectable;
+        try{
+            adapterCallbacks = callbacks;
+        }catch (ClassCastException e){
+            e.printStackTrace();
+        }
     }
 
     public void refresh(){
@@ -65,12 +54,21 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        //Uri uri = data.get(position);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+
         holder.image.setImageBitmap(data.get(position).getThumbnail());
-        holder.checkBox.setChecked(true);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterCallbacks.openImage(data.get(position).getFile());
+            }
+        });
     }
 
+    public void updateView(int position){
+        notifyItemChanged(position);
+    }
 
     @Override
     public int getItemCount() {
@@ -97,15 +95,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
                 }
             });
-            cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            /*cardView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     CheckBox checkBox = (CheckBox)v.findViewById(R.id.card_checkbox);
-                    checkBox.setVisibility(View.VISIBLE);
                     checkBox.setChecked(!checkBox.isChecked());
                     return true;
                 }
-            });
+            });*/
         }
 
 
