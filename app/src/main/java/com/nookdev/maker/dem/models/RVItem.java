@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker.models;
+package com.nookdev.maker.dem.models;
 
 
 import android.graphics.Bitmap;

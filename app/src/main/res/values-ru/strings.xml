@@ -21,7 +21,7 @@
     <string name="hello_blank_fragment"></string>
     <string name="pref_default_display_name"></string>
     <string name="title_activity_settings">Настройки</string>
-    <string name="app_name" translatable="false">Demotivate me</string>
+    <string name="app_name" translatable="false">Демотивируй меня</string>
     <string name="rb_camera">Камера</string>
     <string name="rb_gallery">Галерея</string>
     <string name="tab_collection_title" translatable="false">Моя коллекция</string>

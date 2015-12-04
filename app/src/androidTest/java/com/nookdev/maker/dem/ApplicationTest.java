@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker;
+package com.nookdev.maker.dem;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker.fragments;
+package com.nookdev.maker.dem.fragments;
 
 
 import android.app.Dialog;
@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 
-import com.example.nookie.demotivatorsmaker.FileManager;
-import com.example.nookie.demotivatorsmaker.R;
+import com.nookdev.maker.dem.FileManager;
+import com.nookdev.maker.dem.R;
 
 public class DeleteDialog extends AppCompatDialogFragment {
     public static final String TAG = "DeleteDialog";

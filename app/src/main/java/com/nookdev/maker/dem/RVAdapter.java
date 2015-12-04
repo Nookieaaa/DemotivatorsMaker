@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker;
+package com.nookdev.maker.dem;
 
 
 import android.content.Context;
@@ -12,8 +12,8 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.example.nookie.demotivatorsmaker.interfaces.AdapterCallbacks;
-import com.example.nookie.demotivatorsmaker.models.RVItem;
+import com.nookdev.maker.dem.interfaces.AdapterCallbacks;
+import com.nookdev.maker.dem.models.RVItem;
 
 import java.util.ArrayList;
 import java.util.List;

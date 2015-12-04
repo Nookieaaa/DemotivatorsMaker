@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker;
+package com.nookdev.maker.dem;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -23,13 +23,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.example.nookie.demotivatorsmaker.fragments.ConstructorFragment;
-import com.example.nookie.demotivatorsmaker.fragments.SavedPicsFragment;
-import com.example.nookie.demotivatorsmaker.interfaces.ImagePicker;
-import com.example.nookie.demotivatorsmaker.interfaces.ImageSetter;
-import com.example.nookie.demotivatorsmaker.interfaces.SaveCallback;
-import com.example.nookie.demotivatorsmaker.interfaces.ShareListInterface;
-import com.example.nookie.demotivatorsmaker.models.Demotivator;
+import com.appodeal.ads.Appodeal;
+import com.appodeal.ads.BannerView;
+import com.nookdev.maker.dem.fragments.ConstructorFragment;
+import com.nookdev.maker.dem.fragments.SavedPicsFragment;
+import com.nookdev.maker.dem.interfaces.ImagePicker;
+import com.nookdev.maker.dem.interfaces.ImageSetter;
+import com.nookdev.maker.dem.interfaces.SaveCallback;
+import com.nookdev.maker.dem.interfaces.ShareListInterface;
+import com.nookdev.maker.dem.models.Demotivator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -56,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+    @Bind(R.id.appodealBannerView)
+    BannerView bannerView;
 
     @Bind(R.id.fab)
     FloatingActionButton fab;
@@ -103,7 +108,22 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
             }
         });
 
+        String appKey = "85a2cbf0c33148dff49e46f9756191a07822b6beec33a823";
+        Appodeal.disableLocationPermissionCheck();
+        Appodeal.setBannerViewId(R.id.appodealBannerView);
+        Appodeal.initialize(this, appKey, Appodeal.BANNER_VIEW);
+        Appodeal.setTesting(true);
+        showAds();
 
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Appodeal.onResume(this, Appodeal.BANNER_VIEW);
+        showAds();
     }
 
     @Override
@@ -132,6 +152,9 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
         }
     }
 
+    public void showAds(){
+        Appodeal.show(this, Appodeal.BANNER_VIEW);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -143,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
 
     @Override
     public void pickImage(int source) {
+        showAds();
         switch (source){
             case SOURCE_GALLERY:{
                 Intent intent = new Intent(Intent.ACTION_PICK);
@@ -214,8 +238,10 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
                                 .hideSoftInputFromWindow(viewPager.getWindowToken(), 0);
                         fab.hide();
                         shareMenuItem.setVisible(false);
+                        showAds();
                     }
                     else if (viewPager.getCurrentItem() == 0){
+                        showAds();
                         fab.show();
                         if((savedDem!=null))
                             updateShareIntent();

@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker.fragments;
+package com.nookdev.maker.dem.fragments;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,14 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.nookie.demotivatorsmaker.FileManager;
-import com.example.nookie.demotivatorsmaker.MainActivity;
-import com.example.nookie.demotivatorsmaker.R;
-import com.example.nookie.demotivatorsmaker.interfaces.ImagePicker;
-import com.example.nookie.demotivatorsmaker.interfaces.ImageSetter;
-import com.example.nookie.demotivatorsmaker.interfaces.SaveCallback;
-import com.example.nookie.demotivatorsmaker.models.Demotivator;
-import com.example.nookie.demotivatorsmaker.views.ConstructorView;
+import com.nookdev.maker.dem.FileManager;
+import com.nookdev.maker.dem.MainActivity;
+import com.nookdev.maker.dem.R;
+import com.nookdev.maker.dem.interfaces.ImagePicker;
+import com.nookdev.maker.dem.interfaces.ImageSetter;
+import com.nookdev.maker.dem.interfaces.SaveCallback;
+import com.nookdev.maker.dem.models.Demotivator;
+import com.nookdev.maker.dem.views.ConstructorView;
 
 
 public class ConstructorFragment extends Fragment implements ImagePicker, ImageSetter, MainActivity.DemotivatorSaver {

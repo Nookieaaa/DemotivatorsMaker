@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker.models;
+package com.nookdev.maker.dem.models;
 
 
 import android.content.res.Resources;
@@ -12,7 +12,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 
-import com.example.nookie.demotivatorsmaker.App;
+import com.nookdev.maker.dem.App;
 
 public class Demotivator {
     private static final int THUMBNAIL_DEFAULT_WIDTH_DP = 150;

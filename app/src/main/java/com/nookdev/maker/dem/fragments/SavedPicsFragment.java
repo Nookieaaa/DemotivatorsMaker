@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker.fragments;
+package com.nookdev.maker.dem.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.nookie.demotivatorsmaker.App;
-import com.example.nookie.demotivatorsmaker.MainActivity;
-import com.example.nookie.demotivatorsmaker.R;
-import com.example.nookie.demotivatorsmaker.RVAdapter;
-import com.example.nookie.demotivatorsmaker.interfaces.AdapterCallbacks;
+import com.nookdev.maker.dem.App;
+import com.nookdev.maker.dem.MainActivity;
+import com.nookdev.maker.dem.R;
+import com.nookdev.maker.dem.RVAdapter;
+import com.nookdev.maker.dem.interfaces.AdapterCallbacks;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

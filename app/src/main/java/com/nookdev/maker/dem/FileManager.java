@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker;
+package com.nookdev.maker.dem;
 
 
 import android.content.Context;
@@ -10,8 +10,8 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.example.nookie.demotivatorsmaker.models.Demotivator;
-import com.example.nookie.demotivatorsmaker.models.RVItem;
+import com.nookdev.maker.dem.models.Demotivator;
+import com.nookdev.maker.dem.models.RVItem;
 
 import java.io.File;
 import java.io.FileOutputStream;

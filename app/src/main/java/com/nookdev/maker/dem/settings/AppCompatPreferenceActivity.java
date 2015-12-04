@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker.settings;
+package com.nookdev.maker.dem.settings;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

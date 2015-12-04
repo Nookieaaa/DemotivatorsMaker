@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker.views;
+package com.nookdev.maker.dem.views;
 
 
 import android.content.Context;
@@ -12,10 +12,10 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.example.nookie.demotivatorsmaker.R;
-import com.example.nookie.demotivatorsmaker.fragments.ConstructorFragment;
-import com.example.nookie.demotivatorsmaker.interfaces.ImagePicker;
-import com.example.nookie.demotivatorsmaker.interfaces.ImageSetter;
+import com.nookdev.maker.dem.R;
+import com.nookdev.maker.dem.fragments.ConstructorFragment;
+import com.nookdev.maker.dem.interfaces.ImagePicker;
+import com.nookdev.maker.dem.interfaces.ImageSetter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package com.example.nookie.demotivatorsmaker.settings;
+package com.nookdev.maker.dem.settings;
 
 
 import android.annotation.TargetApi;
@@ -26,7 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.nookie.demotivatorsmaker.R;
+import com.nookdev.maker.dem.R;
 
 import java.util.List;
 
