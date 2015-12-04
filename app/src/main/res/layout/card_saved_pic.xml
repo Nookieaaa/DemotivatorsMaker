@@ -5,17 +5,25 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="@dimen/cardview_default_elevation"
+    android:padding="@dimen/card_padding">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/card_image"
             android:src="@android:drawable/sym_def_app_icon"
-            android:clickable="false" />
+            android:clickable="false"
+            android:padding="@dimen/iv_padding"
+            android:scaleType="fitXY"
+            android:minHeight="@dimen/iv_min_height"
+            android:minWidth="@dimen/iv_min_width"
+            android:layout_centerInParent="true" />
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -32,18 +40,20 @@
             android:layout_height="wrap_content"
             android:id="@+id/card_ibtn_delete"
             android:src="@android:drawable/ic_menu_delete"
-            android:layout_alignBottom="@+id/card_image"
-            android:layout_alignRight="@+id/card_image"
-            android:layout_alignEnd="@+id/card_image" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/iv_padding"/>
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/card_ibtn_share"
             android:src="@android:drawable/ic_menu_share"
-            android:layout_alignBottom="@+id/card_image"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:padding="@dimen/iv_padding"/>
 
     </RelativeLayout>
 

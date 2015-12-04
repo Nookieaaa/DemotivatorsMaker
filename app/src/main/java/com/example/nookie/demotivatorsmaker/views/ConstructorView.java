@@ -98,8 +98,8 @@ public class ConstructorView extends FrameLayout implements ImageSetter, Constru
 
     @Override
     public void setImage(Bitmap pic) {
-        originalBitmap = pic;
         image.setImageBitmap(pic);
+        originalBitmap = pic;
         selectImageText.setVisibility(GONE);
     }
 

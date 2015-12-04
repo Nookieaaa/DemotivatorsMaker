@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_ok">Так</string>
+    <string name="action_cancel">Скасувати</string>
+    <string name="action_clear">Очистити</string>
+    <string name="action_delete">Видалити</string>
+    <string name="action_open">Вiдкрити</string>
+    <string name="action_save">Зберегти</string>
+    <string name="action_settings">Налаштування</string>
+    <string name="action_share">Подiлитись</string>
+    <string name="action_view">Подивитись</string>
+    <string name="dem_large_text">Бiльший текст</string>
+    <string name="dem_small_text">Менший текст</string>
+    <string name="dialog_delete_confirm_message">Ви дiйсно бажаєте видалити цей шедевр?</string>
+    <string name="dialog_delete_title">Видалити</string>
+    <string name="dialog_filename_title">Введiть назву Файлу</string>
+    <string name="error_directory_not_created">Помилка, не вдалося створити директорiю</string>
+    <string name="error_file_exists_overwrite">Перезаписати файл?</string>
+    <string name="error_file_not_saved">Помилка, файл не збережений :(</string>
+    <string name="error_storage_not_ready">Помилка, сховище недосяжне</string>
+    <string name="tab_constructor_title" translatable="false">Конструктор</string>
+    <string name="title_activity_settings">Налаштування</string>
+    <string name="app_name" translatable="false">Demotivate me</string>
+    <string name="rb_camera">Камера</string>
+    <string name="rb_gallery">Галерея</string>
+    <string name="status_saved">Збережено</string>
+    <string name="select_image">Оберiть зображення</string>
+    <string name="tab_collection_title">Моя колекцiя</string>
+</resources>

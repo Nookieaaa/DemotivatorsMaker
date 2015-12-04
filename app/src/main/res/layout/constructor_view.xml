@@ -41,7 +41,8 @@
                 android:scaleType="fitCenter"
                 android:contentDescription="@string/select_image"
                 android:minHeight="@dimen/constructor_image_min_height"
-                android:minWidth="@dimen/constructor_image_min_width" />
+                android:minWidth="@dimen/constructor_image_min_width"
+                android:maxHeight="@dimen/constructor_image_max_height"/>
 
             <TextView
                 android:layout_width="wrap_content"

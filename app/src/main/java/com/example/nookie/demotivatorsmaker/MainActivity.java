@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +27,9 @@ import com.example.nookie.demotivatorsmaker.fragments.ConstructorFragment;
 import com.example.nookie.demotivatorsmaker.fragments.SavedPicsFragment;
 import com.example.nookie.demotivatorsmaker.interfaces.ImagePicker;
 import com.example.nookie.demotivatorsmaker.interfaces.ImageSetter;
+import com.example.nookie.demotivatorsmaker.interfaces.SaveCallback;
 import com.example.nookie.demotivatorsmaker.interfaces.ShareListInterface;
+import com.example.nookie.demotivatorsmaker.models.Demotivator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,7 +40,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements ImagePicker,ShareListInterface {
+public class MainActivity extends AppCompatActivity implements ImagePicker,ShareListInterface,SaveCallback {
 
     ShareActionProvider actionProvider;
     List<Uri> shareList = new ArrayList<>();
@@ -81,6 +84,10 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setIcon(R.mipmap.ic_launcher);
+        }
         setupViewPager(viewPager);
 
         tabLayout.setupWithViewPager(viewPager);
@@ -89,22 +96,9 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
             @Override
             public void onClick(View view) {
                 try {
-                    savedDem = mDemotivatorSaver.save();
-                    Snackbar.make(view, getString(R.string.status_saved), Snackbar.LENGTH_LONG)
-                            .setAction("Open", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setDataAndType(savedDem, "image/*");
-                                    startActivity(intent);
-                                }
-                            }).show();
-                    mListUpdater.update();
-                    updateShareIntent();
+                    mDemotivatorSaver.save();
                 } catch (FileManager.ExternalStorageNotReadyException | FileManager.DirectoryCreationFailed e) {
                     e.printStackTrace();
-                    Snackbar.make(view, e.getLocalizedMessage(), Snackbar.LENGTH_LONG)
-                            .show();
                 }
             }
         });
@@ -147,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void pickImage(int source) {
         switch (source){
@@ -172,12 +165,12 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_OK)
             return;
-        switch (requestCode){
-            case PICK_IMAGE_CODE:{
+        switch (requestCode) {
+            case PICK_IMAGE_CODE: {
                 try {
                     Uri selectedImage = data.getData();
                     InputStream is = getContentResolver().openInputStream(selectedImage);
-                    Bitmap image = BitmapFactory.decodeStream(is);
+                    Bitmap image = Demotivator.scaleImage(BitmapFactory.decodeStream(is));
                     fragmentImageSetter.setImage(image);
                     break;
                 } catch (FileNotFoundException e) {
@@ -185,23 +178,15 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
                 }
 
             }
-            case TAKE_PICTURE_CODE:{
-                if (data!=null) {
-                    Bitmap image = BitmapFactory.decodeFile(String.valueOf(data.getData()));
+            case TAKE_PICTURE_CODE: {
+                FileManager fm = FileManager.getInstance();
+                File output = new File(fm.getTempFileUri().getPath());
+                if (output.exists()) {
+                    Bitmap image = Demotivator.scaleImage(BitmapFactory.decodeFile(output.getAbsolutePath()));
                     fragmentImageSetter.setImage(image);
-                    break;
-                }
-                else{
-                    FileManager fm = FileManager.getInstance();
-                    File output = new File(fm.getTempFileUri().getPath());
-                    if(output.exists()){
-                        Bitmap image = BitmapFactory.decodeFile(output.getAbsolutePath());
-
-                        fragmentImageSetter.setImage(image);
-                    }
-
                 }
             }
+
         }
     }
 
@@ -232,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
                     }
                     else if (viewPager.getCurrentItem() == 0){
                         fab.show();
-                        if(!(savedDem==null))
+                        if((savedDem!=null))
                             updateShareIntent();
                     }
                 }
@@ -258,6 +243,27 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
     @Override
     public void clear() {
 
+    }
+
+    @Override
+    public void deliverSaveResult(Uri fileUri, boolean success) {
+        if (success && fileUri != null){
+            savedDem = fileUri;
+            Snackbar.make(viewPager, getString(R.string.status_saved), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.action_open), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(savedDem, "image/*");
+                        startActivity(intent);
+                    }
+                }).show();
+            mListUpdater.update();
+            updateShareIntent();
+        }
+        else{
+            Snackbar.make(viewPager, getString(R.string.error_file_not_saved), Snackbar.LENGTH_LONG).show();
+        }
     }
 
 
@@ -292,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
     }
 
     public interface DemotivatorSaver{
-        public Uri save() throws FileManager.ExternalStorageNotReadyException, FileManager.DirectoryCreationFailed;
+        public void save() throws FileManager.ExternalStorageNotReadyException, FileManager.DirectoryCreationFailed;
     }
 
     public interface ListUpdater{

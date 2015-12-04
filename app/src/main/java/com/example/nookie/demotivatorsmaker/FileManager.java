@@ -7,7 +7,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 
@@ -43,8 +42,7 @@ public class FileManager {
     }
 
     private File getFolder(){
-        File targetDir = new File(SAVE_TARGET_SYSTEM_PATH_EXT,SAVE_TARGET_FOLDER_NAME);
-        return targetDir;
+        return new File(SAVE_TARGET_SYSTEM_PATH_EXT,SAVE_TARGET_FOLDER_NAME);
     }
 
 
@@ -74,7 +72,8 @@ public class FileManager {
         });
         for (File file : files) {
             RVItem item = new RVItem(Uri.fromFile(file));
-            Bitmap thumbnail = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), dpToPx(100), dpToPx(100));
+            Bitmap image = BitmapFactory.decodeFile(file.getAbsolutePath());
+            Bitmap thumbnail = Demotivator.makeThumbnail(image, 0);
             item.setThumbnail(thumbnail);
             data.add(item);
         }
@@ -122,6 +121,7 @@ public class FileManager {
             if (deletedFile.exists()){
                 deletedFile.delete();
             }
+            updateMediaScanner(Uri.fromFile(deletedFile));
         }
     }
 

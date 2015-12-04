@@ -15,6 +15,7 @@ import android.text.TextPaint;
 import com.example.nookie.demotivatorsmaker.App;
 
 public class Demotivator {
+    private static final int THUMBNAIL_DEFAULT_WIDTH_DP = 150;
     private Bitmap image;
     private String caption;
     private String text;
@@ -124,11 +125,29 @@ public class Demotivator {
         return output;
     }
 
-    private Bitmap scaleImage(Bitmap image) {
+    public static Bitmap scaleImage(Bitmap image) {
         int originalW = image.getWidth();
         int originalH = image.getHeight();
 
         int width = DEFAULT_WIDTH;
+
+        float ratio = width / (float) originalW;
+
+        int height = (int)(originalH * ratio);
+
+        return Bitmap.createScaledBitmap(image,width,height,false);
+    }
+
+    public static Bitmap makeThumbnail(Bitmap image,int widthDP) {
+        int originalW = image.getWidth();
+        int originalH = image.getHeight();
+        int width = 0;
+
+        if (widthDP==0)
+            width = dpToPx(THUMBNAIL_DEFAULT_WIDTH_DP);
+        else{
+            width = dpToPx(widthDP);
+        }
 
         float ratio = width / (float) originalW;
 
@@ -150,7 +169,7 @@ public class Demotivator {
         return sp * scaledDensity;
     }
 
-    private int dpToPx(int dp){
+    private static int dpToPx(int dp){
         return (int)(dp * Resources.getSystem().getDisplayMetrics().density);
     }
 

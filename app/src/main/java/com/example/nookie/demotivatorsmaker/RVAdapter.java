@@ -68,10 +68,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adapterCallbacks.delete(data.get(position).getFile());
-                data.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, data.size());
+                adapterCallbacks.delete(data.get(position).getFile(), position);
             }
         });
         holder.btnShare.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +77,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
                 adapterCallbacks.share(data.get(position).getFile());
             }
         });
+    }
+
+    public void itemDeleted(int position){
+        data.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, data.size());
     }
 
     public void updateView(int position){
