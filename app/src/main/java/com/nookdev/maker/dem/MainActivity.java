@@ -23,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.appodeal.ads.Appodeal;
 import com.appodeal.ads.BannerView;
 import com.nookdev.maker.dem.fragments.ConstructorFragment;
 import com.nookdev.maker.dem.fragments.SavedPicsFragment;
@@ -108,23 +107,9 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
             }
         });
 
-        String appKey = "85a2cbf0c33148dff49e46f9756191a07822b6beec33a823";
-        Appodeal.disableLocationPermissionCheck();
-        Appodeal.setBannerViewId(R.id.appodealBannerView);
-        Appodeal.initialize(this, appKey, Appodeal.BANNER_VIEW);
-        Appodeal.setTesting(true);
-        showAds();
-
-
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Appodeal.onResume(this, Appodeal.BANNER_VIEW);
-        showAds();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -142,19 +127,18 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
         if (actionProvider!=null){
             if (savedDem!=null){
                 shareMenuItem.setVisible(true);
-                Intent shareIntent = new Intent(Intent.ACTION_SEND)
-                        .setAction(Intent.ACTION_SEND)
-                        .putExtra(Intent.EXTRA_STREAM, savedDem)
-                        .setType("image/*");
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, savedDem);
+                shareIntent.putExtra(Intent.EXTRA_TEXT,getString(R.string.share_message));
+                shareIntent.setType("image/*");
                 actionProvider.setShareIntent(shareIntent);
             }
 
         }
     }
 
-    public void showAds(){
-        Appodeal.show(this, Appodeal.BANNER_VIEW);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -166,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
 
     @Override
     public void pickImage(int source) {
-        showAds();
         switch (source){
             case SOURCE_GALLERY:{
                 Intent intent = new Intent(Intent.ACTION_PICK);
@@ -238,10 +221,8 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
                                 .hideSoftInputFromWindow(viewPager.getWindowToken(), 0);
                         fab.hide();
                         shareMenuItem.setVisible(false);
-                        showAds();
                     }
                     else if (viewPager.getCurrentItem() == 0){
-                        showAds();
                         fab.show();
                         if((savedDem!=null))
                             updateShareIntent();

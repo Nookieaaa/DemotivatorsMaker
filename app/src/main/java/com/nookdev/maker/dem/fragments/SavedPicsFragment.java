@@ -122,10 +122,12 @@ public class SavedPicsFragment extends Fragment implements MainActivity.ListUpda
     public void share(Uri uri) {
         try{
             MainActivity activity = (MainActivity)getActivity();
-            Intent shareIntent = new Intent(Intent.ACTION_SEND)
-                    .setAction(Intent.ACTION_SEND)
-                    .putExtra(Intent.EXTRA_STREAM, uri)
-                    .setType("image/*");
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.putExtra(Intent.EXTRA_TEXT,getString(R.string.share_message));
+            shareIntent.setType("image/*");
             activity.startActivity(Intent.createChooser(shareIntent, App.getStringResource(R.string.action_share)));
         }catch (ClassCastException e)
         {

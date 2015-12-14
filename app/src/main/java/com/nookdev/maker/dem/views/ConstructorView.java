@@ -3,9 +3,13 @@ package com.nookdev.maker.dem.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -26,6 +30,7 @@ public class ConstructorView extends FrameLayout implements ImageSetter, Constru
 
     private int sourceMode;
     private Bitmap originalBitmap;
+    private final RotateClickListener rotateClickListener = new RotateClickListener();
 
 
     @Bind(R.id.constructor_radiogroup)
@@ -45,6 +50,12 @@ public class ConstructorView extends FrameLayout implements ImageSetter, Constru
 
     @Bind(R.id.constructor_text)
     EditText text;
+
+    @Bind(R.id.constructor_rotate_left)
+    ImageButton rotateLeft;
+
+    @Bind(R.id.constructor_rotate_right)
+    ImageButton rotateRight;
 
     public ConstructorView(Context context) {
         super(context);
@@ -77,6 +88,10 @@ public class ConstructorView extends FrameLayout implements ImageSetter, Constru
                                      }
                                  }
         );
+        rotateLeft.setOnClickListener(rotateClickListener);
+        rotateRight.setOnClickListener(rotateClickListener);
+
+
 
         sourceSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -84,10 +99,12 @@ public class ConstructorView extends FrameLayout implements ImageSetter, Constru
                 switch (checkedId) {
                     case R.id.constructor_rb_camera: {
                         sourceMode = ImagePicker.SOURCE_CAMERA;
+                        selectImageText.setText(R.string.select_image_camera);
                         break;
                     }
                     case R.id.constructor_rb_gallery: {
                         sourceMode = ImagePicker.SOURCE_GALLERY;
+                        selectImageText.setText(R.string.select_image_gallery);
                         break;
                     }
                 }
@@ -101,6 +118,10 @@ public class ConstructorView extends FrameLayout implements ImageSetter, Constru
         image.setImageBitmap(pic);
         originalBitmap = pic;
         selectImageText.setVisibility(GONE);
+        if(rotateLeft.getVisibility()!=VISIBLE){
+            rotateLeft.setVisibility(VISIBLE);
+            rotateRight.setVisibility(VISIBLE);
+        }
     }
 
     public String getCaption(){
@@ -115,4 +136,39 @@ public class ConstructorView extends FrameLayout implements ImageSetter, Constru
         return originalBitmap;
     }
 
+    private class RotateClickListener implements OnClickListener{
+        private static final int ROTATE_STEP = 90;
+
+        @Override
+        public void onClick(View v) {
+            Matrix matrix = new Matrix();
+            switch (v.getId()){
+                case R.id.constructor_rotate_right:{
+                    matrix.postRotate(ROTATE_STEP);
+                    break;
+                }
+                case R.id.constructor_rotate_left:{
+                    matrix.postRotate(360-ROTATE_STEP);
+                    break;
+                }
+            }
+            if (originalBitmap!=null){
+
+                RotateAnimation anim = new RotateAnimation(180f, 360f, 180f, 180f);
+                anim.setInterpolator(new LinearInterpolator());
+                anim.setRepeatCount(Animation.RELATIVE_TO_SELF);
+                anim.setDuration(100);
+
+                image.startAnimation(anim);
+                setImage(Bitmap.createBitmap(originalBitmap,
+                        0,
+                        0,
+                        originalBitmap.getWidth(),
+                        originalBitmap.getHeight(),
+                        matrix,
+                        true));
+            }
+        }
+
+    }
 }

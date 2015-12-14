@@ -45,12 +45,37 @@
                 android:maxHeight="@dimen/constructor_image_max_height"/>
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/select_image_gallery"
+                android:id="@+id/constructor_select_image_text"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:paddingRight="@dimen/select_image_padding"
+                android:paddingLeft="@dimen/select_image_padding" />
+
+        </FrameLayout>
+        <LinearLayout
+            android:id="@+id/constructor_rotate_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/select_image"
-                android:id="@+id/constructor_select_image_text"
-                android:layout_gravity="center" />
-        </FrameLayout>
+                android:id="@+id/constructor_rotate_left"
+                android:src="@drawable/ic_action_goleft"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/constructor_rotate_right"
+                android:src="@drawable/ic_action_goright"
+                android:visibility="gone" />
+            </LinearLayout>
+
 
 
         <android.support.design.widget.TextInputLayout

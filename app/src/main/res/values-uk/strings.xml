@@ -18,12 +18,16 @@
     <string name="error_file_exists_overwrite">Перезаписати файл?</string>
     <string name="error_file_not_saved">Помилка, файл не збережений :(</string>
     <string name="error_storage_not_ready">Помилка, сховище недосяжне</string>
-    <string name="tab_constructor_title" translatable="false">Конструктор</string>
+    <string name="tab_constructor_title">Конструктор</string>
     <string name="title_activity_settings">Налаштування</string>
-    <string name="app_name" translatable="false">Демотивуй мене</string>
+    <string name="app_name">Демотивуй мене</string>
     <string name="rb_camera">Камера</string>
     <string name="rb_gallery">Галерея</string>
     <string name="status_saved">Збережено</string>
     <string name="select_image">Оберiть зображення</string>
     <string name="tab_collection_title">Моя колекцiя</string>
+    <string name="preview">Перегляд</string>
+    <string name="select_image_camera">Натиснiть, щоб зробити знiмок</string>
+    <string name="select_image_gallery">Натиснiть, щоб вiдкрити галерею</string>
+    <string name="share_message">Створи свiй демотиватор за допомогою http://bit.ly/1m3YagW /n #demotivateme #demotivator</string>
 </resources>

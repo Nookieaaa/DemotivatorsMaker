@@ -21,11 +21,15 @@
     <string name="hello_blank_fragment"></string>
     <string name="pref_default_display_name"></string>
     <string name="title_activity_settings">Настройки</string>
-    <string name="app_name" translatable="false">Демотивируй меня</string>
+    <string name="app_name" >Демотивируй меня</string>
     <string name="rb_camera">Камера</string>
     <string name="rb_gallery">Галерея</string>
-    <string name="tab_collection_title" translatable="false">Моя коллекция</string>
+    <string name="tab_collection_title">Моя коллекция</string>
     <string name="status_saved">Сохранено</string>
     <string name="select_image">Выберите изображение</string>
     <string name="tab_constructor_title">Конструктор</string>
+    <string name="preview">Предпросмотр</string>
+    <string name="select_image_camera">Нажмите, чтобы сделать снимок</string>
+    <string name="select_image_gallery">Нажмите, чтобы открыть галерею</string>
+    <string name="share_message">Создай свой демотиватор с помощью http://bit.ly/1m3YagW /n #demotivateme #demotivator</string>
 </resources>

@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name" translatable="false">Demotivate me</string>
+    <string name="app_name">Demotivate me</string>
     <string name="action_settings">Settings</string>
 
     <string name="rb_camera">Camera</string>
     <string name="rb_gallery">Gallery</string>
     <string name="select_image">Tap to select an image</string>
+    <string name="select_image_camera">Tap to open camera</string>
+    <string name="select_image_gallery">Tap to open gallery</string>
     <string name="action_share">Share</string>
     <string name="action_open">Open</string>
     <string name="action_save">Save</string>
@@ -13,6 +15,7 @@
     <string name="action_view">View</string>
     <string name="action_delete">Delete</string>
     <string name="action_clear">Clear</string>
+    <string name="preview">Preview</string>
     <string name="dialog_filename_title">Enter file name:</string>
     <string name="error_file_exists_overwrite">File already exists, overwrite?</string>
     <string name="error_storage_not_ready">Error. Storage is not ready.</string>
@@ -25,7 +28,7 @@
     <string name="tab_collection_title">My collection</string>
     <string name="dialog_delete_title">Delete</string>
     <string name="error_file_not_saved">Error, file not saved :(</string>
-
+    <string name="share_message">Create your unique demotivator with http://bit.ly/1m3YagW /n #demotivateme #demotivator</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>

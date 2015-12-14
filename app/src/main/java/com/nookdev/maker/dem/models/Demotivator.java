@@ -29,7 +29,7 @@ public class Demotivator {
     public static final int DEFAULT_HEIGHT = 600;
 
     public static final int X_PADDING_DP = 40;//10%
-    public static final int Y_PADDING_DP = 20;//6%
+    public static final int Y_PADDING_DP = 50;//6%
 
     public static final int BORDER_WIDTH = 5;
     public static final int BORDER_MARGIN = 10;

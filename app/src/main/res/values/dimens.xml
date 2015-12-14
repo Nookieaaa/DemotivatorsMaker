@@ -12,5 +12,6 @@
     <dimen name="iv_padding">5dp</dimen>
     <dimen name="iv_min_height">200dp</dimen>
     <dimen name="iv_min_width">200dp</dimen>
+    <dimen name="select_image_padding">15dp</dimen>
 
 </resources>

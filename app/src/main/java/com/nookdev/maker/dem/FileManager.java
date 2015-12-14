@@ -35,10 +35,10 @@ public class FileManager {
 
     private FileManager(){
         try {
-            createFolderIfNeeded();
-        } catch (DirectoryCreationFailed directoryCreationFailed) {
-            directoryCreationFailed.printStackTrace();
-        }
+        createFolderIfNeeded();
+            } catch (DirectoryCreationFailed directoryCreationFailed) {
+                directoryCreationFailed.printStackTrace();
+            }
     }
 
     private File getFolder(){
@@ -48,7 +48,7 @@ public class FileManager {
 
     public List<RVItem> queryFiles(){
         ArrayList<RVItem> data = new ArrayList<>();
-        File targetFile = new File(getFolder().getAbsolutePath());
+
         if (isExternalStorageReadable()){
             try {
                 createFolderIfNeeded();
@@ -57,6 +57,8 @@ public class FileManager {
                 return data;
             }
         }
+
+        File targetFile = new File(getFolder().getAbsolutePath());
         File[] files = targetFile.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String filename) {
@@ -73,6 +75,8 @@ public class FileManager {
         for (File file : files) {
             RVItem item = new RVItem(Uri.fromFile(file));
             Bitmap image = BitmapFactory.decodeFile(file.getAbsolutePath());
+            if (image==null)
+                continue;
             Bitmap thumbnail = Demotivator.makeThumbnail(image, 0);
             item.setThumbnail(thumbnail);
             data.add(item);
