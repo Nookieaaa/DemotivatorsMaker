@@ -23,8 +23,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.appodeal.ads.BannerView;
 import com.nookdev.maker.dem.fragments.ConstructorFragment;
+import com.nookdev.maker.dem.fragments.PreviewFragment;
 import com.nookdev.maker.dem.fragments.SavedPicsFragment;
 import com.nookdev.maker.dem.interfaces.ImagePicker;
 import com.nookdev.maker.dem.interfaces.ImageSetter;
@@ -57,9 +57,6 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-
-    @Bind(R.id.appodealBannerView)
-    BannerView bannerView;
 
     @Bind(R.id.fab)
     FloatingActionButton fab;
@@ -200,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
     public void setupViewPager(ViewPager upViewPager) {
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ConstructorFragment(),getString(R.string.tab_constructor_title));
+        adapter.addFragment(new PreviewFragment(),getString(R.string.tab_preview_title));
         adapter.addFragment(new SavedPicsFragment(),getString(R.string.tab_collection_title));
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -215,14 +213,14 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,Share
             public void onPageScrollStateChanged(int state) {
                 if (state == ViewPager.SCROLL_STATE_IDLE)
                 {
-                    if (viewPager.getCurrentItem() == 1)
+                    if (viewPager.getCurrentItem() != 0)
                     {
                         ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE))
                                 .hideSoftInputFromWindow(viewPager.getWindowToken(), 0);
                         fab.hide();
                         shareMenuItem.setVisible(false);
                     }
-                    else if (viewPager.getCurrentItem() == 0){
+                    if (viewPager.getCurrentItem() == 0){
                         fab.show();
                         if((savedDem!=null))
                             updateShareIntent();
