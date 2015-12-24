@@ -1,4 +1,4 @@
-package com.nookdev.maker.dem.fragments;
+package com.nookdev.maker.dem.fragments.list;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nookdev.maker.dem.App;
-import com.nookdev.maker.dem.MainActivity;
+import com.nookdev.maker.dem.activity.MainActivity;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.RVAdapter;
+import com.nookdev.maker.dem.fragments.DeleteDialog;
 import com.nookdev.maker.dem.interfaces.AdapterCallbacks;
 
 import butterknife.Bind;

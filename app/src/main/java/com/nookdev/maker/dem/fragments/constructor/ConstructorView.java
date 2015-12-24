@@ -1,4 +1,4 @@
-package com.nookdev.maker.dem.views;
+package com.nookdev.maker.dem.fragments.constructor;
 
 
 import android.content.Context;
@@ -17,7 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.nookdev.maker.dem.R;
-import com.nookdev.maker.dem.fragments.ConstructorFragment;
+import com.nookdev.maker.dem.fragments.constructor.ConstructorFragment;
 import com.nookdev.maker.dem.interfaces.ImagePicker;
 import com.nookdev.maker.dem.interfaces.ImageSetter;
 

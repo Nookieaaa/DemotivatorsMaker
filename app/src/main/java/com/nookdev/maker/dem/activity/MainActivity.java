@@ -1,4 +1,4 @@
-package com.nookdev.maker.dem;
+package com.nookdev.maker.dem.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -9,9 +9,10 @@ import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.nookdev.maker.dem.FileManager;
+import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.interfaces.ImagePicker;
 import com.nookdev.maker.dem.interfaces.ImageSetter;
-import com.nookdev.maker.dem.interfaces.MainActivityController;
 import com.nookdev.maker.dem.interfaces.SaveCallback;
 
 public class MainActivity extends AppCompatActivity implements ImagePicker,SaveCallback {

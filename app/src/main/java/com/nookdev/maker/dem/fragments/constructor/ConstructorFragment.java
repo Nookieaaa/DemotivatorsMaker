@@ -1,4 +1,4 @@
-package com.nookdev.maker.dem.fragments;
+package com.nookdev.maker.dem.fragments.constructor;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,13 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nookdev.maker.dem.FileManager;
-import com.nookdev.maker.dem.MainActivity;
+import com.nookdev.maker.dem.activity.MainActivity;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.interfaces.ImagePicker;
 import com.nookdev.maker.dem.interfaces.ImageSetter;
 import com.nookdev.maker.dem.interfaces.SaveCallback;
 import com.nookdev.maker.dem.models.Demotivator;
-import com.nookdev.maker.dem.views.ConstructorView;
 
 
 public class ConstructorFragment extends Fragment implements ImagePicker, ImageSetter, MainActivity.DemotivatorSaver {

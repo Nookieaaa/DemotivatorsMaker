@@ -1,4 +1,4 @@
-package com.nookdev.maker.dem;
+package com.nookdev.maker.dem.activity;
 
 
 import android.content.Context;
@@ -13,11 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.nookdev.maker.dem.fragments.ConstructorFragment;
-import com.nookdev.maker.dem.fragments.PreviewFragment;
-import com.nookdev.maker.dem.fragments.SavedPicsFragment;
-import com.nookdev.maker.dem.interfaces.MainActivityController;
-import com.nookdev.maker.dem.interfaces.MainActivityView;
+import com.nookdev.maker.dem.App;
+import com.nookdev.maker.dem.R;
+import com.nookdev.maker.dem.fragments.constructor.ConstructorFragment;
+import com.nookdev.maker.dem.fragments.preview.PreviewFragment;
+import com.nookdev.maker.dem.fragments.list.SavedPicsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +75,7 @@ public class MainActivityViewImpl implements MainActivityView {
     private void setupViewPager() {
         final ViewPagerAdapter adapter = new ViewPagerAdapter(mController.getActivity().getSupportFragmentManager());
 
-        adapter.addFragment(new ConstructorFragment(),App.getStringResource(R.string.tab_constructor_title));
+        adapter.addFragment(new ConstructorFragment(), App.getStringResource(R.string.tab_constructor_title));
         adapter.addFragment(new PreviewFragment(), App.getStringResource(R.string.tab_preview_title));
         adapter.addFragment(new SavedPicsFragment(),App.getStringResource(R.string.tab_collection_title));
 
