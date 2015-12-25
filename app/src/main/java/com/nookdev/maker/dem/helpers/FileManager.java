@@ -1,4 +1,4 @@
-package com.nookdev.maker.dem;
+package com.nookdev.maker.dem.helpers;
 
 
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 
+import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.models.Demotivator;
 import com.nookdev.maker.dem.models.RVItem;
 

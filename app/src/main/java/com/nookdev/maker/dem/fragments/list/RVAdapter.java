@@ -1,4 +1,4 @@
-package com.nookdev.maker.dem;
+package com.nookdev.maker.dem.fragments.list;
 
 
 import android.content.Context;
@@ -12,6 +12,9 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.nookdev.maker.dem.helpers.App;
+import com.nookdev.maker.dem.helpers.FileManager;
+import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.interfaces.AdapterCallbacks;
 import com.nookdev.maker.dem.models.RVItem;
 
@@ -49,7 +52,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = (LayoutInflater)App.getAppContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) App.getAppContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.card_saved_pic,null);
         return new ViewHolder(v);
     }

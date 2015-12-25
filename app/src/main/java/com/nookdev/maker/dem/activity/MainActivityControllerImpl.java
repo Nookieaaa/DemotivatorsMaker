@@ -11,8 +11,8 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.nookdev.maker.dem.Constants;
-import com.nookdev.maker.dem.FileManager;
+import com.nookdev.maker.dem.helpers.Constants;
+import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.models.Demotivator;
 

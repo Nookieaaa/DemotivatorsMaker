@@ -13,10 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nookdev.maker.dem.App;
+import com.nookdev.maker.dem.helpers.App;
 import com.nookdev.maker.dem.activity.MainActivity;
 import com.nookdev.maker.dem.R;
-import com.nookdev.maker.dem.RVAdapter;
 import com.nookdev.maker.dem.fragments.DeleteDialog;
 import com.nookdev.maker.dem.interfaces.AdapterCallbacks;
 

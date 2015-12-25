@@ -1,4 +1,4 @@
-package com.nookdev.maker.dem;
+package com.nookdev.maker.dem.helpers;
 
 public class Constants {
     public static final int PICK_IMAGE_CODE = 100;

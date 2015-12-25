@@ -13,7 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.nookdev.maker.dem.App;
+import com.nookdev.maker.dem.helpers.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.fragments.constructor.ConstructorFragment;
 import com.nookdev.maker.dem.fragments.preview.PreviewFragment;

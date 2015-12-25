@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nookdev.maker.dem.FileManager;
+import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.activity.MainActivity;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.interfaces.ImagePicker;

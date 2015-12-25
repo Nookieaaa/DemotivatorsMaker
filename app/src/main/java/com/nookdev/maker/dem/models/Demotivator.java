@@ -12,7 +12,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 
-import com.nookdev.maker.dem.App;
+import com.nookdev.maker.dem.helpers.App;
 
 public class Demotivator {
     private static final int THUMBNAIL_DEFAULT_WIDTH_DP = 150;

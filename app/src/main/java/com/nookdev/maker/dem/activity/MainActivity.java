@@ -9,7 +9,7 @@ import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.nookdev.maker.dem.FileManager;
+import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.interfaces.ImagePicker;
 import com.nookdev.maker.dem.interfaces.ImageSetter;

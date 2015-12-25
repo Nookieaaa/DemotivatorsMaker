@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 
-import com.nookdev.maker.dem.FileManager;
+import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.R;
 
 public class DeleteDialog extends AppCompatDialogFragment {
