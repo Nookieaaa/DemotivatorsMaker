@@ -111,16 +111,7 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
     @Override
     public void sendAction(String senderTag, String receiverTag, int requestCode, Bundle data) {
         if (receiverTag.equals(MainActivity.TAG_NAME)){
-            switch (requestCode){
-                case Constants.ACTION_PICK_IMAGE:{
-                    requestImage(Constants.ACTION_PICK_IMAGE);
-                    break;
-                }
-                case Constants.ACTION_TAKE_PHOTO:{
-
-                    break;
-                }
-            }
+            requestImage(requestCode);
         }
         else{
             BaseController target = mControllerMap.get(receiverTag);

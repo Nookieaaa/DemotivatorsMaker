@@ -15,11 +15,11 @@ public class ConstructorControllerImpl extends BaseController implements Constru
 
 
     private ConstructorControllerImpl(){
-    };
+    }
 
     public static ConstructorControllerImpl getInstance(){
         return instance;
-    };
+    }
 
 
     @Override

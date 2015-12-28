@@ -61,10 +61,10 @@ public class ConstructorViewImpl implements ConstructorView{
 
     private void init() {
         mImage.setOnClickListener(new View.OnClickListener() {
-                                     @Override
-                                     public void onClick(View v) {
-                                         mController.requestImage();
-                                     }
+             @Override
+             public void onClick(View v) {
+                 mController.requestImage();
+             }
                                  }
         );
         mRotateLeft.setOnClickListener(mRotateClickListener);
@@ -96,6 +96,7 @@ public class ConstructorViewImpl implements ConstructorView{
         mOriginalBitmap = pic;
         mSelectImageText.setVisibility(View.GONE);
         if(mRotateLeft.getVisibility()!=View.VISIBLE){
+            mRotateLeft.setVisibility(View.VISIBLE);
             mRotateRight.setVisibility(View.VISIBLE);
         }
     }
