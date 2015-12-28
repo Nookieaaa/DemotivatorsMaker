@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.nookdev.maker.dem.R;
 
 public class PreviewFragment extends Fragment {
+    public static final String TAG_NAME = PreviewFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -17,9 +18,4 @@ public class PreviewFragment extends Fragment {
         return v;
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 }

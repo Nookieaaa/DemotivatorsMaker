@@ -22,13 +22,14 @@ public class ConstructorFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mConstructorController = ConstructorControllerImpl.getInstance();
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_main, container, false);
+        View v = inflater.inflate(R.layout.constructor_view, container, false);
 
         return v;
     }
@@ -42,7 +43,7 @@ public class ConstructorFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        View v = view.findViewById(R.id.constructor_view);
+        mConstructorController.setView(view);
     }
 
 
@@ -62,33 +63,6 @@ public class ConstructorFragment extends Fragment {
 
     }
 
-    public interface DemotivatorInfo{
-        public String getText();
-        public String getCaption();
-        public Bitmap getImage();
-    }
-
-    public class SaveFileTask extends AsyncTask<Demotivator,Void,Uri>{
-
-        @Override
-        protected Uri doInBackground(Demotivator... params) {
-            Uri result = null;
-            if (params.length==0)
-                return result;
-            FileManager fileManager = FileManager.getInstance();
-            try {
-                result = fileManager.saveDem(params[0]);
-            } catch (FileManager.ExternalStorageNotReadyException | FileManager.DirectoryCreationFailed e) {
-                e.printStackTrace();
-            }
-            return result;
-
-        }
-
-        @Override
-        protected void onPostExecute(Uri uri) {
-            mSaveCallback.deliverSaveResult(uri,(uri!=null));
-        }
-    }*/
+   */
 
 }

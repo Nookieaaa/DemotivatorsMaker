@@ -1,10 +1,12 @@
 package com.nookdev.maker.dem.fragments.constructor;
 
 import android.graphics.Bitmap;
+import android.view.View;
 
 public interface ConstructorView {
     public void setImage(Bitmap bitmap);
-    public void getImage(Bitmap bitmap);
-    public String getText(String text);
-    public String getCaption(String caption);
+    public Bitmap getImage(Bitmap bitmap);
+    public String getText();
+    public String getCaption();
+    public void setViewAndController(View v, ConstructorController controller);
 }

@@ -1,11 +1,8 @@
 package com.nookdev.maker.dem.fragments.constructor;
 
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -16,22 +13,21 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.interfaces.ImagePicker;
-import com.nookdev.maker.dem.interfaces.ImageSetter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ConstructorViewImpl implements ImageSetter, ConstructorFragment.DemotivatorInfo{
+public class ConstructorViewImpl implements ConstructorView{
 
+    private static ConstructorViewImpl instance = new ConstructorViewImpl();
     private ImagePicker mFragmentImagePicker;
+    private ConstructorController mConstructorController;
 
     private int sourceMode;
     private Bitmap originalBitmap;
     private final RotateClickListener rotateClickListener = new RotateClickListener();
-
 
     @Bind(R.id.constructor_radiogroup)
     RadioGroup sourceSelector;
@@ -57,25 +53,23 @@ public class ConstructorViewImpl implements ImageSetter, ConstructorFragment.Dem
     @Bind(R.id.constructor_rotate_right)
     ImageButton rotateRight;
 
-    private void init(Context context, AttributeSet attributeSet, int defStyleAttr) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.constructor_view, null);
+    private ConstructorViewImpl() {
+    }
 
-        mFragmentImagePicker = (ImagePicker)context;
+    public static ConstructorViewImpl getInstance() {
+        return instance;
+    }
 
-        ButterKnife.bind(this,v);
-
+    private void init() {
         image.setOnClickListener(new View.OnClickListener() {
-                                     @Override
-                                     public void onClick(View v) {
-                                         mFragmentImagePicker.pickImage(sourceMode);
-                                     }
+             @Override
+             public void onClick(View v) {
+                 mFragmentImagePicker.pickImage(sourceMode);
+             }
                                  }
         );
         rotateLeft.setOnClickListener(rotateClickListener);
         rotateRight.setOnClickListener(rotateClickListener);
-
-
 
         sourceSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -108,16 +102,26 @@ public class ConstructorViewImpl implements ImageSetter, ConstructorFragment.Dem
         }
     }
 
-    public String getCaption(){
-        return caption.getText().toString();
+    @Override
+    public Bitmap getImage(Bitmap bitmap) {
+        return bitmap;
     }
 
-    public String getText(){
+    @Override
+    public String getText() {
         return text.getText().toString();
     }
 
-    public Bitmap getImage(){
-        return originalBitmap;
+    @Override
+    public String getCaption() {
+        return caption.getText().toString();
+    }
+
+    @Override
+    public void setViewAndController(View v, ConstructorController controller) {
+        mConstructorController = controller;
+        ButterKnife.bind(this, v);
+        init();
     }
 
     private class RotateClickListener implements View.OnClickListener {

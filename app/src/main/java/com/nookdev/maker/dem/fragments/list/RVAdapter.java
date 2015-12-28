@@ -39,6 +39,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         }
     }
 
+    public RVAdapter() {
+    }
+
     public void refresh(){
         RefreshTask refreshTask = new RefreshTask();
         refreshTask.execute();

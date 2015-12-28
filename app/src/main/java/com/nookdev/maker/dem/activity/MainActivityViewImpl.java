@@ -13,11 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.nookdev.maker.dem.fragments.list.GalleryFragment;
 import com.nookdev.maker.dem.helpers.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.fragments.constructor.ConstructorFragment;
 import com.nookdev.maker.dem.fragments.preview.PreviewFragment;
-import com.nookdev.maker.dem.fragments.list.SavedPicsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +77,7 @@ public class MainActivityViewImpl implements MainActivityView {
 
         adapter.addFragment(new ConstructorFragment(), App.getStringResource(R.string.tab_constructor_title));
         adapter.addFragment(new PreviewFragment(), App.getStringResource(R.string.tab_preview_title));
-        adapter.addFragment(new SavedPicsFragment(),App.getStringResource(R.string.tab_collection_title));
+        adapter.addFragment(new GalleryFragment(),App.getStringResource(R.string.tab_collection_title));
 
         mViewPager.setAdapter(adapter);
 

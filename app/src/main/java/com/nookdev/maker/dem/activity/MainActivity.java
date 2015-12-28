@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements ImagePicker,SaveC
             fragmentImageSetter = (ImageSetter) fragment;
             mDemotivatorSaver = (DemotivatorSaver)fragment;
         }
-        if(fragment instanceof SavedPicsFragment){
+        if(fragment instanceof GalleryFragment){
             mListUpdater = (ListUpdater)fragment;
         }*/
     }
