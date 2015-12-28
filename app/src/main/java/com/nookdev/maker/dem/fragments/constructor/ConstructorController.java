@@ -11,4 +11,5 @@ public interface ConstructorController {
     public Demotivator getDemotivator();
     public Bitmap getDemotivatorBitmap();
     public void setView(View v);
+    public void requestImage();
 }

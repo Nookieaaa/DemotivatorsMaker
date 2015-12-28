@@ -1,11 +1,15 @@
 package com.nookdev.maker.dem.fragments.constructor;
 
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.view.View;
 
+import com.nookdev.maker.dem.BaseController;
+import com.nookdev.maker.dem.activity.MainActivity;
+import com.nookdev.maker.dem.helpers.Constants;
 import com.nookdev.maker.dem.models.Demotivator;
 
-public class ConstructorControllerImpl implements ConstructorController {
+public class ConstructorControllerImpl extends BaseController implements ConstructorController {
     private ConstructorView mConstructorView = ConstructorViewImpl.getInstance();
     private static ConstructorControllerImpl instance = new ConstructorControllerImpl();
 
@@ -38,4 +42,18 @@ public class ConstructorControllerImpl implements ConstructorController {
         mConstructorView.setViewAndController(v,this);
     }
 
+    @Override
+    public void requestImage() {
+        sendAction(ConstructorFragment.TAG_NAME,MainActivity.TAG_NAME,Constants.PICK_IMAGE_CODE,null);
+    }
+
+    @Override
+    public void sendAction(String senderTag, String receiverTag, int requestCode, Bundle data) {
+        getActivityController().sendAction(senderTag, receiverTag, requestCode,data);
+    }
+
+    @Override
+    public void deliverResult(String senderTag, String receiverTag, int requestCode, Bundle data) {
+
+    }
 }

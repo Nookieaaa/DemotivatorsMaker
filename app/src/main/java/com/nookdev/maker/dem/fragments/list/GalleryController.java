@@ -6,7 +6,7 @@ import android.view.View;
 
 public interface GalleryController {
     public void refresh();
-    public void setView(View v);
     public Context getContext();
     public void setContext(Context context);
+    public void setView(View v);
 }

@@ -14,7 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.nookdev.maker.dem.R;
-import com.nookdev.maker.dem.interfaces.ImagePicker;
+import com.nookdev.maker.dem.helpers.Constants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,36 +22,35 @@ import butterknife.ButterKnife;
 public class ConstructorViewImpl implements ConstructorView{
 
     private static ConstructorViewImpl instance = new ConstructorViewImpl();
-    private ImagePicker mFragmentImagePicker;
-    private ConstructorController mConstructorController;
+    private ConstructorController mController;
 
-    private int sourceMode;
-    private Bitmap originalBitmap;
-    private final RotateClickListener rotateClickListener = new RotateClickListener();
+    private int mSourceMode = Constants.SOURCE_GALLERY;
+    private Bitmap mOriginalBitmap;
+    private final RotateClickListener mRotateClickListener = new RotateClickListener();
 
     @Bind(R.id.constructor_radiogroup)
-    RadioGroup sourceSelector;
+    RadioGroup mSourceSelector;
 
     @Bind(R.id.constructor_frame)
-    FrameLayout frame;
+    FrameLayout mFrame;
 
     @Bind(R.id.constructor_image)
-    ImageButton image;
+    ImageButton mImage;
 
     @Bind(R.id.constructor_select_image_text)
-    TextView selectImageText;
+    TextView mSelectImageText;
 
     @Bind(R.id.constructor_caption)
-    EditText caption;
+    EditText mCaption;
 
     @Bind(R.id.constructor_text)
-    EditText text;
+    EditText mText;
 
     @Bind(R.id.constructor_rotate_left)
-    ImageButton rotateLeft;
+    ImageButton mRotateLeft;
 
     @Bind(R.id.constructor_rotate_right)
-    ImageButton rotateRight;
+    ImageButton mRotateRight;
 
     private ConstructorViewImpl() {
     }
@@ -61,28 +60,28 @@ public class ConstructorViewImpl implements ConstructorView{
     }
 
     private void init() {
-        image.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 mFragmentImagePicker.pickImage(sourceMode);
-             }
+        mImage.setOnClickListener(new View.OnClickListener() {
+                                     @Override
+                                     public void onClick(View v) {
+                                         mController.requestImage();
+                                     }
                                  }
         );
-        rotateLeft.setOnClickListener(rotateClickListener);
-        rotateRight.setOnClickListener(rotateClickListener);
+        mRotateLeft.setOnClickListener(mRotateClickListener);
+        mRotateRight.setOnClickListener(mRotateClickListener);
 
-        sourceSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        mSourceSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.constructor_rb_camera: {
-                        sourceMode = ImagePicker.SOURCE_CAMERA;
-                        selectImageText.setText(R.string.select_image_camera);
+                        mSourceMode = Constants.SOURCE_CAMERA;
+                        mSelectImageText.setText(R.string.select_image_camera);
                         break;
                     }
                     case R.id.constructor_rb_gallery: {
-                        sourceMode = ImagePicker.SOURCE_GALLERY;
-                        selectImageText.setText(R.string.select_image_gallery);
+                        mSourceMode = Constants.SOURCE_GALLERY;
+                        mSelectImageText.setText(R.string.select_image_gallery);
                         break;
                     }
                 }
@@ -93,12 +92,11 @@ public class ConstructorViewImpl implements ConstructorView{
 
     @Override
     public void setImage(Bitmap pic) {
-        image.setImageBitmap(pic);
-        originalBitmap = pic;
-        selectImageText.setVisibility(View.GONE);
-        if(rotateLeft.getVisibility()!=View.VISIBLE){
-            rotateLeft.setVisibility(View.VISIBLE);
-            rotateRight.setVisibility(View.VISIBLE);
+        mImage.setImageBitmap(pic);
+        mOriginalBitmap = pic;
+        mSelectImageText.setVisibility(View.GONE);
+        if(mRotateLeft.getVisibility()!=View.VISIBLE){
+            mRotateRight.setVisibility(View.VISIBLE);
         }
     }
 
@@ -109,17 +107,17 @@ public class ConstructorViewImpl implements ConstructorView{
 
     @Override
     public String getText() {
-        return text.getText().toString();
+        return mText.getText().toString();
     }
 
     @Override
     public String getCaption() {
-        return caption.getText().toString();
+        return mCaption.getText().toString();
     }
 
     @Override
     public void setViewAndController(View v, ConstructorController controller) {
-        mConstructorController = controller;
+        mController = controller;
         ButterKnife.bind(this, v);
         init();
     }
@@ -140,19 +138,19 @@ public class ConstructorViewImpl implements ConstructorView{
                     break;
                 }
             }
-            if (originalBitmap!=null){
+            if (mOriginalBitmap !=null){
 
                 RotateAnimation anim = new RotateAnimation(180f, 360f, 180f, 180f);
                 anim.setInterpolator(new LinearInterpolator());
                 anim.setRepeatCount(Animation.RELATIVE_TO_SELF);
                 anim.setDuration(100);
 
-                image.startAnimation(anim);
-                setImage(Bitmap.createBitmap(originalBitmap,
+                mImage.startAnimation(anim);
+                setImage(Bitmap.createBitmap(mOriginalBitmap,
                         0,
                         0,
-                        originalBitmap.getWidth(),
-                        originalBitmap.getHeight(),
+                        mOriginalBitmap.getWidth(),
+                        mOriginalBitmap.getHeight(),
                         matrix,
                         true));
             }
