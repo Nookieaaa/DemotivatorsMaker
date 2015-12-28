@@ -8,8 +8,6 @@ public abstract class BaseController {
 
     public abstract void sendAction(String senderTag, String receiverTag, int requestCode, Bundle data);
 
-    public abstract void deliverResult(String senderTag, String receiverTag, int requestCode, Bundle data);
-
     public void registerMainController(BaseController bc){
         mActivityController = bc;
     };

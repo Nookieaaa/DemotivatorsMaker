@@ -35,19 +35,18 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
         return instance;
     }
 
-    @Override
     public void requestImage(int source) {
         switch (source){
-            case Constants.SOURCE_GALLERY:{
+            case Constants.ACTION_PICK_IMAGE:{
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
-                mMainActivity.startActivityForResult(intent, Constants.PICK_IMAGE_CODE);
+                mMainActivity.startActivityForResult(intent, Constants.ACTION_PICK_IMAGE);
                 break;
             }
-            case Constants.SOURCE_CAMERA:{
+            case Constants.ACTION_TAKE_PHOTO:{
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra( MediaStore.EXTRA_OUTPUT, FileManager.getInstance().getTempFileUri());
-                mMainActivity.startActivityForResult(intent, Constants.TAKE_PICTURE_CODE);
+                mMainActivity.startActivityForResult(intent, Constants.ACTION_TAKE_PHOTO);
                 break;
             }
         }
@@ -58,7 +57,7 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
         if (resultCode != Activity.RESULT_OK)
             return;
         switch (requestCode) {
-            case Constants.PICK_IMAGE_CODE: {
+            case Constants.ACTION_PICK_IMAGE: {
                 try {
                     Uri selectedImage = data.getData();
                     InputStream is = mMainActivity.getContentResolver().openInputStream(selectedImage);
@@ -69,7 +68,7 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
                 }
 
             }
-            case Constants.TAKE_PICTURE_CODE: {
+            case Constants.ACTION_TAKE_PHOTO: {
                 FileManager fm = FileManager.getInstance();
                 File output = new File(fm.getTempFileUri().getPath());
                 if (output.exists()) {
@@ -94,7 +93,7 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
 
     @Override
     public void addController(String tag, BaseController controller) {
-        mControllerMap.put(tag,controller);
+        mControllerMap.put(tag, controller);
     }
 
     @Override
@@ -113,11 +112,11 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
     public void sendAction(String senderTag, String receiverTag, int requestCode, Bundle data) {
         if (receiverTag.equals(MainActivity.TAG_NAME)){
             switch (requestCode){
-                case Constants.PICK_IMAGE_CODE:{
-
+                case Constants.ACTION_PICK_IMAGE:{
+                    requestImage(Constants.ACTION_PICK_IMAGE);
                     break;
                 }
-                case Constants.TAKE_PICTURE_CODE:{
+                case Constants.ACTION_TAKE_PHOTO:{
 
                     break;
                 }
@@ -135,8 +134,4 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
 
     }
 
-    @Override
-    public void deliverResult(String senderTag, String receiverTag, int requestCode, Bundle data) {
-
-    }
 }

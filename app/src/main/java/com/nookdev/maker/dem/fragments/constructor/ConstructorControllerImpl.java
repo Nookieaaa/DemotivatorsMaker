@@ -39,12 +39,12 @@ public class ConstructorControllerImpl extends BaseController implements Constru
 
     @Override
     public void setView(View v) {
-        mConstructorView.setViewAndController(v,this);
+        mConstructorView.setViewAndController(v, this);
     }
 
     @Override
     public void requestImage() {
-        sendAction(ConstructorFragment.TAG_NAME,MainActivity.TAG_NAME,Constants.PICK_IMAGE_CODE,null);
+        sendAction(ConstructorFragment.TAG_NAME, MainActivity.TAG_NAME, Constants.ACTION_PICK_IMAGE, null);
     }
 
     @Override
@@ -52,8 +52,4 @@ public class ConstructorControllerImpl extends BaseController implements Constru
         getActivityController().sendAction(senderTag, receiverTag, requestCode,data);
     }
 
-    @Override
-    public void deliverResult(String senderTag, String receiverTag, int requestCode, Bundle data) {
-
-    }
 }

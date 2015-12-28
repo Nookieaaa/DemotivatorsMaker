@@ -42,10 +42,6 @@ public class GalleryControllerImpl extends BaseController implements GalleryCont
 
     }
 
-    @Override
-    public void deliverResult(String senderTag, String receiverTag, int requestCode, Bundle data) {
-
-    }
 
     @Override
     public void registerMainController(BaseController bc) {

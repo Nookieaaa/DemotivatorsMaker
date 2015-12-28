@@ -24,7 +24,7 @@ public class ConstructorViewImpl implements ConstructorView{
     private static ConstructorViewImpl instance = new ConstructorViewImpl();
     private ConstructorController mController;
 
-    private int mSourceMode = Constants.SOURCE_GALLERY;
+    private int mSourceMode = Constants.ACTION_PICK_IMAGE;
     private Bitmap mOriginalBitmap;
     private final RotateClickListener mRotateClickListener = new RotateClickListener();
 
@@ -75,12 +75,12 @@ public class ConstructorViewImpl implements ConstructorView{
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.constructor_rb_camera: {
-                        mSourceMode = Constants.SOURCE_CAMERA;
+                        mSourceMode = Constants.ACTION_TAKE_PHOTO;
                         mSelectImageText.setText(R.string.select_image_camera);
                         break;
                     }
                     case R.id.constructor_rb_gallery: {
-                        mSourceMode = Constants.SOURCE_GALLERY;
+                        mSourceMode = Constants.ACTION_PICK_IMAGE;
                         mSelectImageText.setText(R.string.select_image_gallery);
                         break;
                     }

@@ -14,11 +14,6 @@ public class PreviewControllerImpl extends BaseController implements PreviewCont
     }
 
     @Override
-    public void deliverResult(String senderTag, String receiverTag, int requestCode, Bundle data) {
-
-    }
-
-    @Override
     public void setView(View v) {
 
     }
