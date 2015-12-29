@@ -9,4 +9,5 @@ public interface ConstructorView {
     public String getText();
     public String getCaption();
     public void setViewAndController(View v, ConstructorController controller);
+    public int getSourceMode();
 }

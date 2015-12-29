@@ -12,4 +12,5 @@ public interface ConstructorController {
     public Bitmap getDemotivatorBitmap();
     public void setView(View v);
     public void requestImage();
+    public void setSourceMode(int sourceMode);
 }

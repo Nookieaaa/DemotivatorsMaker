@@ -8,7 +8,6 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -30,9 +29,6 @@ public class ConstructorViewImpl implements ConstructorView{
 
     @Bind(R.id.constructor_radiogroup)
     RadioGroup mSourceSelector;
-
-    @Bind(R.id.constructor_frame)
-    FrameLayout mFrame;
 
     @Bind(R.id.constructor_image)
     ImageButton mImage;
@@ -87,6 +83,9 @@ public class ConstructorViewImpl implements ConstructorView{
                 }
             }
         });
+
+        if(mOriginalBitmap!=null)
+            setImage(mOriginalBitmap);
     }
 
 
@@ -99,6 +98,7 @@ public class ConstructorViewImpl implements ConstructorView{
             mRotateLeft.setVisibility(View.VISIBLE);
             mRotateRight.setVisibility(View.VISIBLE);
         }
+        mImage.setBackgroundDrawable(null);
     }
 
     @Override
@@ -121,6 +121,11 @@ public class ConstructorViewImpl implements ConstructorView{
         mController = controller;
         ButterKnife.bind(this, v);
         init();
+    }
+
+    @Override
+    public int getSourceMode() {
+        return mSourceMode;
     }
 
     private class RotateClickListener implements View.OnClickListener {

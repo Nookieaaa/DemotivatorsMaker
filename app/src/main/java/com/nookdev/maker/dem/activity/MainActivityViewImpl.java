@@ -13,17 +13,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.nookdev.maker.dem.fragments.list.GalleryFragment;
-import com.nookdev.maker.dem.helpers.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.fragments.constructor.ConstructorFragment;
+import com.nookdev.maker.dem.fragments.list.GalleryFragment;
 import com.nookdev.maker.dem.fragments.preview.PreviewFragment;
+import com.nookdev.maker.dem.helpers.App;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivityViewImpl implements MainActivityView {
     private static MainActivityViewImpl mInstance = new MainActivityViewImpl();
@@ -40,6 +41,12 @@ public class MainActivityViewImpl implements MainActivityView {
 
     @Bind(R.id.pager)
     ViewPager mViewPager;
+
+    @OnClick(R.id.fab)
+    public void fabOnClick(){
+        if (mController!=null)
+            mController.fabClicked(mViewPager.getCurrentItem());
+    }
 
     public static MainActivityViewImpl getInstance() {
         return mInstance;
@@ -62,6 +69,11 @@ public class MainActivityViewImpl implements MainActivityView {
         setupActionBar();
         setupViewPager();
 
+    }
+
+    @Override
+    public void selectFragment(int page) {
+        mViewPager.setCurrentItem(page);
     }
 
     private void setupActionBar() {
@@ -96,10 +108,10 @@ public class MainActivityViewImpl implements MainActivityView {
                     if (mViewPager.getCurrentItem() != 0) {
                         ((InputMethodManager) App.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                                 .hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
-                        mFab.hide();
+                        //mFab.hide();
                     }
                     if (mViewPager.getCurrentItem() == 0) {
-                        mFab.show();
+                        //mFab.show();
                     }
                 }
             }
@@ -108,7 +120,6 @@ public class MainActivityViewImpl implements MainActivityView {
         mTabLayout.setupWithViewPager(mViewPager);
 
     }
-
 
 
 

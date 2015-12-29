@@ -43,8 +43,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:layout_gravity = "bottom|end"
+        android:tint="@color/white"
 
-        android:src="@android:drawable/ic_menu_save" />
+        android:src="@drawable/ic_arrow_right" />
 
     </android.support.design.widget.CoordinatorLayout>
 

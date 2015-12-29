@@ -12,4 +12,5 @@ public interface MainActivityController {
     public void addController(String tag,BaseController controller);
     public void removeController(String tag);
     public void setView(View v);
+    public void fabClicked(int page);
 }

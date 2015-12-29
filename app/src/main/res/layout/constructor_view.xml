@@ -39,11 +39,11 @@
                 android:id="@+id/constructor_image"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
+                android:scaleType="fitXY"
                 android:contentDescription="@string/select_image"
                 android:minHeight="@dimen/constructor_image_min_height"
-                android:minWidth="@dimen/constructor_image_min_width"
-                android:maxHeight="@dimen/constructor_image_max_height"/>
+                android:maxHeight="@dimen/constructor_image_max_height"
+                android:minWidth="@dimen/constructor_image_min_width" />
 
             <TextView
                 android:layout_width="match_parent"

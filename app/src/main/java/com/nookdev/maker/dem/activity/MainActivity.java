@@ -18,10 +18,13 @@ public class MainActivity extends AppCompatActivity {
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
         try{
-            FragmentController fc = (FragmentController)fragment;
-            BaseController bc = fc.getController();
-            bc.registerMainController((BaseController)mController);
-            mController.addController(fc.getFragmentTag(),bc);
+            if (mController!=null){
+                FragmentController fc = (FragmentController)fragment;
+                BaseController bc = fc.getController();
+                bc.registerMainController((BaseController)mController);
+                mController.addController(fc.getFragmentTag(),bc);
+            }
+
         } catch (ClassCastException e){
             e.printStackTrace();
         }
@@ -49,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mController.deliverImage(requestCode,resultCode,data);
-
     }
 
 }

@@ -39,7 +39,11 @@ public class GalleryControllerImpl extends BaseController implements GalleryCont
 
     @Override
     public void sendAction(String senderTag, String receiverTag, int requestCode, Bundle data) {
+        if(receiverTag.equals(GalleryFragment.TAG_NAME)){
 
+        }
+        else
+            getActivityController().sendAction(senderTag,receiverTag,requestCode,data);
     }
 
 

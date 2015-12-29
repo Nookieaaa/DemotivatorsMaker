@@ -13,7 +13,7 @@ import android.view.View;
 
 import com.nookdev.maker.dem.BaseController;
 import com.nookdev.maker.dem.R;
-import com.nookdev.maker.dem.helpers.Constants;
+import com.nookdev.maker.dem.helpers.ActionMatcher;
 import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.models.Demotivator;
 
@@ -21,6 +21,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
+
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_PICK_IMAGE;
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_SET_IMAGE;
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_TAKE_PHOTO;
+import static com.nookdev.maker.dem.helpers.Constants.CONTENT_IMAGE;
 
 public class MainActivityControllerImpl extends BaseController implements MainActivityController {
     private static MainActivityControllerImpl instance = new MainActivityControllerImpl();
@@ -37,16 +42,16 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
 
     public void requestImage(int source) {
         switch (source){
-            case Constants.ACTION_PICK_IMAGE:{
+            case ACTION_PICK_IMAGE:{
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
-                mMainActivity.startActivityForResult(intent, Constants.ACTION_PICK_IMAGE);
+                mMainActivity.startActivityForResult(intent, ACTION_PICK_IMAGE);
                 break;
             }
-            case Constants.ACTION_TAKE_PHOTO:{
+            case ACTION_TAKE_PHOTO:{
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra( MediaStore.EXTRA_OUTPUT, FileManager.getInstance().getTempFileUri());
-                mMainActivity.startActivityForResult(intent, Constants.ACTION_TAKE_PHOTO);
+                mMainActivity.startActivityForResult(intent, ACTION_TAKE_PHOTO);
                 break;
             }
         }
@@ -56,27 +61,32 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
     public void deliverImage(int requestCode, int resultCode,Intent data) {
         if (resultCode != Activity.RESULT_OK)
             return;
+
+        Bundle content = new Bundle();
         switch (requestCode) {
-            case Constants.ACTION_PICK_IMAGE: {
+            case ACTION_PICK_IMAGE: {
                 try {
                     Uri selectedImage = data.getData();
                     InputStream is = mMainActivity.getContentResolver().openInputStream(selectedImage);
                     Bitmap image = Demotivator.scaleImage(BitmapFactory.decodeStream(is));
+                    content.putParcelable(CONTENT_IMAGE,image);
                     break;
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
 
             }
-            case Constants.ACTION_TAKE_PHOTO: {
+            case ACTION_TAKE_PHOTO: {
                 FileManager fm = FileManager.getInstance();
                 File output = new File(fm.getTempFileUri().getPath());
                 if (output.exists()) {
                     Bitmap image = Demotivator.scaleImage(BitmapFactory.decodeFile(output.getAbsolutePath()));
+                    content.putParcelable(CONTENT_IMAGE,image);
                 }
             }
-
         }
+        if(content.containsKey(CONTENT_IMAGE))
+            sendAction(MainActivity.TAG_NAME, ActionMatcher.getReceiver(ACTION_SET_IMAGE),ACTION_SET_IMAGE,content);
     }
 
     @Override
@@ -109,6 +119,20 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
     }
 
     @Override
+    public void fabClicked(int page) {
+        switch (page){
+            case 0:{
+                mMainActivityView.selectFragment(1);
+                break;
+            }
+            case 1:{
+                mMainActivityView.selectFragment(0);
+                break;
+            }
+        }
+    }
+
+    @Override
     public void sendAction(String senderTag, String receiverTag, int requestCode, Bundle data) {
         if (receiverTag.equals(MainActivity.TAG_NAME)){
             requestImage(requestCode);
@@ -124,5 +148,6 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
         }
 
     }
+
 
 }
