@@ -6,10 +6,14 @@ import android.view.View;
 
 import com.nookdev.maker.dem.BaseController;
 import com.nookdev.maker.dem.activity.MainActivity;
+import com.nookdev.maker.dem.fragments.preview.PreviewFragment;
 import com.nookdev.maker.dem.models.Demotivator;
 
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_MAKE_PREVIEW;
 import static com.nookdev.maker.dem.helpers.Constants.ACTION_SET_IMAGE;
+import static com.nookdev.maker.dem.helpers.Constants.CONTENT_CAPTION;
 import static com.nookdev.maker.dem.helpers.Constants.CONTENT_IMAGE;
+import static com.nookdev.maker.dem.helpers.Constants.CONTENT_TEXT;
 
 public class ConstructorControllerImpl extends BaseController implements ConstructorController {
     private ConstructorView mConstructorView = ConstructorViewImpl.getInstance();
@@ -64,6 +68,14 @@ public class ConstructorControllerImpl extends BaseController implements Constru
                         Bitmap bitmap = data.getParcelable(CONTENT_IMAGE);
                         setImage(bitmap);
                     }
+                    break;
+                }
+                case ACTION_MAKE_PREVIEW:{
+                    Bundle content = new Bundle();
+                    content.putString(CONTENT_CAPTION,mConstructorView.getCaption());
+                    content.putString(CONTENT_TEXT,mConstructorView.getText());
+                    content.putParcelable(CONTENT_IMAGE, mConstructorView.getImage());
+                    sendAction(ConstructorFragment.TAG_NAME,PreviewFragment.TAG_NAME,ACTION_MAKE_PREVIEW,content);
                 }
             }
         }

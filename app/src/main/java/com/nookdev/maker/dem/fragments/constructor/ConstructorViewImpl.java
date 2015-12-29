@@ -102,8 +102,8 @@ public class ConstructorViewImpl implements ConstructorView{
     }
 
     @Override
-    public Bitmap getImage(Bitmap bitmap) {
-        return bitmap;
+    public Bitmap getImage() {
+        return mOriginalBitmap;
     }
 
     @Override
