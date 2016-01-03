@@ -10,7 +10,7 @@ import com.nookdev.maker.dem.fragments.preview.PreviewFragment;
 import com.nookdev.maker.dem.models.Demotivator;
 
 import static com.nookdev.maker.dem.helpers.Constants.ACTION_MAKE_PREVIEW;
-import static com.nookdev.maker.dem.helpers.Constants.ACTION_SET_IMAGE;
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_CONSTRUCTOR_SET_IMAGE;
 import static com.nookdev.maker.dem.helpers.Constants.CONTENT_CAPTION;
 import static com.nookdev.maker.dem.helpers.Constants.CONTENT_IMAGE;
 import static com.nookdev.maker.dem.helpers.Constants.CONTENT_TEXT;
@@ -63,7 +63,7 @@ public class ConstructorControllerImpl extends BaseController implements Constru
     public void sendAction(String senderTag, String receiverTag, int requestCode, Bundle data) {
         if(receiverTag.equals(ConstructorFragment.TAG_NAME)){
             switch (requestCode){
-                case ACTION_SET_IMAGE:{
+                case ACTION_CONSTRUCTOR_SET_IMAGE:{
                     if(data.containsKey(CONTENT_IMAGE)){
                         Bitmap bitmap = data.getParcelable(CONTENT_IMAGE);
                         setImage(bitmap);

@@ -22,8 +22,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_MAKE_PREVIEW;
 import static com.nookdev.maker.dem.helpers.Constants.ACTION_PICK_IMAGE;
-import static com.nookdev.maker.dem.helpers.Constants.ACTION_SET_IMAGE;
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_CONSTRUCTOR_SET_IMAGE;
 import static com.nookdev.maker.dem.helpers.Constants.ACTION_TAKE_PHOTO;
 import static com.nookdev.maker.dem.helpers.Constants.CONTENT_IMAGE;
 
@@ -86,7 +87,7 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
             }
         }
         if(content.containsKey(CONTENT_IMAGE))
-            sendAction(MainActivity.TAG_NAME, ActionMatcher.getReceiver(ACTION_SET_IMAGE),ACTION_SET_IMAGE,content);
+            sendAction(MainActivity.TAG_NAME, ActionMatcher.getReceiver(ACTION_CONSTRUCTOR_SET_IMAGE), ACTION_CONSTRUCTOR_SET_IMAGE,content);
     }
 
     @Override
@@ -123,6 +124,9 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
         switch (page){
             case 0:{
                 mMainActivityView.selectFragment(1);
+                Bundle data = new Bundle();
+
+                sendAction(MainActivity.TAG_NAME,ActionMatcher.getReceiver(ACTION_MAKE_PREVIEW),ACTION_MAKE_PREVIEW,data);
                 break;
             }
             case 1:{
@@ -135,6 +139,16 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
     @Override
     public void sendAction(String senderTag, String receiverTag, int requestCode, Bundle data) {
         if (receiverTag.equals(MainActivity.TAG_NAME)){
+            switch (requestCode){
+                case ACTION_PICK_IMAGE:{
+                    requestImage(requestCode);
+                    break;
+                }
+                case ACTION_TAKE_PHOTO:{
+                    requestImage(requestCode);
+                    break;
+                }
+            }
             requestImage(requestCode);
         }
         else{
