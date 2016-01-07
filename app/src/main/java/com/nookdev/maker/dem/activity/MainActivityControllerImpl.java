@@ -22,9 +22,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 
-import static com.nookdev.maker.dem.helpers.Constants.ACTION_MAKE_PREVIEW;
-import static com.nookdev.maker.dem.helpers.Constants.ACTION_PICK_IMAGE;
 import static com.nookdev.maker.dem.helpers.Constants.ACTION_CONSTRUCTOR_SET_IMAGE;
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_CREATE_PREVIEW;
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_PICK_IMAGE;
 import static com.nookdev.maker.dem.helpers.Constants.ACTION_TAKE_PHOTO;
 import static com.nookdev.maker.dem.helpers.Constants.CONTENT_IMAGE;
 
@@ -124,9 +124,8 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
         switch (page){
             case 0:{
                 mMainActivityView.selectFragment(1);
-                Bundle data = new Bundle();
 
-                sendAction(MainActivity.TAG_NAME,ActionMatcher.getReceiver(ACTION_MAKE_PREVIEW),ACTION_MAKE_PREVIEW,data);
+                sendAction(MainActivity.TAG_NAME,ActionMatcher.getReceiver(ACTION_CREATE_PREVIEW), ACTION_CREATE_PREVIEW,null);
                 break;
             }
             case 1:{
@@ -149,7 +148,6 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
                     break;
                 }
             }
-            requestImage(requestCode);
         }
         else{
             BaseController target = mControllerMap.get(receiverTag);

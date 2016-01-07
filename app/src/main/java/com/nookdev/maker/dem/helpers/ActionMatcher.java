@@ -17,7 +17,8 @@ public class ActionMatcher {
         mMatcher = new HashMap<>();
         mMatcher.put(ACTION_TAKE_PHOTO, MainActivity.TAG_NAME);
         mMatcher.put(ACTION_PICK_IMAGE, MainActivity.TAG_NAME);
-        mMatcher.put(ACTION_MAKE_PREVIEW, PreviewFragment.TAG_NAME);
+        mMatcher.put(ACTION_CREATE_PREVIEW,ConstructorFragment.TAG_NAME);
+        mMatcher.put(ACTION_DISPLAY_PREVIEW, PreviewFragment.TAG_NAME);
         mMatcher.put(ACTION_CONSTRUCTOR_SET_IMAGE, ConstructorFragment.TAG_NAME);
         mMatcher.put(ACTION_SAVE, MainActivity.TAG_NAME);
     }

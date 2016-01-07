@@ -6,11 +6,12 @@ import android.view.View;
 
 import com.nookdev.maker.dem.BaseController;
 import com.nookdev.maker.dem.activity.MainActivity;
-import com.nookdev.maker.dem.fragments.preview.PreviewFragment;
+import com.nookdev.maker.dem.helpers.ActionMatcher;
 import com.nookdev.maker.dem.models.Demotivator;
 
-import static com.nookdev.maker.dem.helpers.Constants.ACTION_MAKE_PREVIEW;
 import static com.nookdev.maker.dem.helpers.Constants.ACTION_CONSTRUCTOR_SET_IMAGE;
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_CREATE_PREVIEW;
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_DISPLAY_PREVIEW;
 import static com.nookdev.maker.dem.helpers.Constants.CONTENT_CAPTION;
 import static com.nookdev.maker.dem.helpers.Constants.CONTENT_IMAGE;
 import static com.nookdev.maker.dem.helpers.Constants.CONTENT_TEXT;
@@ -70,12 +71,12 @@ public class ConstructorControllerImpl extends BaseController implements Constru
                     }
                     break;
                 }
-                case ACTION_MAKE_PREVIEW:{
+                case ACTION_CREATE_PREVIEW:{
                     Bundle content = new Bundle();
                     content.putString(CONTENT_CAPTION,mConstructorView.getCaption());
                     content.putString(CONTENT_TEXT,mConstructorView.getText());
                     content.putParcelable(CONTENT_IMAGE, mConstructorView.getImage());
-                    sendAction(ConstructorFragment.TAG_NAME,PreviewFragment.TAG_NAME,ACTION_MAKE_PREVIEW,content);
+                    sendAction(ConstructorFragment.TAG_NAME, ActionMatcher.getReceiver(ACTION_DISPLAY_PREVIEW), ACTION_DISPLAY_PREVIEW,content);
                 }
             }
         }

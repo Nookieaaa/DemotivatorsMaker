@@ -13,11 +13,12 @@ import com.nookdev.maker.dem.interfaces.FragmentController;
 
 public class PreviewFragment extends Fragment implements FragmentController {
     public static final String TAG_NAME = PreviewFragment.class.getSimpleName();
-    private PreviewController mController = new PreviewControllerImpl();
+    private PreviewController mController = PreviewControllerImpl.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.preview_fragment,container,false);
+        mController.setView(v);
         return v;
     }
 
