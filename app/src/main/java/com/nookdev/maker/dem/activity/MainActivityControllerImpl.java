@@ -124,8 +124,6 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
         switch (page){
             case 0:{
                 mMainActivityView.selectFragment(1);
-
-                sendAction(MainActivity.TAG_NAME,ActionMatcher.getReceiver(ACTION_CREATE_PREVIEW), ACTION_CREATE_PREVIEW,null);
                 break;
             }
             case 1:{
@@ -133,6 +131,11 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
                 break;
             }
         }
+    }
+
+    @Override
+    public void createPreview() {
+        sendAction(MainActivity.TAG_NAME, ActionMatcher.getReceiver(ACTION_CREATE_PREVIEW), ACTION_CREATE_PREVIEW, null);
     }
 
     @Override

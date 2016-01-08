@@ -7,4 +7,5 @@ import android.view.View;
 public interface PreviewView {
     public void setViewAndController(View v, PreviewController controller);
     public void setPreviewImage(Bitmap bitmap);
+    public void clearPreview();
 }

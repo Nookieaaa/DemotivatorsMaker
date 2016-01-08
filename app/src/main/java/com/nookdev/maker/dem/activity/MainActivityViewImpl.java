@@ -110,8 +110,16 @@ public class MainActivityViewImpl implements MainActivityView {
                                 .hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
                         //mFab.hide();
                     }
-                    if (mViewPager.getCurrentItem() == 0) {
-                        //mFab.show();
+
+                    if (mViewPager.getCurrentItem() == 2) {
+                        mFab.hide();
+                    }
+                    else
+                        if (mFab.getVisibility()!=View.VISIBLE)
+                            mFab.show();
+
+                    if (mViewPager.getCurrentItem() == 1) {
+                        mController.createPreview();
                     }
                 }
             }

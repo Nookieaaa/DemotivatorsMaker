@@ -13,4 +13,5 @@ public interface MainActivityController {
     public void removeController(String tag);
     public void setView(View v);
     public void fabClicked(int page);
+    public void createPreview();
 }
