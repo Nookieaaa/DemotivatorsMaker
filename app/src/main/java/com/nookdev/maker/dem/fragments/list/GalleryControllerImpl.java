@@ -48,11 +48,6 @@ public class GalleryControllerImpl extends BaseController implements GalleryCont
 
 
     @Override
-    public void registerMainController(BaseController bc) {
-
-    }
-
-    @Override
     public void setView(View v) {
         mGalleryView.setViewAndController(v,this);
     }

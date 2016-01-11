@@ -7,13 +7,19 @@ android {
         applicationId 'com.nookdev.maker.dem'
         minSdkVersion 11
         targetSdkVersion 23
-        versionCode 5
-        versionName "1.0.4"
+        versionCode 6
+        versionName "1.0.5"
     }
     buildTypes {
         release {
             minifyEnabled false
+            debuggable false;
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true;
+            applicationIdSuffix ".debug"
         }
     }
     dexOptions {
@@ -24,8 +30,6 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
-    }
-    productFlavors {
     }
 }
 
