@@ -10,18 +10,32 @@ android {
         versionCode 6
         versionName "1.0.5"
     }
+
     buildTypes {
         release {
-            minifyEnabled false
-            debuggable false;
+            minifyEnabled true
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         debug {
-            debuggable true;
+            debuggable true
             applicationIdSuffix ".debug"
+
         }
+
+        buildTypes.each{
+            def Properties localProps = new Properties()
+            localProps.load(new FileInputStream(file('/secret.gradle')))
+            def String API_KEY = localProps["APPODEAL_API_KEY"]
+
+            it.buildConfigField 'String', 'APPODEAL_API_KEY', API_KEY
+        }
+
+
+
     }
+
     dexOptions {
         preDexLibraries = false
     }
