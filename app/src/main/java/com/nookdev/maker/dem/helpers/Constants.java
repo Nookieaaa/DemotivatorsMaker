@@ -7,6 +7,7 @@ public class Constants {
     public static final int ACTION_CREATE_PREVIEW = 204;
     public static final int ACTION_DISPLAY_PREVIEW = 205;
     public static final int ACTION_SAVE = 206;
+    public static final int NOTIFY_PREVIEW_UPDATED = 207;
 
     public static final String CONTENT_IMAGE = "image";
     public static final String CONTENT_CAPTION = "caption";

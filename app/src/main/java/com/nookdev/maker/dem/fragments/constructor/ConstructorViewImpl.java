@@ -25,6 +25,10 @@ public class ConstructorViewImpl implements ConstructorView{
 
     private int mSourceMode = Constants.ACTION_PICK_IMAGE;
     private Bitmap mOriginalBitmap;
+    private String mCaptionString;
+    private String mTextString;
+    private boolean mImageChanged = false;
+
     private final RotateClickListener mRotateClickListener = new RotateClickListener();
 
     @Bind(R.id.constructor_radiogroup)
@@ -57,11 +61,11 @@ public class ConstructorViewImpl implements ConstructorView{
 
     private void init() {
         mImage.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 mController.requestImage();
-             }
-                                 }
+                                      @Override
+                                      public void onClick(View v) {
+                                          mController.requestImage();
+                                      }
+                                  }
         );
         mRotateLeft.setOnClickListener(mRotateClickListener);
         mRotateRight.setOnClickListener(mRotateClickListener);
@@ -84,13 +88,16 @@ public class ConstructorViewImpl implements ConstructorView{
             }
         });
 
-        if(mOriginalBitmap!=null)
+        if(mOriginalBitmap!=null){
             setImage(mOriginalBitmap);
+            mImageChanged = false;
+        }
     }
 
 
     @Override
     public void setImage(Bitmap pic) {
+        mImageChanged = true;
         mImage.setImageBitmap(pic);
         mOriginalBitmap = pic;
         mSelectImageText.setVisibility(View.GONE);
@@ -126,6 +133,25 @@ public class ConstructorViewImpl implements ConstructorView{
     @Override
     public int getSourceMode() {
         return mSourceMode;
+    }
+
+    @Override
+    public boolean isPreviewChanged() {
+        if(mImageChanged){
+            mImageChanged = false;
+            return true;
+        }
+        else{
+            String currText = getText();
+            String currCaption = getCaption();
+
+            boolean changes = !(currCaption.equals(mCaptionString)&&currText.equals(mTextString));
+
+            mTextString = currText;
+            mCaptionString = currCaption;
+
+            return changes;
+        }
     }
 
     private class RotateClickListener implements View.OnClickListener {

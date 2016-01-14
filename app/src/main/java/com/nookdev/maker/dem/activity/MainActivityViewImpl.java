@@ -89,7 +89,7 @@ public class MainActivityViewImpl implements MainActivityView {
 
         adapter.addFragment(new ConstructorFragment(), App.getStringResource(R.string.tab_constructor_title));
         adapter.addFragment(new PreviewFragment(), App.getStringResource(R.string.tab_preview_title));
-        adapter.addFragment(new GalleryFragment(),App.getStringResource(R.string.tab_collection_title));
+        adapter.addFragment(new GalleryFragment(), App.getStringResource(R.string.tab_collection_title));
 
         mViewPager.setAdapter(adapter);
 
@@ -104,6 +104,7 @@ public class MainActivityViewImpl implements MainActivityView {
 
             @Override
             public void onPageScrollStateChanged(int state) {
+
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
                     if (mViewPager.getCurrentItem() != 0) {
                         ((InputMethodManager) App.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE))
@@ -113,10 +114,8 @@ public class MainActivityViewImpl implements MainActivityView {
 
                     if (mViewPager.getCurrentItem() == 2) {
                         mFab.hide();
-                    }
-                    else
-                        if (mFab.getVisibility()!=View.VISIBLE)
-                            mFab.show();
+                    } else if (mFab.getVisibility() != View.VISIBLE)
+                        mFab.show();
 
                     if (mViewPager.getCurrentItem() == 1) {
                         mController.createPreview();

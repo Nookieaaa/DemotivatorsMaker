@@ -22,16 +22,14 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 
-import static com.nookdev.maker.dem.helpers.Constants.ACTION_CONSTRUCTOR_SET_IMAGE;
-import static com.nookdev.maker.dem.helpers.Constants.ACTION_CREATE_PREVIEW;
-import static com.nookdev.maker.dem.helpers.Constants.ACTION_PICK_IMAGE;
-import static com.nookdev.maker.dem.helpers.Constants.ACTION_TAKE_PHOTO;
-import static com.nookdev.maker.dem.helpers.Constants.CONTENT_IMAGE;
+import static com.nookdev.maker.dem.helpers.Constants.*;
+
 
 public class MainActivityControllerImpl extends BaseController implements MainActivityController {
     private static MainActivityControllerImpl instance = new MainActivityControllerImpl();
     private MainActivityView mMainActivityView;
     private MainActivity mMainActivity;
+    private boolean mPreviewChanged = false;
     private HashMap<String,BaseController> mControllerMap = new HashMap<>();
 
     private MainActivityControllerImpl(){

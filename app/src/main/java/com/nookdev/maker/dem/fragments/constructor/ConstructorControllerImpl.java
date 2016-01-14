@@ -7,7 +7,6 @@ import android.view.View;
 import com.nookdev.maker.dem.BaseController;
 import com.nookdev.maker.dem.activity.MainActivity;
 import com.nookdev.maker.dem.helpers.ActionMatcher;
-import com.nookdev.maker.dem.models.Demotivator;
 
 import static com.nookdev.maker.dem.helpers.Constants.ACTION_CONSTRUCTOR_SET_IMAGE;
 import static com.nookdev.maker.dem.helpers.Constants.ACTION_CREATE_PREVIEW;
@@ -33,16 +32,6 @@ public class ConstructorControllerImpl extends BaseController implements Constru
     @Override
     public void setImage(Bitmap bitmap) {
         mConstructorView.setImage(bitmap);
-    }
-
-    @Override
-    public Demotivator getDemotivator() {
-        return null;
-    }
-
-    @Override
-    public Bitmap getDemotivatorBitmap() {
-        return null;
     }
 
     @Override
@@ -72,11 +61,14 @@ public class ConstructorControllerImpl extends BaseController implements Constru
                     break;
                 }
                 case ACTION_CREATE_PREVIEW:{
-                    Bundle content = new Bundle();
-                    content.putString(CONTENT_CAPTION,mConstructorView.getCaption());
-                    content.putString(CONTENT_TEXT,mConstructorView.getText());
-                    content.putParcelable(CONTENT_IMAGE, mConstructorView.getImage());
-                    sendAction(ConstructorFragment.TAG_NAME, ActionMatcher.getReceiver(ACTION_DISPLAY_PREVIEW), ACTION_DISPLAY_PREVIEW,content);
+                    if(mConstructorView.isPreviewChanged())
+                    {
+                        Bundle content = new Bundle();
+                        content.putString(CONTENT_CAPTION, mConstructorView.getCaption());
+                        content.putString(CONTENT_TEXT, mConstructorView.getText());
+                        content.putParcelable(CONTENT_IMAGE, mConstructorView.getImage());
+                        sendAction(ConstructorFragment.TAG_NAME, ActionMatcher.getReceiver(ACTION_DISPLAY_PREVIEW), ACTION_DISPLAY_PREVIEW, content);
+                    }
                 }
             }
         }
