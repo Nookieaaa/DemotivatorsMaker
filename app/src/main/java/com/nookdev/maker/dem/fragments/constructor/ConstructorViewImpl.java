@@ -6,7 +6,6 @@ import android.graphics.Matrix;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.helpers.Constants;
+import com.nookdev.maker.dem.helpers.RotateImageAnimation;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -98,8 +98,8 @@ public class ConstructorViewImpl implements ConstructorView{
     @Override
     public void setImage(Bitmap pic) {
         mImageChanged = true;
-        mImage.setImageBitmap(pic);
         mOriginalBitmap = pic;
+        mImage.setImageBitmap(pic);
         mSelectImageText.setVisibility(View.GONE);
         if(mRotateLeft.getVisibility()!=View.VISIBLE){
             mRotateLeft.setVisibility(View.VISIBLE);
@@ -159,34 +159,53 @@ public class ConstructorViewImpl implements ConstructorView{
 
         @Override
         public void onClick(View v) {
-            Matrix matrix = new Matrix();
+            RotateImageAnimation.RotateDirection rotateDirection;
+            final Matrix matrix = new Matrix();
             switch (v.getId()){
-                case R.id.constructor_rotate_right:{
-                    matrix.postRotate(ROTATE_STEP);
+
+                case R.id.constructor_rotate_left:{
+                    rotateDirection = RotateImageAnimation.RotateDirection.LEFT;
                     break;
                 }
-                case R.id.constructor_rotate_left:{
-                    matrix.postRotate(360-ROTATE_STEP);
+                default:{
+                    rotateDirection = RotateImageAnimation.RotateDirection.RIGHT;
                     break;
                 }
             }
+
+            matrix.postRotate(RotateImageAnimation.getRotateStepAngle(rotateDirection));
             if (mOriginalBitmap !=null){
 
-                RotateAnimation anim = new RotateAnimation(180f, 360f, 180f, 180f);
-                anim.setInterpolator(new LinearInterpolator());
-                anim.setRepeatCount(Animation.RELATIVE_TO_SELF);
-                anim.setDuration(100);
 
-                mImage.startAnimation(anim);
-                setImage(Bitmap.createBitmap(mOriginalBitmap,
+                RotateImageAnimation animation = new RotateImageAnimation(mImage,mOriginalBitmap,rotateDirection);
+                animation.setInterpolator(new LinearInterpolator());
+                animation.setDuration(5000);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        final Bitmap b = Bitmap.createBitmap(mOriginalBitmap,
                         0,
                         0,
                         mOriginalBitmap.getWidth(),
                         mOriginalBitmap.getHeight(),
                         matrix,
-                        true));
+                        true);
+                        setImage(b);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                mImage.startAnimation(animation);
+
             }
         }
-
     }
 }

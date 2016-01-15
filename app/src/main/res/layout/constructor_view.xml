@@ -39,7 +39,7 @@
                 android:id="@+id/constructor_image"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
-                android:scaleType="fitXY"
+                android:scaleType="centerInside"
                 android:contentDescription="@string/select_image"
                 android:minHeight="@dimen/constructor_image_min_height"
                 android:maxHeight="@dimen/constructor_image_max_height"
