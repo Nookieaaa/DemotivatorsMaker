@@ -47,17 +47,20 @@ public class RotateImageAnimation extends Animation{
         mInitialHeight = Math.min(mView.getHeight(),mMaxHeight);
         mInitialWidth = Math.min(mView.getWidth(),mMaxWidth);
 
-        //int imageHeight = mImage.getHeight();
-        //int imageWidth = mImage.getWidth();
-        int imageHeight = mImage.getWidth();
-        int imageWidth = mImage.getHeight();
+        int imageHeight = mImage.getHeight();
+        int imageWidth = mImage.getWidth();
+        //int imageHeight = mImage.getWidth();
+        //int imageWidth = mImage.getHeight();
 
         mTargetHeight = Math.min(imageHeight, mMaxHeight);
         mTargetWidth = Math.min(imageWidth,mMaxWidth);
 
        // if (imageHeight > imageWidth){
-            scale = (float)mTargetHeight / (float)imageHeight;
+            scale = (float)mTargetWidth / (float)imageHeight;
             mTargetWidth = (int)(imageWidth * scale);
+        int b = mTargetHeight;
+        mTargetHeight = mTargetWidth;
+        mTargetWidth = b;
         //}
         //else{
         //scale = (float)mTargetWidth / (float)imageWidth;
@@ -91,17 +94,17 @@ public class RotateImageAnimation extends Animation{
 
         Matrix matrix = t.getMatrix();
         //matrix.postRotate(mRotateAngle * interpolatedTime, newWidth * 0.5f, newHeight * 0.5f);
-        matrix.postRotate(mRotateAngle * interpolatedTime, mInitialWidth * 0.5f, mInitialHeight * 0.5f);
+        matrix.postRotate(mRotateAngle * interpolatedTime, newWidth * 0.5f, newHeight * 0.5f);
         //matrix.postScale(scale,scale,mInitialWidth/2,mInitialHeight/2);
 
 
-        //mView.getLayoutParams().height = newHeight;
-        //mView.getLayoutParams().width =  newWidth;
+        mView.getLayoutParams().height = newHeight;
+        mView.getLayoutParams().width =  newWidth;
         mView.requestLayout();
     }
 
     @Override
     public boolean willChangeBounds() {
-        return true;
+        return false;
     }
 }
