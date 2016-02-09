@@ -16,7 +16,6 @@ import com.nookdev.maker.dem.models.RVItem;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,11 +59,8 @@ public class FileManager {
         }
 
         File targetFile = new File(getFolder().getAbsolutePath());
-        File[] files = targetFile.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String filename) {
-                return filename.endsWith(".jpg");
-            }
+        File[] files = targetFile.listFiles((dir, filename) -> {
+            return filename.endsWith(".jpg");
         });
 
         Arrays.sort(files, new Comparator<File>() {
@@ -171,9 +167,7 @@ public class FileManager {
         ed.putInt(PREFERENCE_IMAGE_ID, ++id);
         ed.apply();
 
-        String filename = DEFAULT_FILENAME_PREFIX + String.valueOf(id) + DEFAULT_EXT;
-
-        return filename;
+        return DEFAULT_FILENAME_PREFIX + String.valueOf(id) + DEFAULT_EXT;
     }
 
 
@@ -191,11 +185,7 @@ public class FileManager {
         MediaScannerConnection.scanFile(App.getAppContext(),
                 new String[]{file.getPath()},
                 new String[]{"image/*"}
-                , new MediaScannerConnection.OnScanCompletedListener() {
-                    @Override
-                    public void onScanCompleted(String path, Uri uri) {
-
-                    }
+                , (path, uri) -> {
                 });
         //Intent scanIntent = new Intent(Intent.ACTION_MEDIA_MOUNTED,file);
         //App.getAppContext().sendBroadcast(scanIntent);

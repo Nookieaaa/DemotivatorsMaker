@@ -51,21 +51,6 @@ public class ConstructorFragment extends Fragment implements FragmentController 
         return TAG_NAME;
     }
 
-/*
-    @Override
-    public void save() throws FileManager.ExternalStorageNotReadyException, FileManager.DirectoryCreationFailed {
-        String caption = mDemotivatorInfo.getCaption();
-        String text = mDemotivatorInfo.getText();
-        Bitmap image = mDemotivatorInfo.getImage();
 
-        Demotivator demotivator = new Demotivator(image,caption,text);
-
-        SaveFileTask sft = new SaveFileTask();
-        sft.execute(demotivator);
-
-
-    }
-
-   */
 
 }

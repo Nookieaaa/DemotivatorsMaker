@@ -3,12 +3,14 @@ package com.nookdev.maker.dem.fragments.preview;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 
 import com.nookdev.maker.dem.BaseController;
 import com.nookdev.maker.dem.models.Demotivator;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.nookdev.maker.dem.helpers.Constants.ACTION_DISPLAY_PREVIEW;
 import static com.nookdev.maker.dem.helpers.Constants.CONTENT_CAPTION;
@@ -62,22 +64,14 @@ public class PreviewControllerImpl extends BaseController implements PreviewCont
         }
     }
 
+
+
     public void updatePreview(String caption, String text, Bitmap image){
-
-        final Handler handler = new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                if (msg.what==1){
-                    mPreviewView.setPreviewImage(mImage);
-                }
-                return false;
-            }
-        });
-
-        PreviewRunnable run = new PreviewRunnable();
-        run.setData(caption,text,image);
-        run.setHandler(handler);
-        new Thread(run).start();
+        Observable.just(new Demotivator(image,caption,text))
+                .map(Demotivator::toBitmap)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mPreviewView::setPreviewImage);
     }
 
     @Override
@@ -89,27 +83,4 @@ public class PreviewControllerImpl extends BaseController implements PreviewCont
         }
     }
 
-    private class PreviewRunnable implements Runnable{
-        private String tCaption;
-        private String tText;
-        private Bitmap tImage;
-        private Handler handler;
-
-        public void setData(String caption, String text, Bitmap image){
-            tCaption = caption;
-            tText = text;
-            tImage = image;
-        }
-
-        public void setHandler(Handler handler){
-            this.handler = handler;
-        }
-
-        @Override
-        public void run() {
-            Demotivator dem = new Demotivator(tImage,tCaption,tText);
-            mImage = dem.toBitmap();
-            handler.sendEmptyMessage(1);
-        }
-    }
 }
