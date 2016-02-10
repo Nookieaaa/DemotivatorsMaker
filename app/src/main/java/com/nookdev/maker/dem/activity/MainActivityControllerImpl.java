@@ -85,7 +85,10 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
             }
         }
         if(content.containsKey(CONTENT_IMAGE))
-            sendAction(MainActivity.TAG_NAME, ActionMatcher.getReceiver(ACTION_CONSTRUCTOR_SET_IMAGE), ACTION_CONSTRUCTOR_SET_IMAGE,content);
+            sendAction(MainActivity.TAG_NAME,
+                    ActionMatcher.getReceiver(ACTION_CONSTRUCTOR_SET_IMAGE),
+                    ACTION_CONSTRUCTOR_SET_IMAGE,
+                    content);
     }
 
     @Override
@@ -157,7 +160,6 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
             }
             else
                 Log.d(MainActivity.TAG_NAME,"receiver not found!");
-
         }
 
     }

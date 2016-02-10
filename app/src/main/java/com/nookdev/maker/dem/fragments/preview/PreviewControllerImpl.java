@@ -65,13 +65,12 @@ public class PreviewControllerImpl extends BaseController implements PreviewCont
     }
 
 
-
     public void updatePreview(String caption, String text, Bitmap image){
         Observable.just(new Demotivator(image,caption,text))
                 .map(Demotivator::toBitmap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mPreviewView::setPreviewImage);
+                .subscribe(mPreviewView::setPreviewImage, Throwable::printStackTrace);
     }
 
     @Override
