@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nookdev.maker.dem.R;
-import com.nookdev.maker.dem.BaseController;
-import com.nookdev.maker.dem.interfaces.FragmentController;
 
-public class PreviewFragment extends Fragment implements FragmentController {
+public class PreviewFragment extends Fragment {
     public static final String TAG_NAME = PreviewFragment.class.getSimpleName();
     private PreviewController mController = PreviewControllerImpl.getInstance();
 
@@ -20,15 +18,5 @@ public class PreviewFragment extends Fragment implements FragmentController {
         View v = inflater.inflate(R.layout.preview_fragment,container,false);
         mController.setView(v);
         return v;
-    }
-
-    @Override
-    public BaseController getController() {
-        return (BaseController)mController;
-    }
-
-    @Override
-    public String getFragmentTag() {
-        return TAG_NAME;
     }
 }

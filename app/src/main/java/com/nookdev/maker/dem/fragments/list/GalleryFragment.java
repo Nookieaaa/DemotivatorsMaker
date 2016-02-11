@@ -7,10 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nookdev.maker.dem.R;
-import com.nookdev.maker.dem.BaseController;
-import com.nookdev.maker.dem.interfaces.FragmentController;
 
-public class GalleryFragment extends Fragment implements FragmentController {
+public class GalleryFragment extends Fragment {
 
     public static final String TAG_NAME = GalleryFragment.class.getSimpleName();
 
@@ -40,15 +38,5 @@ public class GalleryFragment extends Fragment implements FragmentController {
         mController.setView(v);
         mController.setContext(getActivity());
         return v;
-    }
-
-    @Override
-    public BaseController getController() {
-        return (BaseController)mController;
-    }
-
-    @Override
-    public String getFragmentTag() {
-        return TAG_NAME;
     }
 }

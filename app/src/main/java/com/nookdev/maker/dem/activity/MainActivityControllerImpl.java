@@ -6,41 +6,41 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 
-import com.nookdev.maker.dem.BaseController;
+import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
-import com.nookdev.maker.dem.helpers.ActionMatcher;
+import com.nookdev.maker.dem.events.DeliverImageEvent;
+import com.nookdev.maker.dem.events.ImagePickEvent;
 import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.models.Demotivator;
+import com.squareup.otto.Subscribe;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.HashMap;
 
-import static com.nookdev.maker.dem.helpers.Constants.*;
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_PICK_IMAGE;
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_TAKE_PHOTO;
 
 
-public class MainActivityControllerImpl extends BaseController implements MainActivityController {
+public class MainActivityControllerImpl implements MainActivityController {
     private static MainActivityControllerImpl instance = new MainActivityControllerImpl();
     private MainActivityView mMainActivityView;
     private MainActivity mMainActivity;
-    private boolean mPreviewChanged = false;
-    private HashMap<String,BaseController> mControllerMap = new HashMap<>();
 
     private MainActivityControllerImpl(){
+        App.getBus().register(this);
     }
 
     public static MainActivityControllerImpl getInstance(){
         return instance;
     }
 
-    public void requestImage(int source) {
-        switch (source){
+    @Subscribe
+    public void requestImage(ImagePickEvent event) {
+        switch (event.getRequestCode()){
             case ACTION_PICK_IMAGE:{
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
@@ -61,14 +61,13 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
         if (resultCode != Activity.RESULT_OK)
             return;
 
-        Bundle content = new Bundle();
         switch (requestCode) {
             case ACTION_PICK_IMAGE: {
                 try {
                     Uri selectedImage = data.getData();
                     InputStream is = mMainActivity.getContentResolver().openInputStream(selectedImage);
                     Bitmap image = Demotivator.scaleImage(BitmapFactory.decodeStream(is));
-                    content.putParcelable(CONTENT_IMAGE,image);
+                    App.getBus().post(new DeliverImageEvent(image));
                     break;
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -80,15 +79,10 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
                 File output = new File(fm.getTempFileUri().getPath());
                 if (output.exists()) {
                     Bitmap image = Demotivator.scaleImage(BitmapFactory.decodeFile(output.getAbsolutePath()));
-                    content.putParcelable(CONTENT_IMAGE,image);
+                    App.getBus().post(new DeliverImageEvent(image));
                 }
             }
         }
-        if(content.containsKey(CONTENT_IMAGE))
-            sendAction(MainActivity.TAG_NAME,
-                    ActionMatcher.getReceiver(ACTION_CONSTRUCTOR_SET_IMAGE),
-                    ACTION_CONSTRUCTOR_SET_IMAGE,
-                    content);
     }
 
     @Override
@@ -101,16 +95,6 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
     @Override
     public MainActivity getActivity() {
         return mMainActivity;
-    }
-
-    @Override
-    public void addController(String tag, BaseController controller) {
-        mControllerMap.put(tag, controller);
-    }
-
-    @Override
-    public void removeController(String tag) {
-        mControllerMap.remove(tag);
     }
 
     @Override
@@ -133,36 +117,4 @@ public class MainActivityControllerImpl extends BaseController implements MainAc
             }
         }
     }
-
-    @Override
-    public void createPreview() {
-        sendAction(MainActivity.TAG_NAME, ActionMatcher.getReceiver(ACTION_CREATE_PREVIEW), ACTION_CREATE_PREVIEW, null);
-    }
-
-    @Override
-    public void sendAction(String senderTag, String receiverTag, int requestCode, Bundle data) {
-        if (receiverTag.equals(MainActivity.TAG_NAME)){
-            switch (requestCode){
-                case ACTION_PICK_IMAGE:{
-                    requestImage(requestCode);
-                    break;
-                }
-                case ACTION_TAKE_PHOTO:{
-                    requestImage(requestCode);
-                    break;
-                }
-            }
-        }
-        else{
-            BaseController target = mControllerMap.get(receiverTag);
-            if(target!=null){
-                target.sendAction(senderTag, receiverTag, requestCode, data);
-            }
-            else
-                Log.d(MainActivity.TAG_NAME,"receiver not found!");
-        }
-
-    }
-
-
 }

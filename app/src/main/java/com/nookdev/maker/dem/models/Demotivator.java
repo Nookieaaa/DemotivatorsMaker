@@ -12,13 +12,16 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 
-import com.nookdev.maker.dem.helpers.App;
+import com.nookdev.maker.dem.App;
+
+import lombok.Getter;
+import lombok.Setter;
 
 public class Demotivator {
     private static final int THUMBNAIL_DEFAULT_WIDTH_DP = 150;
     private Bitmap image;
-    private String caption;
-    private String text;
+    @Getter @Setter private String caption;
+    @Getter @Setter private String text;
     private Paint paint;
 
 
@@ -135,7 +138,7 @@ public class Demotivator {
 
         int height = (int)(originalH * ratio);
 
-        return Bitmap.createScaledBitmap(image,width,height,false);
+        return Bitmap.createScaledBitmap(image, width, height, false);
     }
 
     public static Bitmap makeThumbnail(Bitmap image,int widthDP) {
@@ -153,7 +156,7 @@ public class Demotivator {
 
         int height = (int)(originalH * ratio);
 
-        return Bitmap.createScaledBitmap(image,width,height,false);
+        return Bitmap.createScaledBitmap(image, width, height, false);
     }
 
     private float getCaptionTextSize(){
@@ -171,15 +174,6 @@ public class Demotivator {
 
     private static int dpToPx(int dp){
         return (int)(dp * Resources.getSystem().getDisplayMetrics().density);
-    }
-
-
-    public String getText() {
-        return text;
-    }
-
-    public String getCaption() {
-        return caption;
     }
 
     private boolean hasText(){

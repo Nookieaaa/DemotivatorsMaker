@@ -6,9 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 
-import com.nookdev.maker.dem.BaseController;
 import com.nookdev.maker.dem.R;
-import com.nookdev.maker.dem.interfaces.FragmentController;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG_NAME = MainActivity.class.getSimpleName();
@@ -17,17 +15,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
-        try{
-            if (mController!=null){
-                FragmentController fc = (FragmentController)fragment;
-                BaseController bc = fc.getController();
-                bc.registerMainController((BaseController)mController);
-                mController.addController(fc.getFragmentTag(),bc);
-            }
-
-        } catch (ClassCastException e){
-            e.printStackTrace();
-        }
     }
 
     @Override

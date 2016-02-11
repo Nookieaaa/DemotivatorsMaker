@@ -7,6 +7,7 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.ImageButton;
 
+import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
 
 public class RotateImageAnimation extends Animation{
@@ -38,7 +39,7 @@ public class RotateImageAnimation extends Animation{
     }
 
     private void calculateTranslation(){
-        mMaxHeight = (int)App.getAppContext()
+        mMaxHeight = (int) App.getAppContext()
                 .getResources()
                 .getDimension(R.dimen.constructor_image_max_height);
 

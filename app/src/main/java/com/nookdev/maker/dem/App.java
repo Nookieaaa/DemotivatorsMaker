@@ -1,4 +1,4 @@
-package com.nookdev.maker.dem.helpers;
+package com.nookdev.maker.dem;
 
 
 import android.app.Application;
@@ -6,8 +6,14 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
+import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
+
+import lombok.Getter;
+
 public class App extends Application {
     private static Context context;
+    public @Getter static Bus bus = new Bus(ThreadEnforcer.ANY);
 
     @Override
     public void onCreate() {

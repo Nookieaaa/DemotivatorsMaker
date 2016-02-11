@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.helpers.Constants;
 import com.nookdev.maker.dem.helpers.RotateImageAnimation;
@@ -53,6 +54,7 @@ public class ConstructorViewImpl implements ConstructorView{
     ImageButton mRotateRight;
 
     private ConstructorViewImpl() {
+        App.getBus().register(this);
     }
 
     public static ConstructorViewImpl getInstance() {
@@ -60,30 +62,21 @@ public class ConstructorViewImpl implements ConstructorView{
     }
 
     private void init() {
-        mImage.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
-                                          mController.requestImage();
-                                      }
-                                  }
-        );
+        mImage.setOnClickListener(v -> mController.requestImage(mSourceMode));
         mRotateLeft.setOnClickListener(mRotateClickListener);
         mRotateRight.setOnClickListener(mRotateClickListener);
 
-        mSourceSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.constructor_rb_camera: {
-                        mSourceMode = Constants.ACTION_TAKE_PHOTO;
-                        mSelectImageText.setText(R.string.select_image_camera);
-                        break;
-                    }
-                    case R.id.constructor_rb_gallery: {
-                        mSourceMode = Constants.ACTION_PICK_IMAGE;
-                        mSelectImageText.setText(R.string.select_image_gallery);
-                        break;
-                    }
+        mSourceSelector.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.constructor_rb_camera: {
+                    mSourceMode = Constants.ACTION_TAKE_PHOTO;
+                    mSelectImageText.setText(R.string.select_image_camera);
+                    break;
+                }
+                case R.id.constructor_rb_gallery: {
+                    mSourceMode = Constants.ACTION_PICK_IMAGE;
+                    mSelectImageText.setText(R.string.select_image_gallery);
+                    break;
                 }
             }
         });

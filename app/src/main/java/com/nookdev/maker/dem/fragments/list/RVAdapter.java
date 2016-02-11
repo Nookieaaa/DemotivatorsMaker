@@ -12,7 +12,7 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.nookdev.maker.dem.helpers.App;
+import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.interfaces.AdapterCallbacks;
