@@ -19,12 +19,6 @@ public class GalleryControllerImpl implements GalleryController {
     }
 
     @Override
-    public void refresh() {
-
-    }
-
-
-    @Override
     public Context getContext() {
         return mContext;
     }
@@ -33,8 +27,6 @@ public class GalleryControllerImpl implements GalleryController {
     public void setContext(Context context) {
         mContext = context;
     }
-
-
 
     @Override
     public void setView(View v) {

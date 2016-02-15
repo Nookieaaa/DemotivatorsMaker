@@ -2,7 +2,12 @@ package com.nookdev.maker.dem.activity;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +20,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
+import com.nookdev.maker.dem.events.DemSavedEvent;
+import com.nookdev.maker.dem.events.RefreshEvent;
 import com.nookdev.maker.dem.events.RequestDemInfo;
 import com.nookdev.maker.dem.fragments.constructor.ConstructorFragment;
 import com.nookdev.maker.dem.fragments.list.GalleryFragment;
@@ -30,9 +37,13 @@ import butterknife.OnClick;
 public class MainActivityViewImpl implements MainActivityView {
     private static MainActivityViewImpl mInstance = new MainActivityViewImpl();
     private MainActivityController mController;
+    private int[] mFabIcons = {R.drawable.ic_arrow_right,android.R.drawable.ic_menu_save};
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
+    @Bind(R.id.coordinator)
+    CoordinatorLayout mCoordinator;
 
     @Bind(R.id.fab)
     FloatingActionButton mFab;
@@ -61,6 +72,22 @@ public class MainActivityViewImpl implements MainActivityView {
         setController(controller);
     }
 
+    @Override
+    public void notifySaveResult(DemSavedEvent event) {
+        if (event.isSuccess()){
+            Snackbar.make(mCoordinator,R.string.status_saved,Snackbar.LENGTH_LONG)
+                    .setAction(R.string.action_open, v -> {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(event.getFileUri(),"image/jpg");
+                        mController.getActivity().startActivity(intent);
+                    })
+                    .show();
+        }
+        else{
+            Snackbar.make(mCoordinator,R.string.error_file_not_saved,Snackbar.LENGTH_LONG).show();
+        }
+    }
+
     private void setController(MainActivityController mController) {
         this.mController = mController;
     }
@@ -75,6 +102,12 @@ public class MainActivityViewImpl implements MainActivityView {
     @Override
     public void selectFragment(int page) {
         mViewPager.setCurrentItem(page);
+    }
+
+    private void changeFabIcon(int page){
+        Bitmap fabBitmap = BitmapFactory.decodeResource(App.getAppContext().getResources(),
+                mFabIcons[page]);
+        mFab.setImageBitmap(fabBitmap);
     }
 
     private void setupActionBar() {
@@ -101,26 +134,29 @@ public class MainActivityViewImpl implements MainActivityView {
 
             @Override
             public void onPageSelected(int position) {
+                if(position<=1)
+                    changeFabIcon(position);
+                if (position==2)
+                    mFab.hide();
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                int currPage = mViewPager.getCurrentItem();
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    if (mViewPager.getCurrentItem() != 0) {
+
+                    if (currPage != 0) {
                         ((InputMethodManager) App.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                                 .hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
-                        //mFab.hide();
                     }
-
-                    if (mViewPager.getCurrentItem() == 2) {
+                    if (currPage == 1) {
+                        requestPreview();
+                    }
+                    if (currPage == 2) {
+                        App.getBus().post(new RefreshEvent());
                         mFab.hide();
                     } else if (mFab.getVisibility() != View.VISIBLE)
                         mFab.show();
-
-                    if (mViewPager.getCurrentItem() == 1) {
-                        requestPreview();
-                    }
                 }
             }
             private void requestPreview(){

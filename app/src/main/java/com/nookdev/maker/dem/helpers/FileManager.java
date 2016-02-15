@@ -5,13 +5,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
+import com.nookdev.maker.dem.events.DemSavedEvent;
 import com.nookdev.maker.dem.models.Demotivator;
 import com.nookdev.maker.dem.models.RVItem;
 
@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class FileManager {
     private static final String TMP_NAME = ".tmp";
@@ -72,11 +76,11 @@ public class FileManager {
         });
         for (File file : files) {
             RVItem item = new RVItem(Uri.fromFile(file));
-            Bitmap image = BitmapFactory.decodeFile(file.getAbsolutePath());
-            if (image==null)
-                continue;
-            Bitmap thumbnail = Demotivator.makeThumbnail(image, 0);
-            item.setThumbnail(thumbnail);
+            //Bitmap image = BitmapFactory.decodeFile(file.getAbsolutePath());
+            //if (image==null)
+            //    continue;
+            //Bitmap thumbnail = Demotivator.makeThumbnail(image, 0);
+            //item.setThumbnail(thumbnail);
             data.add(item);
         }
 
@@ -198,6 +202,53 @@ public class FileManager {
             return Uri.fromFile(tempFile);
         }
         return null;
+    }
+
+    public void saveDem(String caption, String text, Bitmap image) {
+        boolean success = false;
+        Observable.just(new Demotivator(image,caption,text))
+                .map(Demotivator::toBitmap)
+                .map(bitmap -> {
+                    if (!isExternalStorageWritable()) {
+                        try {
+                            throw new ExternalStorageNotReadyException();
+                        } catch (ExternalStorageNotReadyException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    File targetDir = getFolder();
+                    try {
+                        createFolderIfNeeded();
+                    } catch (DirectoryCreationFailed directoryCreationFailed) {
+                        directoryCreationFailed.printStackTrace();
+                    }
+                    File f = new File("tmp");
+                    boolean nameAvailable = false;
+                    while (!nameAvailable) {
+                        String filename = generateFilename();
+                        f = new File(targetDir, filename);
+                        nameAvailable = !f.exists();
+                    }
+                    Uri fileUri = Uri.fromFile(f);
+                    try {
+                        FileOutputStream fos = new FileOutputStream(f);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                        fos.close();
+                        updateMediaScanner(fileUri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return fileUri;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(uri -> deliverSaveResult(uri,true,null),
+                        error -> deliverSaveResult(null,false,error));
+
+    }
+
+    private void deliverSaveResult(Uri fileUri, boolean success, Throwable error){
+        App.getBus().post(new DemSavedEvent(fileUri,error,success));
     }
 
     public class ExternalStorageNotReadyException extends Throwable{

@@ -12,7 +12,10 @@ import android.view.View;
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.events.DeliverImageEvent;
+import com.nookdev.maker.dem.events.DemSavedEvent;
 import com.nookdev.maker.dem.events.ImagePickEvent;
+import com.nookdev.maker.dem.events.RefreshEvent;
+import com.nookdev.maker.dem.events.SaveDemEvent;
 import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.models.Demotivator;
 import com.squareup.otto.Subscribe;
@@ -54,6 +57,12 @@ public class MainActivityControllerImpl implements MainActivityController {
                 break;
             }
         }
+    }
+
+    @Subscribe
+    public void onDemSaved(DemSavedEvent event){
+        mMainActivityView.notifySaveResult(event);
+        App.getBus().post(new RefreshEvent());
     }
 
     @Override
@@ -112,7 +121,7 @@ public class MainActivityControllerImpl implements MainActivityController {
                 break;
             }
             case 1:{
-                mMainActivityView.selectFragment(0);
+                App.getBus().post(new SaveDemEvent());
                 break;
             }
         }

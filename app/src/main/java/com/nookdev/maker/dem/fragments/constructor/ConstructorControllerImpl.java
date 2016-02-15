@@ -7,6 +7,8 @@ import com.nookdev.maker.dem.events.DeliverDemInfoEvent;
 import com.nookdev.maker.dem.events.DeliverImageEvent;
 import com.nookdev.maker.dem.events.ImagePickEvent;
 import com.nookdev.maker.dem.events.RequestDemInfo;
+import com.nookdev.maker.dem.events.SaveDemEvent;
+import com.nookdev.maker.dem.helpers.FileManager;
 import com.squareup.otto.Subscribe;
 
 public class ConstructorControllerImpl implements ConstructorController {
@@ -46,8 +48,17 @@ public class ConstructorControllerImpl implements ConstructorController {
                 .post(new DeliverDemInfoEvent(
                         mConstructorView.getCaption(),
                         mConstructorView.getText(),
-                        mConstructorView.getImage()
+                        mConstructorView.getImage(),
+                        mConstructorView.isPreviewChanged()
                 ));
+    }
+
+    @Subscribe
+    public void saveDem(SaveDemEvent event){
+        FileManager fm = FileManager.getInstance();
+        fm.saveDem(mConstructorView.getCaption(),
+                mConstructorView.getText(),
+                mConstructorView.getImage());
     }
 
 }

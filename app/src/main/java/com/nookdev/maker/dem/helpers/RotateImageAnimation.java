@@ -50,23 +50,24 @@ public class RotateImageAnimation extends Animation{
 
         int imageHeight = mImage.getHeight();
         int imageWidth = mImage.getWidth();
-        //int imageHeight = mImage.getWidth();
-        //int imageWidth = mImage.getHeight();
 
-        mTargetHeight = Math.min(imageHeight, mMaxHeight);
-        mTargetWidth = Math.min(imageWidth,mMaxWidth);
+        mTargetHeight = Math.min(imageWidth, mMaxHeight);
+        mTargetWidth = Math.min(imageHeight,mMaxWidth);
 
-       // if (imageHeight > imageWidth){
-            scale = (float)mTargetWidth / (float)imageHeight;
-            mTargetWidth = (int)(imageWidth * scale);
-        int b = mTargetHeight;
-        mTargetHeight = mTargetWidth;
-        mTargetWidth = b;
-        //}
-        //else{
-        //scale = (float)mTargetWidth / (float)imageWidth;
-        //mTargetHeight = (int)(imageHeight*scale);
-       // }
+        float scaleX = mTargetWidth / (float)imageHeight;
+        float scaleY = mTargetHeight / (float)imageWidth;
+
+        if (scaleX * mTargetWidth<=mMaxWidth){
+            mTargetWidth = (int)(scaleX*mTargetWidth);
+        }else if (scaleY * mTargetHeight <= mMaxHeight){
+            mTargetHeight = (int)(scaleY*mTargetHeight);
+        }
+
+        /*
+        if (imageHeight > imageWidth) {
+            scale = (float) mTargetHeight / (float) imageHeight;
+            mTargetWidth = (int) (imageWidth * scale);
+        }*/
     }
 
     public static int getRotateStepAngle(RotateDirection rotateDirection){
@@ -106,6 +107,6 @@ public class RotateImageAnimation extends Animation{
 
     @Override
     public boolean willChangeBounds() {
-        return false;
+        return true;
     }
 }

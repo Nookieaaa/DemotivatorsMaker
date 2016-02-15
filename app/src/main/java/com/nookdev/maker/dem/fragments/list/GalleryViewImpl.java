@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.nookdev.maker.dem.R;
+import com.nookdev.maker.dem.events.RefreshEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,7 +36,7 @@ public class GalleryViewImpl implements GalleryView {
     @Override
     public void setViewAndController(View v, GalleryController controller) {
         mController = controller;
-        ButterKnife.bind(this,v);
+        ButterKnife.bind(this, v);
         init();
     }
 
@@ -43,10 +44,6 @@ public class GalleryViewImpl implements GalleryView {
         mRVAdapter = new RVAdapter();
         mRecyclerView.setLayoutManager(new GridLayoutManager(mController.getContext(), 2, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mRVAdapter);
-    }
-
-    @Override
-    public RecyclerView getmRecyclerView() {
-        return mRecyclerView;
+        mRVAdapter.onRefreshRequested(new RefreshEvent());
     }
 }

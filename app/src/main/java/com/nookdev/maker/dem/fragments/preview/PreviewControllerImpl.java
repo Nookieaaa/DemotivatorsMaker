@@ -28,7 +28,9 @@ public class PreviewControllerImpl implements PreviewController {
         return instance;
     }
 
-    public void updatePreview(String caption, String text, Bitmap image){
+    public void updatePreview(String caption, String text, Bitmap image, boolean changed){
+        if (!changed)
+            return;
         Observable.just(new Demotivator(image,caption,text))
                 .map(Demotivator::toBitmap)
                 .subscribeOn(Schedulers.io())
@@ -55,7 +57,8 @@ public class PreviewControllerImpl implements PreviewController {
         updatePreview(
                 event.getCaption(),
                 event.getText(),
-                event.getImage()
+                event.getImage(),
+                event.isChanged()
         );
     }
 

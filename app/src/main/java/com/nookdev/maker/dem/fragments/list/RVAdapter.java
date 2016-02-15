@@ -13,16 +13,23 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.nookdev.maker.dem.App;
-import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.R;
+import com.nookdev.maker.dem.events.RefreshEvent;
+import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.interfaces.AdapterCallbacks;
 import com.nookdev.maker.dem.models.RVItem;
+import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     List<RVItem> data = new ArrayList<>();
@@ -31,6 +38,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
 
     public RVAdapter(AdapterCallbacks callbacks) {
+        App.getBus().register(this);
         refresh();
         try{
             adapterCallbacks = callbacks;
@@ -40,11 +48,26 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     }
 
     public RVAdapter() {
+        App.getBus().register(this);
+        refresh();
     }
 
-    public void refresh(){
-        RefreshTask refreshTask = new RefreshTask();
-        refreshTask.execute();
+    @Subscribe
+    public void onRefreshRequested(RefreshEvent event){
+        refresh();
+    }
+
+    private void refresh(){
+        Observable.create(new Observable.OnSubscribe<List<RVItem>>() {
+            @Override
+            public void call(Subscriber<? super List<RVItem>> subscriber) {
+                subscriber.onNext(FileManager.getInstance().queryFiles());
+                subscriber.onCompleted();
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::setData, Throwable::printStackTrace);
     }
 
     public void setData(List<RVItem> newData) {
@@ -63,8 +86,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        holder.image.setImageBitmap(data.get(position).getThumbnail());
-
+        //holder.image.setImageBitmap(data.get(position).getThumbnail());
+        Picasso.with(App.getAppContext())
+                .load(data.get(position).getFile())
+                .fit()
+                .centerInside()
+                .into(holder.image);
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

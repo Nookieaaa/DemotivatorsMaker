@@ -13,4 +13,5 @@ public @Data class DeliverDemInfoEvent {
     @NonNull private String caption;
     @NonNull private String text;
     private Bitmap image;
+    private boolean isChanged;
 }

@@ -19,13 +19,6 @@ public class GalleryFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mController.refresh();
-    }
-
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
