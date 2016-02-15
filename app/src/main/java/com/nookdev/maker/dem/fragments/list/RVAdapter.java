@@ -2,7 +2,6 @@ package com.nookdev.maker.dem.fragments.list;
 
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -86,30 +85,23 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        //holder.image.setImageBitmap(data.get(position).getThumbnail());
         Picasso.with(App.getAppContext())
                 .load(data.get(position).getFile())
                 .fit()
                 .centerInside()
                 .into(holder.image);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adapterCallbacks.openImage(data.get(position).getFile());
-            }
-        });
-        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adapterCallbacks.delete(data.get(position).getFile(), position);
-            }
-        });
-        holder.btnShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adapterCallbacks.share(data.get(position).getFile());
-            }
-        });
+        //holder.cardView.setOnClickListener(v -> adapterCallbacks.openImage(data.get(position).getFile()));
+        holder.btnDelete.setOnClickListener(v -> Observable.just(data.get(position))
+                .map(item -> FileManager.getInstance().delete(item.getFile()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                        if (result)
+                            itemDeleted(position);
+                    }
+                    ,Throwable::printStackTrace));
+
+        //holder.btnShare.setOnClickListener(v -> adapterCallbacks.share(data.get(position).getFile()));
     }
 
     public void itemDeleted(int position){
@@ -151,20 +143,5 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         }
 
 
-    }
-
-    private class RefreshTask extends AsyncTask<Void,Void,List<RVItem>>{
-
-        @Override
-        protected List<RVItem> doInBackground(Void... params) {
-            FileManager fileManager = FileManager.getInstance();
-
-            return fileManager.queryFiles();
-        }
-
-        @Override
-        protected void onPostExecute(List<RVItem> rvItems) {
-            setData(rvItems);
-        }
     }
 }

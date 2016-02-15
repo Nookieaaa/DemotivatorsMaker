@@ -76,11 +76,6 @@ public class FileManager {
         });
         for (File file : files) {
             RVItem item = new RVItem(Uri.fromFile(file));
-            //Bitmap image = BitmapFactory.decodeFile(file.getAbsolutePath());
-            //if (image==null)
-            //    continue;
-            //Bitmap thumbnail = Demotivator.makeThumbnail(image, 0);
-            //item.setThumbnail(thumbnail);
             data.add(item);
         }
 
@@ -121,14 +116,17 @@ public class FileManager {
         return instance;
     }
 
-    public void delete(Uri uri){
+    public boolean delete(Uri uri){
+        boolean result = false;
         if (isExternalStorageReadableAndWritable()){
             File deletedFile = new File(uri.getPath());
             if (deletedFile.exists()){
-                deletedFile.delete();
+                result = deletedFile.delete();
             }
             updateMediaScanner(Uri.fromFile(deletedFile));
         }
+
+        return result;
     }
 
     public Uri saveDem(Demotivator demotivator) throws ExternalStorageNotReadyException, DirectoryCreationFailed {
