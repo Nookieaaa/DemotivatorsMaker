@@ -32,4 +32,9 @@ public class GalleryFragment extends Fragment {
         mController.setContext(getActivity());
         return v;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 }

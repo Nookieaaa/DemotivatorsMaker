@@ -2,6 +2,7 @@ package com.nookdev.maker.dem.helpers;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -20,7 +21,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 import rx.Observable;
@@ -68,12 +68,7 @@ public class FileManager {
             return filename.endsWith(".jpg");
         });
 
-        Arrays.sort(files, new Comparator<File>() {
-            @Override
-            public int compare(File f1, File f2) {
-                return Long.valueOf(f2.lastModified()).compareTo(f1.lastModified());
-            }
-        });
+        Arrays.sort(files, (f1, f2) -> Long.valueOf(f2.lastModified()).compareTo(f1.lastModified()));
         for (File file : files) {
             RVItem item = new RVItem(Uri.fromFile(file));
             data.add(item);
@@ -121,12 +116,12 @@ public class FileManager {
         if (isExternalStorageReadableAndWritable()){
             File deletedFile = new File(uri.getPath());
             if (deletedFile.exists()){
-                result = deletedFile.delete();
+                deletedFile.delete();
             }
             updateMediaScanner(Uri.fromFile(deletedFile));
         }
 
-        return result;
+        return true;
     }
 
     public Uri saveDem(Demotivator demotivator) throws ExternalStorageNotReadyException, DirectoryCreationFailed {
@@ -190,8 +185,8 @@ public class FileManager {
                 new String[]{"image/*"}
                 , (path, uri) -> {
                 });
-        //Intent scanIntent = new Intent(Intent.ACTION_MEDIA_MOUNTED,file);
-        //App.getAppContext().sendBroadcast(scanIntent);
+        Intent scanIntent = new Intent(Intent.ACTION_MEDIA_MOUNTED,file);
+        App.getAppContext().sendBroadcast(scanIntent);
     }
 
     public Uri getTempFileUri() {
@@ -203,7 +198,6 @@ public class FileManager {
     }
 
     public void saveDem(String caption, String text, Bitmap image) {
-        boolean success = false;
         Observable.just(new Demotivator(image,caption,text))
                 .map(Demotivator::toBitmap)
                 .map(bitmap -> {

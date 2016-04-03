@@ -32,4 +32,5 @@ public class GalleryControllerImpl implements GalleryController {
     public void setView(View v) {
         mGalleryView.setViewAndController(v,this);
     }
+
 }

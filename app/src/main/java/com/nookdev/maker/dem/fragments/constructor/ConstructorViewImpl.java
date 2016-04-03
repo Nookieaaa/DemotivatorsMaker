@@ -90,6 +90,7 @@ public class ConstructorViewImpl implements ConstructorView{
 
     @Override
     public void setImage(Bitmap pic) {
+
         mImageChanged = true;
         mOriginalBitmap = pic;
         mImage.setImageBitmap(pic);
