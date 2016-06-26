@@ -179,7 +179,7 @@ public class FileManager {
         }
     }
 
-    public void updateMediaScanner(Uri file){
+    private void updateMediaScanner(Uri file){
         MediaScannerConnection.scanFile(App.getAppContext(),
                 new String[]{file.getPath()},
                 new String[]{"image/*"}

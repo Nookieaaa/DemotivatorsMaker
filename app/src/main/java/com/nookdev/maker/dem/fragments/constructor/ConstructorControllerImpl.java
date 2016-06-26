@@ -55,6 +55,8 @@ public class ConstructorControllerImpl implements ConstructorController {
 
     @Subscribe
     public void saveDem(SaveDemEvent event){
+        if(!event.isAllowed())
+            return;
         FileManager fm = FileManager.getInstance();
         fm.saveDem(mConstructorView.getCaption(),
                 mConstructorView.getText(),
