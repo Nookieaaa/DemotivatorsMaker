@@ -3,11 +3,14 @@ package com.nookdev.maker.dem.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
@@ -16,6 +19,7 @@ import com.nookdev.maker.dem.events.DeliverImageEvent;
 import com.nookdev.maker.dem.events.DemSavedEvent;
 import com.nookdev.maker.dem.events.ImagePickEvent;
 import com.nookdev.maker.dem.events.RefreshEvent;
+import com.nookdev.maker.dem.events.ShareOpenEvent;
 import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.models.Demotivator;
 import com.squareup.otto.Subscribe;
@@ -92,6 +96,36 @@ public class MainActivityControllerImpl implements MainActivityController {
                 }
             }
         }
+    }
+
+    @Subscribe
+    public void onShareOpenEvent(ShareOpenEvent event){
+        Uri uri = event.getUri();
+        if(uri==null){
+            Log.d("DemotivateMe", "file uri is empty ");
+            return;
+        }
+
+//        if(event.isShare()){
+//            Intent intent = new Intent(Intent.ACTION_SEND);
+//            intent.setDataAndType(uri,"image/*");
+//            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            fireIntent(intent);
+//        }
+//        else{
+//            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            intent.setDataAndType(uri,"image/*");
+//            fireIntent(intent);
+//        }
+
+    }
+
+    private void fireIntent(Intent intent){
+        PackageManager pm = mMainActivity.getPackageManager();
+        if(pm.resolveActivity(intent,0)!=null)
+            mMainActivity.startActivity(intent);
+        else
+            Toast.makeText(mMainActivity, R.string.no_app_resolved,Toast.LENGTH_SHORT).show();
     }
 
     @Override

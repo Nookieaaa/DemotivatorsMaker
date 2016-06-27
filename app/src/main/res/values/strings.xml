@@ -92,5 +92,6 @@
 
     <string name="pref_title_vibrate" translatable="false">Vibrate</string>
     <string name="tab_preview_title">Preview</string>
+    <string name="no_app_resolved">You don`t have any app to perform this action</string>
 
 </resources>

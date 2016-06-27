@@ -33,4 +33,5 @@
     <string name="select_image_gallery">Нажмите, чтобы открыть галерею</string>
     <string name="share_message">Создай свой демотиватор с помощью http://bit.ly/1m3YagW /n #demotivateme #demotivator</string>
     <string name="tab_preview_title">Предпросмотр</string>
+    <string name="no_app_resolved">Нет подходящих приложений для выполнения данного действия</string>
 </resources>

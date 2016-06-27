@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.events.RefreshEvent;
+import com.nookdev.maker.dem.events.ShareOpenEvent;
 import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.interfaces.AdapterCallbacks;
 import com.nookdev.maker.dem.models.RVItem;
@@ -88,21 +89,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
                 .fit()
                 .centerInside()
                 .into(holder.image);
-        //holder.cardView.setOnClickListener(v -> adapterCallbacks.openImage(data.get(position).getFile()));
+        holder.cardView.setOnClickListener(v -> App.getBus().post(new ShareOpenEvent(data.get(position).getFile(),false)));
         holder.btnDelete.setOnClickListener(v -> {
                     if(FileManager.getInstance().delete(data.get(holder.getAdapterPosition()).getFile())){
                         itemDeleted(holder.getAdapterPosition());
                     };
-            /*Observable.just()
-
-                .subscribe(result -> {
-                        if (result)
-                            itemDeleted(position);
-                    }, Throwable::printStackTrace);*/
         }
         );
 
-        //holder.btnShare.setOnClickListener(v -> adapterCallbacks.share(data.get(position).getFile()));
+        holder.btnShare.setOnClickListener(v -> App.getBus().post(new ShareOpenEvent(data.get(position).getFile(),true)));
     }
 
 
