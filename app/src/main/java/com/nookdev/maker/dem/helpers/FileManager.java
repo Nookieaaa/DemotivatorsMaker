@@ -2,17 +2,18 @@ package com.nookdev.maker.dem.helpers;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.events.DemSavedEvent;
+import com.nookdev.maker.dem.events.RefreshEvent;
 import com.nookdev.maker.dem.models.Demotivator;
 import com.nookdev.maker.dem.models.RVItem;
 
@@ -67,13 +68,13 @@ public class FileManager {
         File[] files = targetFile.listFiles((dir, filename) -> {
             return filename.endsWith(".jpg");
         });
-
-        Arrays.sort(files, (f1, f2) -> Long.valueOf(f2.lastModified()).compareTo(f1.lastModified()));
-        for (File file : files) {
-            RVItem item = new RVItem(Uri.fromFile(file));
-            data.add(item);
+        if(files!=null) {
+            Arrays.sort(files, (f1, f2) -> Long.valueOf(f2.lastModified()).compareTo(f1.lastModified()));
+            for (File file : files) {
+                RVItem item = new RVItem(Uri.fromFile(file));
+                data.add(item);
+            }
         }
-
 
         return data;
     }
@@ -120,6 +121,8 @@ public class FileManager {
             }
             updateMediaScanner(Uri.fromFile(deletedFile));
         }
+
+        App.getBus().post(new RefreshEvent());
 
         return true;
     }
@@ -183,10 +186,9 @@ public class FileManager {
         MediaScannerConnection.scanFile(App.getAppContext(),
                 new String[]{file.getPath()},
                 new String[]{"image/*"}
-                , (path, uri) -> {
-                });
-        Intent scanIntent = new Intent(Intent.ACTION_MEDIA_MOUNTED,file);
-        App.getAppContext().sendBroadcast(scanIntent);
+                , (path, uri) -> Log.d("MediaScanner", "scan completed"));
+        //Intent scanIntent = new Intent(Intent.ACTION_MEDIA_MOUNTED,file);
+        //App.getAppContext().sendBroadcast(scanIntent);
     }
 
     public Uri getTempFileUri() {
@@ -235,7 +237,10 @@ public class FileManager {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(uri -> deliverSaveResult(uri,true,null),
-                        error -> deliverSaveResult(null,false,error));
+                        error -> {
+                            deliverSaveResult(null,false,error);
+                            error.printStackTrace();
+                        });
 
     }
 

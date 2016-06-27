@@ -2,6 +2,7 @@ package com.nookdev.maker.dem.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.Menu;
 
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
+import com.nookdev.maker.dem.events.CheckPermissionAndExecuteEvent;
 import com.nookdev.maker.dem.events.SaveDemEvent;
 import com.squareup.otto.Subscribe;
 
@@ -57,12 +59,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void onSaveDemAttempt(SaveDemEvent event){
-        MainActivityPermissionsDispatcher.saveDemWithCheck(this,event);
-//        if(!event.isAllowed()) {
-//            event.setAllowed(true);
-//            App.getBus().post(event);
-//        }
+    public void onCheckPermissionAndExecute(CheckPermissionAndExecuteEvent event){
+        SaveDemEvent saveDemEvent = new SaveDemEvent();
+
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M)
+            saveDem(saveDemEvent);
+        else
+            MainActivityPermissionsDispatcher.saveDemWithCheck(this,saveDemEvent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        App.getBus().unregister(this);
     }
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
