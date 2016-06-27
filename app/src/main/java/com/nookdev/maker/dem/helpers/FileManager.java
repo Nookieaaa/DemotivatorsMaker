@@ -13,7 +13,6 @@ import android.util.Log;
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.events.DemSavedEvent;
-import com.nookdev.maker.dem.events.RefreshEvent;
 import com.nookdev.maker.dem.models.Demotivator;
 import com.nookdev.maker.dem.models.RVItem;
 
@@ -122,7 +121,7 @@ public class FileManager {
             updateMediaScanner(Uri.fromFile(deletedFile));
         }
 
-        App.getBus().post(new RefreshEvent());
+        //App.getBus().post(new RefreshEvent());
 
         return true;
     }

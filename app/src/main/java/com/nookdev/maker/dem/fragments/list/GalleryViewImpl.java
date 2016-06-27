@@ -41,9 +41,11 @@ public class GalleryViewImpl implements GalleryView {
     }
 
     private void init() {
-        mRVAdapter = new RVAdapter();
+        if(mRVAdapter==null)
+            mRVAdapter = new RVAdapter();
         mRecyclerView.setLayoutManager(new GridLayoutManager(mController.getContext(), 2, LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.setAdapter(mRVAdapter);
+        if(mRecyclerView.getAdapter()!=mRVAdapter)
+            mRecyclerView.setAdapter(mRVAdapter);
         mRVAdapter.onRefreshRequested(new RefreshEvent());
     }
 }

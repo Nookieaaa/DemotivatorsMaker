@@ -63,9 +63,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     }
 
     public void setData(List<RVItem> newData) {
+        if(data.size()>0){
+            notifyItemRangeRemoved(0,data.size());
+        }
         data.clear();
         data.addAll(newData);
-        notifyDataSetChanged();
+        if(data.size()>0){
+            notifyItemRangeInserted(0,data.size());
+        }
     }
 
     @Override
@@ -85,7 +90,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
                 .into(holder.image);
         //holder.cardView.setOnClickListener(v -> adapterCallbacks.openImage(data.get(position).getFile()));
         holder.btnDelete.setOnClickListener(v -> {
-                    FileManager.getInstance().delete(data.get(holder.getAdapterPosition()).getFile());
+                    if(FileManager.getInstance().delete(data.get(holder.getAdapterPosition()).getFile())){
+                        itemDeleted(holder.getAdapterPosition());
+                    };
             /*Observable.just()
 
                 .subscribe(result -> {
@@ -102,7 +109,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     public void itemDeleted(int position){
         data.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position, data.size());
+        //notifyItemRangeChanged(position, data.size());
     }
 
     public void updateView(int position){
