@@ -2,11 +2,13 @@ package com.nookdev.maker.dem.helpers;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
@@ -182,12 +184,18 @@ public class FileManager {
     }
 
     private void updateMediaScanner(Uri file){
-        MediaScannerConnection.scanFile(App.getAppContext(),
-                new String[]{file.getPath()},
-                new String[]{"image/*"}
-                , (path, uri) -> Log.d("MediaScanner", "scan completed"));
-        //Intent scanIntent = new Intent(Intent.ACTION_MEDIA_MOUNTED,file);
-        //App.getAppContext().sendBroadcast(scanIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            MediaScannerConnection.scanFile(App.getAppContext(),
+                    new String[]{file.getPath()},
+                    new String[]{"image/*"}
+                    , (path, uri) -> Log.d("MediaScanner", "scan completed"));
+        }
+        else{
+            Intent scanIntent = new Intent(Intent.ACTION_MEDIA_MOUNTED,file);
+            App.getAppContext().sendBroadcast(scanIntent);
+        }
+
+
     }
 
     public Uri getTempFileUri() {
