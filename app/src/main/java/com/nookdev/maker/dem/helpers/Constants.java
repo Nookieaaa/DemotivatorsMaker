@@ -13,6 +13,7 @@ public class Constants {
     public static final String CONTENT_IMAGE = "image";
     public static final String CONTENT_CAPTION = "caption";
     public static final String CONTENT_TEXT = "text";
+    public static final String FILE_PROVIDER_AUTHORITY = "com.nookdev.maker.dem.fileprovider";
 
 
 

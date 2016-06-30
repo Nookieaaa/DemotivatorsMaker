@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.nookdev.maker.dem.events.DemSavedEvent;
 import com.nookdev.maker.dem.events.ImagePickEvent;
 import com.nookdev.maker.dem.events.RefreshEvent;
 import com.nookdev.maker.dem.events.ShareOpenEvent;
+import com.nookdev.maker.dem.helpers.Constants;
 import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.models.Demotivator;
 import com.squareup.otto.Subscribe;
@@ -105,25 +107,35 @@ public class MainActivityControllerImpl implements MainActivityController {
             Log.d("DemotivateMe", "file uri is empty ");
             return;
         }
+        File f = new File(uri.getPath());
+        if(!f.exists())
+            return;
+        Uri shareUri = FileProvider.getUriForFile(mMainActivity, Constants.FILE_PROVIDER_AUTHORITY,f);
 
-//        if(event.isShare()){
-//            Intent intent = new Intent(Intent.ACTION_SEND);
-//            intent.setDataAndType(uri,"image/*");
-//            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//            fireIntent(intent);
-//        }
-//        else{
-//            Intent intent = new Intent(Intent.ACTION_VIEW);
-//            intent.setDataAndType(uri,"image/*");
-//            fireIntent(intent);
-//        }
+        if(event.isShare()){
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("image/*");
+            intent.putExtra(Intent.EXTRA_STREAM,shareUri);
+            intent.putExtra(Intent.EXTRA_TEXT,mMainActivity.getString(R.string.share_message));
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            fireIntent(intent,event.isShare());
+        }
+        else{
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(shareUri,"image/*");
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            fireIntent(intent, event.isShare());
+        }
 
     }
 
-    private void fireIntent(Intent intent){
+    private void fireIntent(Intent intent,boolean isShare){
         PackageManager pm = mMainActivity.getPackageManager();
         if(pm.resolveActivity(intent,0)!=null)
-            mMainActivity.startActivity(intent);
+            if(isShare)
+                mMainActivity.startActivity(Intent.createChooser(intent,"share by:"));
+            else
+                mMainActivity.startActivity(intent);
         else
             Toast.makeText(mMainActivity, R.string.no_app_resolved,Toast.LENGTH_SHORT).show();
     }
