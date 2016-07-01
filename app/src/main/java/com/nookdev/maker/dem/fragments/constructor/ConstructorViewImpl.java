@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
@@ -90,10 +90,45 @@ public class ConstructorViewImpl implements ConstructorView{
 
     @Override
     public void setImage(Bitmap pic) {
+        Animation fadeInAnimation = AnimationUtils.loadAnimation(mImage.getContext(),R.anim.fade_out);
+        Animation fadeOutAnimation = AnimationUtils.loadAnimation(mImage.getContext(),R.anim.fade_in);
+        fadeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
-        mImageChanged = true;
-        mOriginalBitmap = pic;
-        mImage.setImageBitmap(pic);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mImage.setVisibility(View.INVISIBLE);
+                mImageChanged = true;
+                mOriginalBitmap = pic;
+                mImage.setImageBitmap(pic);
+                mImage.startAnimation(fadeInAnimation);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        fadeInAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mImage.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        mImage.startAnimation(fadeOutAnimation);
         mSelectImageText.setVisibility(View.GONE);
         if(mRotateLeft.getVisibility()!=View.VISIBLE){
             mRotateLeft.setVisibility(View.VISIBLE);
@@ -168,38 +203,14 @@ public class ConstructorViewImpl implements ConstructorView{
             }
 
             matrix.postRotate(RotateImageAnimation.getRotateStepAngle(rotateDirection));
-            if (mOriginalBitmap !=null){
-
-
-                RotateImageAnimation animation = new RotateImageAnimation(mImage,mOriginalBitmap,rotateDirection);
-                animation.setInterpolator(new LinearInterpolator());
-                animation.setDuration(5000);
-                animation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        final Bitmap b = Bitmap.createBitmap(mOriginalBitmap,
-                        0,
-                        0,
-                        mOriginalBitmap.getWidth(),
-                        mOriginalBitmap.getHeight(),
-                        matrix,
-                        true);
-                        setImage(b);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-                mImage.startAnimation(animation);
-
-            }
+            final Bitmap b = Bitmap.createBitmap(mOriginalBitmap,
+                    0,
+                    0,
+                    mOriginalBitmap.getWidth(),
+                    mOriginalBitmap.getHeight(),
+                    matrix,
+                    true);
+            setImage(b);
         }
     }
 }

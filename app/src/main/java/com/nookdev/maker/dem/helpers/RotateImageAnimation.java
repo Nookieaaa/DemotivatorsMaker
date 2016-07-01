@@ -96,13 +96,13 @@ public class RotateImageAnimation extends Animation{
 
         Matrix matrix = t.getMatrix();
         //matrix.postRotate(mRotateAngle * interpolatedTime, newWidth * 0.5f, newHeight * 0.5f);
-        matrix.postRotate(mRotateAngle * interpolatedTime, mInitialWidth/2, mInitialHeight/2);
+        matrix.postRotate(mRotateAngle * interpolatedTime, newWidth/2, newHeight/2);
         //matrix.postScale(scale,scale,mInitialWidth/2,mInitialHeight/2);
 
 
-        //mView.getLayoutParams().height = newHeight;
-        //mView.getLayoutParams().width =  newWidth;
-        //mView.requestLayout();
+        mView.getLayoutParams().height = newHeight;
+        mView.getLayoutParams().width =  newWidth;
+        mView.requestLayout();
     }
 
     @Override
