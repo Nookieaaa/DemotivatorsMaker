@@ -24,6 +24,7 @@ import com.nookdev.maker.dem.events.DemSavedEvent;
 import com.nookdev.maker.dem.events.RefreshEvent;
 import com.nookdev.maker.dem.events.RequestDemInfo;
 import com.nookdev.maker.dem.fragments.constructor.ConstructorFragment;
+import com.nookdev.maker.dem.fragments.constructor.ConstructorViewImpl;
 import com.nookdev.maker.dem.fragments.list.GalleryFragment;
 import com.nookdev.maker.dem.fragments.preview.PreviewFragment;
 
@@ -155,6 +156,15 @@ public class MainActivityViewImpl implements MainActivityView {
                     if (currPage == 2) {
                         App.getBus().post(new RefreshEvent());
                         mFab.hide();
+                    }
+                    else if(currPage==0){
+                        if(ConstructorViewImpl.IsFabVisible()){
+                            if(!mFab.isShown())
+                                mFab.show();
+                        }
+                        else {
+                            mFab.hide();
+                        }
                     } else if (mFab.getVisibility() != View.VISIBLE)
                         mFab.show();
                 }

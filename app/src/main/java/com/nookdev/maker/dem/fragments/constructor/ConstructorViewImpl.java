@@ -3,12 +3,15 @@ package com.nookdev.maker.dem.fragments.constructor;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.nookdev.maker.dem.App;
@@ -23,12 +26,14 @@ public class ConstructorViewImpl implements ConstructorView{
 
     private static ConstructorViewImpl instance = new ConstructorViewImpl();
     private ConstructorController mController;
+    private int mY = 0;
 
     private int mSourceMode = Constants.ACTION_PICK_IMAGE;
     private Bitmap mOriginalBitmap;
     private String mCaptionString;
     private String mTextString;
     private boolean mImageChanged = false;
+    private static boolean sFabVisible = false;
 
     private final RotateClickListener mRotateClickListener = new RotateClickListener();
 
@@ -53,6 +58,11 @@ public class ConstructorViewImpl implements ConstructorView{
     @Bind(R.id.constructor_rotate_right)
     ImageButton mRotateRight;
 
+    FloatingActionButton mFab;
+
+    @Bind(R.id.constructor_root)
+    ScrollView mRoot;
+
     private ConstructorViewImpl() {
         App.getBus().register(this);
     }
@@ -65,7 +75,24 @@ public class ConstructorViewImpl implements ConstructorView{
         mImage.setOnClickListener(v -> mController.requestImage(mSourceMode));
         mRotateLeft.setOnClickListener(mRotateClickListener);
         mRotateRight.setOnClickListener(mRotateClickListener);
-
+        mRoot.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                if(mFab==null)
+                    return;
+                int y = mRoot.getScrollY();
+                if (mY<=mRoot.getScrollY()-5&&mFab.isShown()) {
+                    mFab.hide();
+                    setFabVisibility(false);
+                }
+                if((mY>mRoot.getScrollY()||mRoot.getScrollY()==0)&&!mFab.isShown())
+                {
+                    mFab.show();
+                    setFabVisibility(true);
+                }
+                mY = mRoot.getScrollY();
+            }
+        });
         mSourceSelector.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.constructor_rb_camera: {
@@ -87,6 +114,13 @@ public class ConstructorViewImpl implements ConstructorView{
         }
     }
 
+    private void setFabVisibility(boolean visibility){
+        sFabVisible = visibility;
+    }
+
+    public static boolean IsFabVisible(){
+        return sFabVisible;
+    }
 
     @Override
     public void setImage(Bitmap pic) {
@@ -155,6 +189,11 @@ public class ConstructorViewImpl implements ConstructorView{
     @Override
     public void setViewAndController(View v, ConstructorController controller) {
         mController = controller;
+        try{
+            mFab = (FloatingActionButton) v.getRootView().findViewById(R.id.fab);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         ButterKnife.bind(this, v);
         init();
     }
