@@ -19,7 +19,6 @@ import com.nookdev.maker.dem.events.CheckPermissionAndExecuteEvent;
 import com.nookdev.maker.dem.events.DeliverImageEvent;
 import com.nookdev.maker.dem.events.DemSavedEvent;
 import com.nookdev.maker.dem.events.ImagePickEvent;
-import com.nookdev.maker.dem.events.RefreshEvent;
 import com.nookdev.maker.dem.events.ShareOpenEvent;
 import com.nookdev.maker.dem.helpers.Constants;
 import com.nookdev.maker.dem.helpers.FileManager;
@@ -68,7 +67,7 @@ public class MainActivityControllerImpl implements MainActivityController {
     @Subscribe
     public void onDemSaved(DemSavedEvent event){
         mMainActivityView.notifySaveResult(event);
-        App.getBus().post(new RefreshEvent());
+        //App.getBus().post(new RefreshEvent());
     }
 
     @Override

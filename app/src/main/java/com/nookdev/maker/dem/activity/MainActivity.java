@@ -8,14 +8,17 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.events.CheckPermissionAndExecuteEvent;
+import com.nookdev.maker.dem.events.ReadPermissionGrantedEvent;
 import com.nookdev.maker.dem.events.SaveDemEvent;
 import com.squareup.otto.Subscribe;
 
 import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
@@ -60,12 +63,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onCheckPermissionAndExecute(CheckPermissionAndExecuteEvent event){
-        SaveDemEvent saveDemEvent = new SaveDemEvent();
-
-        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M)
-            saveDem(saveDemEvent);
-        else
-            MainActivityPermissionsDispatcher.saveDemWithCheck(this,saveDemEvent);
+        if(event.getAction()==CheckPermissionAndExecuteEvent.ACTION_SAVE) {
+            SaveDemEvent saveDemEvent = new SaveDemEvent();
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+                saveDem(saveDemEvent);
+            else
+                MainActivityPermissionsDispatcher.saveDemWithCheck(this, saveDemEvent);
+        }else{
+            ReadPermissionGrantedEvent permissionGrantedEvent = new ReadPermissionGrantedEvent();
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+                App.getBus().post(event);
+            else
+                MainActivityPermissionsDispatcher.refreshGalleryWithCheck(this, permissionGrantedEvent);
+        }
     }
 
     @Override
@@ -79,5 +89,16 @@ public class MainActivity extends AppCompatActivity {
         event.setAllowed(true);
         App.getBus().post(event);
     }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void refreshGallery(ReadPermissionGrantedEvent event){
+        App.getBus().post(event);
+    }
+
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void onPermissionDenied(){
+        Toast.makeText(this,"Can`t perform this action, permission denied",Toast.LENGTH_SHORT).show();
+    }
+
 
 }

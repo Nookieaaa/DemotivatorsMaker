@@ -34,7 +34,10 @@ public class GalleryFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onStart() {
+        super.onStart();
+//        CheckPermissionAndExecuteEvent event = new CheckPermissionAndExecuteEvent();
+//        event.setAction(CheckPermissionAndExecuteEvent.ACTION_GALLERY);
+//        App.getBus().post(event);
     }
 }
