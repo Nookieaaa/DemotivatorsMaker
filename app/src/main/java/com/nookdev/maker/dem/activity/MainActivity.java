@@ -10,8 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.widget.Toast;
-
 import com.nookdev.maker.dem.App;
+import com.nookdev.maker.dem.BuildConfig;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.events.CheckPermissionAndExecuteEvent;
 import com.nookdev.maker.dem.events.RefreshEvent;
@@ -45,8 +45,16 @@ public class MainActivity extends AppCompatActivity {
         mController = MainActivityControllerImpl.getInstance();
         mController.setActivity(this);
         App.getBus().register(this);
+
+        Appodeal.disableLocationPermissionCheck();
+        Appodeal.initialize(this, BuildConfig.APPODEAL_API_KEY, Appodeal.BANNER);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Appodeal.onResume(this, Appodeal.BANNER);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
