@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
@@ -56,9 +55,7 @@ public class MainActivityControllerImpl implements MainActivityController {
                 break;
             }
             case ACTION_TAKE_PHOTO:{
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra( MediaStore.EXTRA_OUTPUT, FileManager.getInstance().getTempFileUri());
-                mMainActivity.startActivityForResult(intent, ACTION_TAKE_PHOTO);
+                MainActivityPermissionsDispatcher.takeAPhotoWithCheck(mMainActivity);
                 break;
             }
         }
@@ -67,7 +64,6 @@ public class MainActivityControllerImpl implements MainActivityController {
     @Subscribe
     public void onDemSaved(DemSavedEvent event){
         mMainActivityView.notifySaveResult(event);
-        //App.getBus().post(new RefreshEvent());
     }
 
     @Override
@@ -166,7 +162,9 @@ public class MainActivityControllerImpl implements MainActivityController {
                 break;
             }
             case 1:{
-                App.getBus().post(new CheckPermissionAndExecuteEvent());
+                CheckPermissionAndExecuteEvent event = new CheckPermissionAndExecuteEvent();
+                event.setAction(CheckPermissionAndExecuteEvent.ACTION_SAVE);
+                App.getBus().post(event);
                 break;
             }
         }

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -13,13 +14,19 @@ import android.widget.Toast;
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.events.CheckPermissionAndExecuteEvent;
-import com.nookdev.maker.dem.events.ReadPermissionGrantedEvent;
+import com.nookdev.maker.dem.events.RefreshEvent;
 import com.nookdev.maker.dem.events.SaveDemEvent;
+import com.nookdev.maker.dem.helpers.FileManager;
 import com.squareup.otto.Subscribe;
 
 import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
+
+import static com.nookdev.maker.dem.helpers.Constants.ACTION_TAKE_PHOTO;
 
 @RuntimePermissions
 public class MainActivity extends AppCompatActivity {
@@ -69,12 +76,12 @@ public class MainActivity extends AppCompatActivity {
                 saveDem(saveDemEvent);
             else
                 MainActivityPermissionsDispatcher.saveDemWithCheck(this, saveDemEvent);
-        }else{
-            ReadPermissionGrantedEvent permissionGrantedEvent = new ReadPermissionGrantedEvent();
+        }else if (event.getAction()==CheckPermissionAndExecuteEvent.ACTION_GALLERY){
+            RefreshEvent refreshEvent = new RefreshEvent();
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
                 App.getBus().post(event);
             else
-                MainActivityPermissionsDispatcher.refreshGalleryWithCheck(this, permissionGrantedEvent);
+                MainActivityPermissionsDispatcher.refreshGalleryWithCheck(this, refreshEvent);
         }
     }
 
@@ -85,20 +92,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void takeAPhoto(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra( MediaStore.EXTRA_OUTPUT, FileManager.getInstance().getTempFileUri());
+        startActivityForResult(intent, ACTION_TAKE_PHOTO);
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     public void saveDem(SaveDemEvent event){
         event.setAllowed(true);
         App.getBus().post(event);
     }
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    public void refreshGallery(ReadPermissionGrantedEvent event){
+    public void refreshGallery(RefreshEvent event){
         App.getBus().post(event);
     }
 
     @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     public void onPermissionDenied(){
-        Toast.makeText(this,"Can`t perform this action, permission denied",Toast.LENGTH_SHORT).show();
+        showMessage(R.string.permission_denied);
     }
 
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void onNeverAsk(){
+        showMessage(R.string.on_never_ask);
+    }
+
+    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void onShowRationale(PermissionRequest request){
+        showMessage(R.string.message_rationale);
+        request.proceed();
+    }
+
+    private void showMessage(int resId){
+        Toast.makeText(this, resId,Toast.LENGTH_SHORT).show();
+    }
 
 }

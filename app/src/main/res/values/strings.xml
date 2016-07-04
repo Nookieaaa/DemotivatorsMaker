@@ -93,5 +93,9 @@
     <string name="pref_title_vibrate" translatable="false">Vibrate</string>
     <string name="tab_preview_title">Preview</string>
     <string name="no_app_resolved">You don`t have any app to perform this action</string>
+    <string name="permission_denied">Can`t perform this action, permission denied</string>
+    <string name="message_rationale">This permission is needed to store your awesome demotivators</string>
+    <string name="on_never_ask">You permanently declined this permission, you can enable it in application settings</string>
+    <string name="empty_list">You didn`t save anything yet :(</string>
 
 </resources>

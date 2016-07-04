@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
+import com.nookdev.maker.dem.events.RequestDemInfo;
 import com.nookdev.maker.dem.helpers.Constants;
 import com.nookdev.maker.dem.helpers.RotateImageAnimation;
 
@@ -203,6 +204,8 @@ public class ConstructorViewImpl implements ConstructorView{
         return mSourceMode;
     }
 
+
+
     @Override
     public boolean isPreviewChanged() {
         if(mImageChanged){
@@ -220,6 +223,12 @@ public class ConstructorViewImpl implements ConstructorView{
 
             return changes;
         }
+    }
+
+    @Override
+    public void onRecreate() {
+        mImageChanged = true;
+        App.getBus().post(new RequestDemInfo());
     }
 
     private class RotateClickListener implements View.OnClickListener {

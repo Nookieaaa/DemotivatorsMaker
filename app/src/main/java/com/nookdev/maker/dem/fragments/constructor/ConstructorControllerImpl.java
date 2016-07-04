@@ -33,6 +33,11 @@ public class ConstructorControllerImpl implements ConstructorController {
         App.getBus().post(new ImagePickEvent(mConstructorView.getSourceMode()));
     }
 
+    @Override
+    public void onRecreate() {
+        mConstructorView.onRecreate();
+    }
+
     @Subscribe
     public void onImageDelivered(DeliverImageEvent event){
         mConstructorView.setImage(event.getBitmap());

@@ -11,4 +11,5 @@ public interface ConstructorView {
     void setViewAndController(View v, ConstructorController controller);
     int getSourceMode();
     boolean isPreviewChanged();
+    void onRecreate();
 }

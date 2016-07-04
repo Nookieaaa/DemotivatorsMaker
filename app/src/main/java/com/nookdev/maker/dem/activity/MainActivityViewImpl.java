@@ -2,7 +2,6 @@ package com.nookdev.maker.dem.activity;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.design.widget.CoordinatorLayout;
@@ -20,9 +19,10 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
+import com.nookdev.maker.dem.events.CheckPermissionAndExecuteEvent;
 import com.nookdev.maker.dem.events.DemSavedEvent;
-import com.nookdev.maker.dem.events.RefreshEvent;
 import com.nookdev.maker.dem.events.RequestDemInfo;
+import com.nookdev.maker.dem.events.ShareOpenEvent;
 import com.nookdev.maker.dem.fragments.constructor.ConstructorFragment;
 import com.nookdev.maker.dem.fragments.constructor.ConstructorViewImpl;
 import com.nookdev.maker.dem.fragments.list.GalleryFragment;
@@ -78,9 +78,8 @@ public class MainActivityViewImpl implements MainActivityView {
         if (event.isSuccess()){
             Snackbar.make(mCoordinator,R.string.status_saved,Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_open, v -> {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(event.getFileUri(),"image/jpg");
-                        mController.getActivity().startActivity(intent);
+                        ShareOpenEvent e = new ShareOpenEvent(event.getFileUri(),false);
+                        App.getBus().post(e);
                     })
                     .show();
         }
@@ -137,8 +136,13 @@ public class MainActivityViewImpl implements MainActivityView {
             public void onPageSelected(int position) {
                 if(position<=1)
                     changeFabIcon(position);
-                if (position==2)
+                if (position==2){
                     mFab.hide();
+                    CheckPermissionAndExecuteEvent e = new CheckPermissionAndExecuteEvent();
+                    e.setAction(CheckPermissionAndExecuteEvent.ACTION_GALLERY);
+                    App.getBus().post(e);
+                }
+
             }
 
             @Override
@@ -154,7 +158,7 @@ public class MainActivityViewImpl implements MainActivityView {
                         requestPreview();
                     }
                     if (currPage == 2) {
-                        App.getBus().post(new RefreshEvent());
+                        //App.getBus().post(new RefreshEvent());
                         mFab.hide();
                     }
                     else if(currPage==0){

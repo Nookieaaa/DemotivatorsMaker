@@ -31,5 +31,9 @@
     <string name="select_image_gallery">Натиснiть, щоб вiдкрити галерею</string>
     <string name="share_message">Створи свiй демотиватор за допомогою http://bit.ly/1m3YagW /n #demotivateme #demotivator</string>
     <string name="tab_preview_title">Перегляд</string>
-    <string name="no_app_resolved">Не выявлено жодного пiдходящого додатку для цієї дії</string>
+    <string name="no_app_resolved">Не виявлено жодного пiдходящого додатку для цієї дії</string>
+    <string name="permission_denied">Вiдсутнiй дозвiл на виконання цієї дії</string>
+    <string name="on_never_ask">Вы не дали дозволу на збереження файлiв, вы можете дозволити збереження у налаштуваннях додатку</string>
+    <string name="message_rationale">Цей дозвiл потрiбен для збереження ваших чудових творiнь</string>
+    <string name="empty_list">Ви досi нiчого не зберегли :(</string>
 </resources>

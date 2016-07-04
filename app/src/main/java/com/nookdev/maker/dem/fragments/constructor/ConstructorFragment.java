@@ -29,6 +29,8 @@ public class ConstructorFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mController.setView(view);
+        if(savedInstanceState!=null)
+            mController.onRecreate();
     }
 
 

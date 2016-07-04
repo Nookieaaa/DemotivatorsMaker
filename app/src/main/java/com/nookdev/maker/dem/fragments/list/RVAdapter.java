@@ -12,6 +12,9 @@ import android.widget.ImageView;
 
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
+import com.nookdev.maker.dem.events.DeleteDemEvent;
+import com.nookdev.maker.dem.events.DemDeletedEvent;
+import com.nookdev.maker.dem.events.EmptyListEvent;
 import com.nookdev.maker.dem.events.RefreshEvent;
 import com.nookdev.maker.dem.events.ShareOpenEvent;
 import com.nookdev.maker.dem.helpers.FileManager;
@@ -32,18 +35,11 @@ import rx.schedulers.Schedulers;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     List<RVItem> data = new ArrayList<>();
-    private boolean selectionMode = false;
-    private AdapterCallbacks adapterCallbacks;
 
 
     public RVAdapter(AdapterCallbacks callbacks) {
         App.getBus().register(this);
         refresh();
-        try{
-            adapterCallbacks = callbacks;
-        }catch (ClassCastException e){
-            e.printStackTrace();
-        }
     }
 
     public RVAdapter() {
@@ -53,6 +49,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     @Subscribe
     public void onRefreshRequested(RefreshEvent event){
         refresh();
+    }
+
+    @Subscribe
+    public void onDemDeletedEvent(DemDeletedEvent event){
+        itemDeleted(event.getPosition());
     }
 
     private void refresh(){
@@ -72,6 +73,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         if(data.size()>0){
             notifyItemRangeInserted(0,data.size());
         }
+        App.getBus().post(new EmptyListEvent());
     }
 
     @Override
@@ -91,19 +93,24 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
                 .into(holder.image);
         holder.cardView.setOnClickListener(v -> App.getBus().post(new ShareOpenEvent(data.get(position).getFile(),false)));
         holder.btnDelete.setOnClickListener(v -> {
-                    if(FileManager.getInstance().delete(data.get(holder.getAdapterPosition()).getFile())){
-                        itemDeleted(holder.getAdapterPosition());
-                    };
-        }
+                if(data.size()>=holder.getAdapterPosition()){
+                    DeleteDemEvent event = new DeleteDemEvent(data.get(holder.getAdapterPosition()).getFile(),holder.getAdapterPosition());
+                    App.getBus().post(event);
+                }
+            }
         );
 
-        holder.btnShare.setOnClickListener(v -> App.getBus().post(new ShareOpenEvent(data.get(position).getFile(),true)));
+        holder.btnShare.setOnClickListener(v ->
+                App.getBus().post(
+                        new ShareOpenEvent(
+                                data.get(holder.getAdapterPosition()).getFile(),true)));
     }
 
 
     public void itemDeleted(int position){
         data.remove(position);
         notifyItemRemoved(position);
+        App.getBus().post(new EmptyListEvent());
         //notifyItemRangeChanged(position, data.size());
     }
 

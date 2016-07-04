@@ -1,6 +1,7 @@
 package com.nookdev.maker.dem.fragments.list;
 
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,9 +29,14 @@ public class GalleryViewImpl implements GalleryView {
     @Bind(R.id.rv_pics)
     RecyclerView mRecyclerView;
 
+    @Bind(R.id.empty_list)
+    CardView mEmptyList;
+
     @Override
     public void update() {
-
+        mEmptyList.setVisibility(
+                mRVAdapter.getItemCount()>0 ? View.GONE : View.VISIBLE
+        );
     }
 
     @Override

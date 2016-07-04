@@ -21,7 +21,7 @@ public class PreviewControllerImpl implements PreviewController {
     private Bitmap mImage;
 
     private PreviewControllerImpl(){
-        App.getBus().register(this);
+
     }
 
     public static PreviewControllerImpl getInstance(){
@@ -45,6 +45,7 @@ public class PreviewControllerImpl implements PreviewController {
         if(mImage!=null){
             mPreviewView.setPreviewImage(mImage);
         }
+
     }
 
     @Override
@@ -61,8 +62,6 @@ public class PreviewControllerImpl implements PreviewController {
                 event.isChanged()
         );
     }
-
-
 
 
 }

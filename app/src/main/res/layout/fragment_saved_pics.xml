@@ -3,11 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.list.GalleryFragment">
-
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rv_pics"
-         />
+        android:orientation="vertical">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rv_pics"
+             />
+        <android.support.v7.widget.CardView
+            android:id="@+id/empty_list"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:textSize="20sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/empty_list"/>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
 
 </FrameLayout>
