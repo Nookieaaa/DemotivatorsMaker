@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.widget.Toast;
+
+import com.appodeal.ads.Appodeal;
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.BuildConfig;
 import com.nookdev.maker.dem.R;

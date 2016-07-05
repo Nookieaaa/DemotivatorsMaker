@@ -18,7 +18,7 @@ import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.events.RequestDemInfo;
 import com.nookdev.maker.dem.helpers.Constants;
-import com.nookdev.maker.dem.helpers.RotateImageAnimation;
+import com.nookdev.maker.dem.helpers.RotateHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -236,21 +236,21 @@ public class ConstructorViewImpl implements ConstructorView{
 
         @Override
         public void onClick(View v) {
-            RotateImageAnimation.RotateDirection rotateDirection;
+            RotateHelper.RotateDirection rotateDirection;
             final Matrix matrix = new Matrix();
             switch (v.getId()){
 
                 case R.id.constructor_rotate_left:{
-                    rotateDirection = RotateImageAnimation.RotateDirection.LEFT;
+                    rotateDirection = RotateHelper.RotateDirection.LEFT;
                     break;
                 }
                 default:{
-                    rotateDirection = RotateImageAnimation.RotateDirection.RIGHT;
+                    rotateDirection = RotateHelper.RotateDirection.RIGHT;
                     break;
                 }
             }
 
-            matrix.postRotate(RotateImageAnimation.getRotateStepAngle(rotateDirection));
+            matrix.postRotate(RotateHelper.getRotateStepAngle(rotateDirection));
             final Bitmap b = Bitmap.createBitmap(mOriginalBitmap,
                     0,
                     0,
@@ -261,4 +261,6 @@ public class ConstructorViewImpl implements ConstructorView{
             setImage(b);
         }
     }
+
+
 }
