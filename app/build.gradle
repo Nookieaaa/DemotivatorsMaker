@@ -16,9 +16,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             debuggable false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         debug {
@@ -35,6 +34,11 @@ android {
             it.buildConfigField 'String', 'APPODEAL_API_KEY', API_KEY
         }
     }
+
+    configurations {
+        all*.exclude group: 'com.android.support', module: 'support-v4'
+        all*.exclude group: 'com.android.support', module: 'annotation'
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -47,9 +51,12 @@ android {
     }
     lintOptions {
         disable 'InvalidPackage'
+        checkReleaseBuilds false
+        abortOnError false
     }
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'com.android.support'
     }
 }
 
@@ -60,7 +67,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
+    compile ('com.android.support:design:23.4.0')
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.android.support:cardview-v7:23.4.0'

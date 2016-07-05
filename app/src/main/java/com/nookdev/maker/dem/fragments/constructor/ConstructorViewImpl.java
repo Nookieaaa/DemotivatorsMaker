@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
@@ -34,7 +33,6 @@ public class ConstructorViewImpl implements ConstructorView{
     private String mCaptionString;
     private String mTextString;
     private boolean mImageChanged = false;
-    private static boolean sFabVisible = false;
 
     private final RotateClickListener mRotateClickListener = new RotateClickListener();
 
@@ -76,24 +74,6 @@ public class ConstructorViewImpl implements ConstructorView{
         mImage.setOnClickListener(v -> mController.requestImage(mSourceMode));
         mRotateLeft.setOnClickListener(mRotateClickListener);
         mRotateRight.setOnClickListener(mRotateClickListener);
-        mRoot.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                if(mFab==null)
-                    return;
-                int y = mRoot.getScrollY();
-                if (mY<=mRoot.getScrollY()-5&&mFab.isShown()) {
-                    mFab.hide();
-                    setFabVisibility(false);
-                }
-                if((mY>mRoot.getScrollY()||mRoot.getScrollY()==0)&&!mFab.isShown())
-                {
-                    mFab.show();
-                    setFabVisibility(true);
-                }
-                mY = mRoot.getScrollY();
-            }
-        });
         mSourceSelector.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.constructor_rb_camera: {
@@ -113,14 +93,6 @@ public class ConstructorViewImpl implements ConstructorView{
             setImage(mOriginalBitmap);
             mImageChanged = false;
         }
-    }
-
-    private void setFabVisibility(boolean visibility){
-        sFabVisible = visibility;
-    }
-
-    public static boolean IsFabVisible(){
-        return sFabVisible;
     }
 
     @Override

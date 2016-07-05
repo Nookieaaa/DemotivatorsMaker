@@ -24,7 +24,6 @@ import com.nookdev.maker.dem.events.DemSavedEvent;
 import com.nookdev.maker.dem.events.RequestDemInfo;
 import com.nookdev.maker.dem.events.ShareOpenEvent;
 import com.nookdev.maker.dem.fragments.constructor.ConstructorFragment;
-import com.nookdev.maker.dem.fragments.constructor.ConstructorViewImpl;
 import com.nookdev.maker.dem.fragments.list.GalleryFragment;
 import com.nookdev.maker.dem.fragments.preview.PreviewFragment;
 
@@ -134,8 +133,8 @@ public class MainActivityViewImpl implements MainActivityView {
 
             @Override
             public void onPageSelected(int position) {
-                if(position<=1)
-                    changeFabIcon(position);
+//                if(position<=1)
+//                    changeFabIcon(position);
                 if (position==2){
                     mFab.hide();
                     CheckPermissionAndExecuteEvent e = new CheckPermissionAndExecuteEvent();
@@ -156,21 +155,11 @@ public class MainActivityViewImpl implements MainActivityView {
                     }
                     if (currPage == 1) {
                         requestPreview();
+                        mFab.show();
                     }
-                    if (currPage == 2) {
-                        //App.getBus().post(new RefreshEvent());
+                    else {
                         mFab.hide();
                     }
-                    else if(currPage==0){
-                        if(ConstructorViewImpl.IsFabVisible()){
-                            if(!mFab.isShown())
-                                mFab.show();
-                        }
-                        else {
-                            mFab.hide();
-                        }
-                    } else if (mFab.getVisibility() != View.VISIBLE)
-                        mFab.show();
                 }
             }
             private void requestPreview(){

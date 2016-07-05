@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import com.appodeal.ads.Appodeal;
-import com.appodeal.ads.BannerCallbacks;
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.BuildConfig;
 import com.nookdev.maker.dem.R;
@@ -28,7 +27,6 @@ import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
-import rx.Subscription;
 
 import static com.nookdev.maker.dem.helpers.Constants.ACTION_TAKE_PHOTO;
 
@@ -36,7 +34,6 @@ import static com.nookdev.maker.dem.helpers.Constants.ACTION_TAKE_PHOTO;
 public class MainActivity extends AppCompatActivity {
     public static final String TAG_NAME = MainActivity.class.getSimpleName();
     private MainActivityController mController;
-    private Subscription mAdSubscription;
 
     @Override
     public void onAttachFragment(Fragment fragment) {
@@ -54,30 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
         Appodeal.initialize(this, BuildConfig.APPODEAL_API_KEY, Appodeal.BANNER);
         Appodeal.disableLocationPermissionCheck();
-        Appodeal.setTesting(true);
+        Appodeal.setTesting(BuildConfig.DEBUG);
+        Appodeal.setLogging(BuildConfig.DEBUG);
         Appodeal.setBannerViewId(R.id.banner);
-        Appodeal.setBannerCallbacks(new BannerCallbacks() {
-            @Override
-            public void onBannerLoaded(int i, boolean b) {
-                Appodeal.show(MainActivity.this,Appodeal.BANNER_VIEW);
-                showMessage("banner loaded");
-            }
-
-            @Override
-            public void onBannerFailedToLoad() {
-                showMessage("banner failed to load");
-            }
-
-            @Override
-            public void onBannerShown() {
-                showMessage("banner shown");
-            }
-
-            @Override
-            public void onBannerClicked() {
-                showMessage("banner clicked");
-            }
-        });
+        Appodeal.show(this,Appodeal.BANNER_VIEW);
 
     }
 
@@ -85,21 +62,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Appodeal.onResume(this, Appodeal.BANNER_VIEW);
-//        mAdSubscription = Observable.interval(1, TimeUnit.SECONDS)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(time ->{
-//                    //if(Appodeal.isLoaded(Appodeal.BANNER_BOTTOM)){
-//                        Appodeal.show(MainActivity.this,Appodeal.BANNER_BOTTOM);
-//                    //}
-//                });
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        if(mAdSubscription!=null&&!mAdSubscription.isUnsubscribed())
-//            mAdSubscription.unsubscribe();
     }
 
     @Override
