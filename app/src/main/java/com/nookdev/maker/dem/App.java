@@ -1,8 +1,8 @@
 package com.nookdev.maker.dem;
 
 
-import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
@@ -11,7 +11,7 @@ import com.squareup.otto.ThreadEnforcer;
 
 import lombok.Getter;
 
-public class App extends Application {
+public class App extends MultiDexApplication{
     private static Context context;
     public @Getter static Bus bus = new Bus(ThreadEnforcer.ANY);
 
@@ -20,6 +20,8 @@ public class App extends Application {
         super.onCreate();
         context = this;
     }
+
+
 
     public static Context getAppContext(){
         return context;
