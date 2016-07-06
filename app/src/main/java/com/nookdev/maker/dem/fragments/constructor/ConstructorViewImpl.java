@@ -3,14 +3,13 @@ package com.nookdev.maker.dem.fragments.constructor;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.nookdev.maker.dem.App;
@@ -51,16 +50,14 @@ public class ConstructorViewImpl implements ConstructorView{
     @Bind(R.id.constructor_text)
     EditText mText;
 
+    @Bind(R.id.constructor_rotate_ll)
+    LinearLayout mRotateContainer;
+
     @Bind(R.id.constructor_rotate_left)
     ImageButton mRotateLeft;
 
     @Bind(R.id.constructor_rotate_right)
     ImageButton mRotateRight;
-
-    FloatingActionButton mFab;
-
-    @Bind(R.id.constructor_root)
-    ScrollView mRoot;
 
     private ConstructorViewImpl() {
         App.getBus().register(this);
@@ -137,9 +134,8 @@ public class ConstructorViewImpl implements ConstructorView{
         });
         mImage.startAnimation(fadeOutAnimation);
         mSelectImageText.setVisibility(View.GONE);
-        if(mRotateLeft.getVisibility()!=View.VISIBLE){
-            mRotateLeft.setVisibility(View.VISIBLE);
-            mRotateRight.setVisibility(View.VISIBLE);
+        if(mRotateContainer.getVisibility()!=View.VISIBLE){
+            mRotateContainer.setVisibility(View.VISIBLE);
         }
         mImage.setBackgroundDrawable(null);
     }
@@ -162,11 +158,6 @@ public class ConstructorViewImpl implements ConstructorView{
     @Override
     public void setViewAndController(View v, ConstructorController controller) {
         mController = controller;
-        try{
-            mFab = (FloatingActionButton) v.getRootView().findViewById(R.id.fab);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
         ButterKnife.bind(this, v);
         init();
     }
@@ -204,7 +195,6 @@ public class ConstructorViewImpl implements ConstructorView{
     }
 
     private class RotateClickListener implements View.OnClickListener {
-        private static final int ROTATE_STEP = 90;
 
         @Override
         public void onClick(View v) {

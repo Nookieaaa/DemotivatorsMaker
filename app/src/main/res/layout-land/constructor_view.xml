@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="horizontal"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:weightSum="100">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="40">
+            <RadioGroup
+                android:id="@+id/constructor_radiogroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_horizontal">
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/constructor_rb_gallery"
+                    android:text="@string/rb_gallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true" />
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/constructor_rb_camera"
+                    android:text="@string/rb_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RadioGroup>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="100">
+
+                <FrameLayout
+                    android:id="@+id/constructor_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="20">
+
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/constructor_image"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerInside"
+                        android:contentDescription="@string/select_image" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/select_image_gallery"
+                        android:id="@+id/constructor_select_image_text"
+                        android:layout_gravity="center"
+                        android:gravity="center_horizontal"
+                        android:paddingRight="@dimen/select_image_padding"
+                        android:paddingLeft="@dimen/select_image_padding" />
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/constructor_rotate_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_gravity="end"
+                    android:foregroundGravity="center_vertical|right"
+                    android:layout_weight="80"
+                    android:visibility="gone">
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:id="@+id/constructor_rotate_left"
+                        android:src="@drawable/ic_action_goleft"
+                        android:layout_weight="1"/>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:id="@+id/constructor_rotate_right"
+                        android:src="@drawable/ic_action_goright"
+                        android:layout_weight="1"/>
+                    </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="end"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="60">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/view"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp">
+                <EditText
+                    android:id="@+id/constructor_caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minWidth="100dp"
+                    android:hint="@string/dem_large_text"
+                    android:textSize="30sp"
+                    android:gravity="center_horizontal"
+                    android:focusableInTouchMode="true"
+                    android:focusable="true"
+                    android:nextFocusDown="@+id/constructor_text"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/view2"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:paddingBottom="30dp">
+                <EditText
+                    android:id="@+id/constructor_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minWidth="100dp"
+                    android:hint="@string/dem_small_text"
+                    android:gravity="center_horizontal"
+                    android:focusableInTouchMode="true"
+                    android:focusable="true"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+    </LinearLayout>

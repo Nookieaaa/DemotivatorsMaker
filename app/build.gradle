@@ -35,11 +35,7 @@ android {
         }
     }
 
-    configurations {
-        all*.exclude group: 'com.android.support', module: 'support-v4'
-        all*.exclude group: 'com.android.support', module: 'support'
-        all*.exclude group: 'android.support', module: 'annotations'
-    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

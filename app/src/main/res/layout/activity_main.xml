@@ -41,19 +41,18 @@
         android:layout_margin="@dimen/fab_margin"
         android:layout_gravity = "bottom|end"
         android:tint="#ffffff"
-        android:visibility="invisible"
-        android:src="@android:drawable/ic_menu_save" />
+
+        android:src="@drawable/ic_arrow_right" />
 
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/pager"
-        app:layout_behavior = "@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior = "@string/appbar_scrolling_view_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>
 <com.appodeal.ads.BannerView
     android:layout_gravity="bottom"
-    android:visibility="visible"
     android:id="@+id/banner"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

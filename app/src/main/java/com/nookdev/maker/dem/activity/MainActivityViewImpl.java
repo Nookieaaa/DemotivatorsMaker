@@ -114,6 +114,7 @@ public class MainActivityViewImpl implements MainActivityView {
         ActionBar ab = mController.getActivity().getSupportActionBar();
         if (ab != null) {
             ab.setIcon(R.mipmap.ic_launcher);
+            ab.hide();
         }
     }
 
@@ -133,13 +134,18 @@ public class MainActivityViewImpl implements MainActivityView {
 
             @Override
             public void onPageSelected(int position) {
-//                if(position<=1)
-//                    changeFabIcon(position);
                 if (position==2){
-                    mFab.hide();
-                    CheckPermissionAndExecuteEvent e = new CheckPermissionAndExecuteEvent();
-                    e.setAction(CheckPermissionAndExecuteEvent.ACTION_GALLERY);
-                    App.getBus().post(e);
+                        mFab.hide();
+                        CheckPermissionAndExecuteEvent e = new CheckPermissionAndExecuteEvent();
+                        e.setAction(CheckPermissionAndExecuteEvent.ACTION_GALLERY);
+                        App.getBus().post(e);
+                }
+                else {
+                    if(position==1)
+                        requestPreview();
+                    mFab.show();
+                    changeFabIcon(position);
+                    //mFab.hide();
                 }
 
             }
@@ -155,10 +161,7 @@ public class MainActivityViewImpl implements MainActivityView {
                     }
                     if (currPage == 1) {
                         requestPreview();
-                        mFab.show();
-                    }
-                    else {
-                        mFab.hide();
+                        //mFab.show();
                     }
                 }
             }
