@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Appodeal.onResume(this, Appodeal.BANNER_VIEW);
-
     }
 
     @Override
