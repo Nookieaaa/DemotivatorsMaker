@@ -13,7 +13,7 @@
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:layout_weight="5"
     tools:context=".activity.MainActivity">
 
     <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
@@ -51,6 +51,7 @@
 
 </android.support.design.widget.CoordinatorLayout>
 <com.appodeal.ads.BannerView
+    android:layout_weight="1"
     android:layout_gravity="bottom"
     android:id="@+id/banner"
     android:layout_width="match_parent"

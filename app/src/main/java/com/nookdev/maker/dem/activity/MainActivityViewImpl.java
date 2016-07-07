@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.appodeal.ads.BannerView;
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.events.CheckPermissionAndExecuteEvent;
@@ -53,6 +54,9 @@ public class MainActivityViewImpl implements MainActivityView {
 
     @Bind(R.id.pager)
     ViewPager mViewPager;
+
+    @Bind(R.id.banner)
+    BannerView mBanner;
 
     @OnClick(R.id.fab)
     public void fabOnClick(){
@@ -134,6 +138,7 @@ public class MainActivityViewImpl implements MainActivityView {
 
             @Override
             public void onPageSelected(int position) {
+                setBannerBackground(position);
                 if (position==2){
                         mFab.hide();
                         CheckPermissionAndExecuteEvent e = new CheckPermissionAndExecuteEvent();
@@ -141,10 +146,12 @@ public class MainActivityViewImpl implements MainActivityView {
                         App.getBus().post(e);
                 }
                 else {
-                    if(position==1)
+                    if(position==1){
                         requestPreview();
-                    mFab.show();
+                    }
                     changeFabIcon(position);
+                    mFab.show();
+
                     //mFab.hide();
                 }
 
@@ -158,10 +165,6 @@ public class MainActivityViewImpl implements MainActivityView {
                     if (currPage != 0) {
                         ((InputMethodManager) App.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                                 .hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
-                    }
-                    if (currPage == 1) {
-                        requestPreview();
-                        //mFab.show();
                     }
                 }
             }
@@ -201,5 +204,15 @@ public class MainActivityViewImpl implements MainActivityView {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    private void setBannerBackground(int position){
+        int color;
+        if(position==1){
+            color = App.getAppContext().getResources().getColor(android.R.color.background_dark);
+        }else
+            color = App.getAppContext().getResources().getColor(android.R.color.background_light);
+
+        mBanner.setBackgroundColor(color);
     }
 }

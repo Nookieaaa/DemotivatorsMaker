@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
         android:layout_width="match_parent" android:layout_height="wrap_content">
 
@@ -25,36 +25,42 @@
                 android:layout_height="wrap_content" />
 
         </RadioGroup>
-        <FrameLayout
-            android:id="@+id/constructor_frame"
+        <android.support.v7.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/constructor_image"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:contentDescription="@string/select_image"
-                android:minHeight="@dimen/constructor_image_min_height"
-                android:maxHeight="@dimen/constructor_image_max_height"
-                android:minWidth="@dimen/constructor_image_min_width" />
-
-            <TextView
-                android:layout_width="match_parent"
+            android:layout_gravity="center"
+            app:cardElevation="8dp">
+            <FrameLayout
+                android:id="@+id/constructor_frame"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/select_image_gallery"
-                android:id="@+id/constructor_select_image_text"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
-                android:paddingRight="@dimen/select_image_padding"
-                android:paddingLeft="@dimen/select_image_padding" />
+                >
 
-        </FrameLayout>
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/constructor_image"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:contentDescription="@string/select_image"
+                    android:minHeight="@dimen/constructor_image_min_height"
+                    android:maxHeight="@dimen/constructor_image_max_height"
+                    android:minWidth="@dimen/constructor_image_min_width" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_image_gallery"
+                    android:id="@+id/constructor_select_image_text"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:paddingRight="@dimen/select_image_padding"
+                    android:paddingLeft="@dimen/select_image_padding" />
+
+            </FrameLayout>
+        </android.support.v7.widget.CardView>
         <LinearLayout
             android:id="@+id/constructor_rotate_ll"
             android:layout_width="wrap_content"
@@ -66,12 +72,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/constructor_rotate_left"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:tint="@color/colorPrimary"
                 android:src="@drawable/ic_action_goleft" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:id="@+id/constructor_rotate_right"
+                android:tint="@color/colorPrimary"
                 android:src="@drawable/ic_action_goright" />
             </LinearLayout>
 

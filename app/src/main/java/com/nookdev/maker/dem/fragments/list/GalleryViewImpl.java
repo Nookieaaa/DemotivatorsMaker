@@ -1,11 +1,11 @@
 package com.nookdev.maker.dem.fragments.list;
 
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.events.RefreshEvent;
@@ -30,7 +30,7 @@ public class GalleryViewImpl implements GalleryView {
     RecyclerView mRecyclerView;
 
     @Bind(R.id.empty_list)
-    CardView mEmptyList;
+    TextView mEmptyList;
 
     @Override
     public void update() {

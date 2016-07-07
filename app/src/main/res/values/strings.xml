@@ -28,7 +28,7 @@
     <string name="tab_collection_title">My collection</string>
     <string name="dialog_delete_title">Delete</string>
     <string name="error_file_not_saved">Error, file not saved :(</string>
-    <string name="share_message">Create your unique demotivator with http://bit.ly/1m3YagW /n #demotivateme #demotivator</string>
+    <string name="share_message">Create your unique demotivator with http://bit.ly/1m3YagW \n #demotivateme #demotivator</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>

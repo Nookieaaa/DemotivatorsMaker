@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="horizontal"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:weightSum="100">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="100">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -34,36 +37,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:weightSum="100">
-
-                <FrameLayout
-                    android:id="@+id/constructor_frame"
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="20"
-                    android:padding="20dp">
-
-
-                    <ImageButton
+                    app:cardElevation="8dp"
+                    android:padding="20dp"
+                    app:cardUseCompatPadding="true">
+                    <FrameLayout
+                        android:id="@+id/constructor_frame"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/constructor_image"
-                        android:layout_gravity="center"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerInside"
-                        android:contentDescription="@string/select_image" />
+                        >
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/select_image_gallery"
-                        android:id="@+id/constructor_select_image_text"
-                        android:layout_gravity="center"
-                        android:gravity="center_horizontal"
-                        android:paddingRight="@dimen/select_image_padding"
-                        android:paddingLeft="@dimen/select_image_padding" />
 
-                </FrameLayout>
+                        <ImageButton
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/constructor_image"
+                            android:layout_gravity="center"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerInside"
+                            android:contentDescription="@string/select_image" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/select_image_gallery"
+                            android:id="@+id/constructor_select_image_text"
+                            android:layout_gravity="center"
+                            android:gravity="center_horizontal"
+                            android:paddingRight="@dimen/select_image_padding"
+                            android:paddingLeft="@dimen/select_image_padding" />
+
+                    </FrameLayout>
+                </android.support.v7.widget.CardView>
 
                 <LinearLayout
                     android:id="@+id/constructor_rotate_ll"
@@ -78,7 +87,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
                         android:id="@+id/constructor_rotate_left"
+                        android:tint="@color/colorPrimary"
                         android:src="@drawable/ic_action_goleft"
                         android:layout_weight="1"/>
 
@@ -86,7 +97,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
                         android:id="@+id/constructor_rotate_right"
+                        android:tint="@color/colorPrimary"
                         android:src="@drawable/ic_action_goright"
                         android:layout_weight="1"/>
                     </LinearLayout>

@@ -15,23 +15,25 @@ android {
     }
 
     buildTypes {
+
+        def Properties localProps = new Properties()
+        localProps.load(new FileInputStream(file('/secret.gradle')))
+
         release {
             minifyEnabled false
             debuggable false
+
+            def String API_KEY = localProps["APPODEAL_API_KEY"]
+            it.buildConfigField 'String', 'APPODEAL_API_KEY', API_KEY
         }
 
         debug {
             debuggable true
-            //applicationIdSuffix ".debug"
+            applicationIdSuffix ".debug"
 
-        }
-
-        buildTypes.each{
-            def Properties localProps = new Properties()
-            localProps.load(new FileInputStream(file('/secret.gradle')))
-            def String API_KEY = localProps["APPODEAL_API_KEY"]
-
+            def String API_KEY = localProps["APPODEAL_API_KEY_DEBUG"]
             it.buildConfigField 'String', 'APPODEAL_API_KEY', API_KEY
+
         }
     }
 
