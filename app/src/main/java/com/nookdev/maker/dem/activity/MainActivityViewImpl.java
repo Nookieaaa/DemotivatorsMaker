@@ -211,7 +211,7 @@ public class MainActivityViewImpl implements MainActivityView {
         if(position==1){
             color = App.getAppContext().getResources().getColor(android.R.color.background_dark);
         }else
-            color = App.getAppContext().getResources().getColor(android.R.color.background_light);
+            color = App.getAppContext().getResources().getColor(android.support.v7.appcompat.R.color.background_material_light);
 
         mBanner.setBackgroundColor(color);
     }

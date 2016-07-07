@@ -9,5 +9,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:src="@mipmap/ic_launcher"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        android:paddingBottom="50dp"/>
 </RelativeLayout>

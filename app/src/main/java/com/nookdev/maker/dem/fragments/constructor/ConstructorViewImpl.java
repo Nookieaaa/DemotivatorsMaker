@@ -3,13 +3,16 @@ package com.nookdev.maker.dem.fragments.constructor;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.nookdev.maker.dem.App;
@@ -32,6 +35,7 @@ public class ConstructorViewImpl implements ConstructorView{
     private String mCaptionString;
     private String mTextString;
     private boolean mImageChanged = false;
+    private static boolean sFabVisible = false;
 
     private final RotateClickListener mRotateClickListener = new RotateClickListener();
 
@@ -59,6 +63,10 @@ public class ConstructorViewImpl implements ConstructorView{
     @Bind(R.id.constructor_rotate_right)
     ImageButton mRotateRight;
 
+    ScrollView mScrollView;
+
+    FloatingActionButton mFab;
+
     private ConstructorViewImpl() {
         App.getBus().register(this);
     }
@@ -85,11 +93,38 @@ public class ConstructorViewImpl implements ConstructorView{
                 }
             }
         });
+        if(mScrollView!=null)
+            mScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+                @Override
+                public void onScrollChanged() {
+                    if(mFab==null)
+                        return;
+                    int y = mScrollView.getScrollY();
+                    if (mY<=y-5&&mFab.isShown()) {
+                        mFab.hide();
+                        setFabVisibility(false);
+                    }
+                    if((mY>y||y==0)&&!mFab.isShown())
+                    {
+                        mFab.show();
+                        setFabVisibility(true);
+                    }
+                    mY = y;
+                }
+            });
 
         if(mOriginalBitmap!=null){
             setImage(mOriginalBitmap);
             mImageChanged = false;
         }
+    }
+
+    private void setFabVisibility(boolean visibility){
+        sFabVisible = visibility;
+    }
+
+    public static boolean IsFabVisible(){
+        return sFabVisible;
     }
 
     @Override
@@ -158,6 +193,14 @@ public class ConstructorViewImpl implements ConstructorView{
     @Override
     public void setViewAndController(View v, ConstructorController controller) {
         mController = controller;
+        try{
+            mFab = (FloatingActionButton) v.getRootView().findViewById(R.id.fab);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        mScrollView = (ScrollView) v.findViewById(R.id.constructor_scroll);
+
         ButterKnife.bind(this, v);
         init();
     }
