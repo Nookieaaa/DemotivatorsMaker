@@ -10,7 +10,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -54,8 +53,8 @@ public class ConstructorViewImpl implements ConstructorView{
     @Bind(R.id.constructor_text)
     EditText mText;
 
-    @Bind(R.id.constructor_rotate_ll)
-    LinearLayout mRotateContainer;
+//    @Bind(R.id.constructor_rotate_ll)
+//    LinearLayout mRotateContainer;
 
     @Bind(R.id.constructor_rotate_left)
     ImageButton mRotateLeft;
@@ -169,9 +168,15 @@ public class ConstructorViewImpl implements ConstructorView{
         });
         mImage.startAnimation(fadeOutAnimation);
         mSelectImageText.setVisibility(View.GONE);
-        if(mRotateContainer.getVisibility()!=View.VISIBLE){
-            mRotateContainer.setVisibility(View.VISIBLE);
+//        if(mRotateContainer.getVisibility()!=View.VISIBLE){
+//            mRotateContainer.setVisibility(View.VISIBLE);
+//        }
+
+        if(mRotateLeft.getVisibility()!=View.VISIBLE||mRotateRight.getVisibility()!=View.VISIBLE){
+            mRotateLeft.setVisibility(View.VISIBLE);
+            mRotateRight.setVisibility(View.VISIBLE);
         }
+
         mImage.setBackgroundDrawable(null);
     }
 
@@ -199,7 +204,7 @@ public class ConstructorViewImpl implements ConstructorView{
             e.printStackTrace();
         }
 
-        mScrollView = (ScrollView) v.findViewById(R.id.constructor_scroll);
+        //mScrollView = (ScrollView) v.findViewById(R.id.constructor_scroll);
 
         ButterKnife.bind(this, v);
         init();
