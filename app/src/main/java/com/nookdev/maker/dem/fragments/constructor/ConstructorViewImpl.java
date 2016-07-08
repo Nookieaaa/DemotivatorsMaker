@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
@@ -27,14 +26,12 @@ public class ConstructorViewImpl implements ConstructorView{
 
     private static ConstructorViewImpl instance = new ConstructorViewImpl();
     private ConstructorController mController;
-    private int mY = 0;
 
     private int mSourceMode = Constants.ACTION_PICK_IMAGE;
     private Bitmap mOriginalBitmap;
     private String mCaptionString;
     private String mTextString;
     private boolean mImageChanged = false;
-    private static boolean sFabVisible = false;
 
     private final RotateClickListener mRotateClickListener = new RotateClickListener();
 
@@ -52,9 +49,6 @@ public class ConstructorViewImpl implements ConstructorView{
 
     @Bind(R.id.constructor_text)
     EditText mText;
-
-//    @Bind(R.id.constructor_rotate_ll)
-//    LinearLayout mRotateContainer;
 
     @Bind(R.id.constructor_rotate_left)
     ImageButton mRotateLeft;
@@ -92,38 +86,11 @@ public class ConstructorViewImpl implements ConstructorView{
                 }
             }
         });
-        if(mScrollView!=null)
-            mScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-                @Override
-                public void onScrollChanged() {
-                    if(mFab==null)
-                        return;
-                    int y = mScrollView.getScrollY();
-                    if (mY<=y-5&&mFab.isShown()) {
-                        mFab.hide();
-                        setFabVisibility(false);
-                    }
-                    if((mY>y||y==0)&&!mFab.isShown())
-                    {
-                        mFab.show();
-                        setFabVisibility(true);
-                    }
-                    mY = y;
-                }
-            });
 
         if(mOriginalBitmap!=null){
             setImage(mOriginalBitmap);
             mImageChanged = false;
         }
-    }
-
-    private void setFabVisibility(boolean visibility){
-        sFabVisible = visibility;
-    }
-
-    public static boolean IsFabVisible(){
-        return sFabVisible;
     }
 
     @Override
@@ -168,16 +135,10 @@ public class ConstructorViewImpl implements ConstructorView{
         });
         mImage.startAnimation(fadeOutAnimation);
         mSelectImageText.setVisibility(View.GONE);
-//        if(mRotateContainer.getVisibility()!=View.VISIBLE){
-//            mRotateContainer.setVisibility(View.VISIBLE);
-//        }
-
         if(mRotateLeft.getVisibility()!=View.VISIBLE||mRotateRight.getVisibility()!=View.VISIBLE){
             mRotateLeft.setVisibility(View.VISIBLE);
             mRotateRight.setVisibility(View.VISIBLE);
         }
-
-        mImage.setBackgroundDrawable(null);
     }
 
     @Override

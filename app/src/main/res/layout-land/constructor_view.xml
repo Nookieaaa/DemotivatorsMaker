@@ -46,7 +46,7 @@
                     android:padding="15dp"
                     app:cardUseCompatPadding="true">
                     <FrameLayout
-                        android:id="@+id/constructor_frame"
+                        android:id="@+id/constructor_card_frame"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         >
