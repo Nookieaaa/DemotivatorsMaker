@@ -33,6 +33,4 @@ public class ConstructorFragment extends Fragment {
             mController.onRecreate();
     }
 
-
-
 }

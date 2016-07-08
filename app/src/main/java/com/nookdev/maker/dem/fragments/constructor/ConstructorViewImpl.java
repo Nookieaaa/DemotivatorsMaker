@@ -165,8 +165,6 @@ public class ConstructorViewImpl implements ConstructorView{
             e.printStackTrace();
         }
 
-        //mScrollView = (ScrollView) v.findViewById(R.id.constructor_scroll);
-
         ButterKnife.bind(this, v);
         init();
     }

@@ -138,7 +138,7 @@ public class MainActivityControllerImpl implements MainActivityController {
     @Override
     public void setActivity(MainActivity activity) {
         this.mMainActivity = activity;
-        View v = mMainActivity.findViewById(R.id.main_activity_root);
+        View v = mMainActivity.findViewById(R.id.coordinator);
         setView(v);
     }
 

@@ -17,7 +17,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.appodeal.ads.BannerView;
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.events.CheckPermissionAndExecuteEvent;
@@ -55,8 +54,6 @@ public class MainActivityViewImpl implements MainActivityView {
     @Bind(R.id.pager)
     ViewPager mViewPager;
 
-    @Bind(R.id.banner)
-    BannerView mBanner;
 
     @OnClick(R.id.fab)
     public void fabOnClick(){
@@ -118,7 +115,6 @@ public class MainActivityViewImpl implements MainActivityView {
         ActionBar ab = mController.getActivity().getSupportActionBar();
         if (ab != null) {
             ab.setIcon(R.mipmap.ic_launcher);
-            ab.hide();
         }
     }
 
@@ -213,6 +209,5 @@ public class MainActivityViewImpl implements MainActivityView {
         }else
             color = App.getAppContext().getResources().getColor(android.support.v7.appcompat.R.color.background_material_light);
 
-        mBanner.setBackgroundColor(color);
     }
 }

@@ -10,90 +10,20 @@
     android:id="@+id/constraintLayout2">
 
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/view"
-        app:layout_constraintLeft_toRightOf="@+id/constructor_card_frame"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/constructor_radiogroup"
-        android:layout_marginTop="20dp"
-        app:layout_constraintRight_toRightOf="@+id/constraintLayout2"
-        android:layout_marginRight="21dp"
-        android:layout_marginEnd="21dp"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintVertical_bias="0.0">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/constructor_caption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minWidth="100dp"
-            android:hint="@string/dem_large_text"
-            android:textSize="30sp"
-            android:gravity="center_horizontal"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
-            android:nextFocusDown="@+id/constructor_text"
-            android:singleLine="true"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="11dp" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.constraint.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/guideline"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="292dp"
-        tools:layout_editor_absoluteY="0dp"
-        app:relativeEnd="300dp" />
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/view2"
-        android:paddingBottom="30dp"
-        app:layout_constraintLeft_toLeftOf="@+id/view"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        android:layout_marginTop="20dp"
-        tools:layout_constraintTop_creator="1"
-        app:layout_constraintRight_toRightOf="@+id/view"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintVertical_bias="0.0">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/constructor_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minWidth="100dp"
-            android:hint="@string/dem_small_text"
-            android:gravity="center_horizontal"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
-            android:singleLine="true"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="11dp" />
-    </android.support.design.widget.TextInputLayout>
-
     <RadioGroup
         android:id="@+id/constructor_radiogroup"
         android:layout_width="221dp"
         android:layout_height="38dp"
         android:orientation="horizontal"
         android:gravity="center"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline"
+        app:layout_constraintLeft_toRightOf="@+id/constructor_card_frame"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout2"
         android:layout_marginTop="16dp"
         app:layout_constraintRight_toRightOf="@+id/constraintLayout2"
-        android:layout_marginRight="21dp"
-        android:layout_marginEnd="21dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
         android:layout_marginBottom="16dp"
         app:layout_constraintVertical_bias="0.0">
@@ -117,27 +47,84 @@
 
     </RadioGroup>
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="252dp"
+        android:layout_height="80dp"
+        android:id="@+id/view"
+        app:layout_constraintLeft_toRightOf="@+id/constructor_card_frame"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/constructor_radiogroup"
+        android:layout_marginTop="8dp"
+        app:layout_constraintRight_toRightOf="@+id/constraintLayout2"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintVertical_bias="0.0">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/constructor_caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/dem_large_text"
+            android:textSize="30sp"
+            android:gravity="center_horizontal"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:nextFocusDown="@+id/constructor_text"
+            android:singleLine="true"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="11dp" />
+    </android.support.design.widget.TextInputLayout>
+
     <android.support.v7.widget.CardView
         android:id="@+id/constructor_card_frame"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="300dp"
+        android:layout_height="260dp"
         app:layout_constraintLeft_toLeftOf="@+id/constraintLayout2"
-        android:layout_marginLeft="9dp"
-        android:layout_marginStart="9dp"
-        tools:layout_constraintLeft_creator="1"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout2"
         android:layout_marginTop="16dp"
-        app:layout_constraintRight_toLeftOf="@+id/guideline"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
-        android:layout_marginBottom="50dp">
+        android:layout_marginBottom="16dp">
 
         <include android:layout_height="match_parent"
             android:layout_width="match_parent"
             layout="@layout/constructor_image_selection"/>
 
     </android.support.v7.widget.CardView>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="252dp"
+        android:layout_height="80dp"
+        android:id="@+id/view2"
+        android:paddingBottom="30dp"
+        app:layout_constraintLeft_toRightOf="@+id/constructor_card_frame"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        android:layout_marginTop="8dp"
+        app:layout_constraintRight_toRightOf="@+id/constraintLayout2"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintVertical_bias="0.0">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/constructor_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/dem_small_text"
+            android:gravity="center_horizontal"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:singleLine="true"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="11dp" />
+    </android.support.design.widget.TextInputLayout>
 
 
 </android.support.constraint.ConstraintLayout>
