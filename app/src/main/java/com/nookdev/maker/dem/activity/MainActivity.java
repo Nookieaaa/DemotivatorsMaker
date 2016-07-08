@@ -11,9 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.widget.Toast;
 
-import com.appodeal.ads.Appodeal;
+import com.nookdev.maker.dem.Ads;
 import com.nookdev.maker.dem.App;
-import com.nookdev.maker.dem.BuildConfig;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.events.CheckPermissionAndExecuteEvent;
 import com.nookdev.maker.dem.events.RefreshEvent;
@@ -47,26 +46,13 @@ public class MainActivity extends AppCompatActivity {
         mController = MainActivityControllerImpl.getInstance();
         mController.setActivity(this);
         App.getBus().register(this);
-
-
-        Appodeal.initialize(this, BuildConfig.APPODEAL_API_KEY, Appodeal.BANNER);
-        Appodeal.disableLocationPermissionCheck();
-        Appodeal.setTesting(BuildConfig.DEBUG);
-        Appodeal.setLogging(BuildConfig.DEBUG);
-        Appodeal.setBannerViewId(R.id.banner);
-        Appodeal.show(this,Appodeal.BANNER_VIEW);
-
+        Ads.init(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Appodeal.onResume(this, Appodeal.BANNER_VIEW);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
+        Ads.onResume(this);
     }
 
     @Override
