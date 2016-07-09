@@ -11,12 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.widget.Toast;
 
-import com.nookdev.maker.dem.helpers.Ads;
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
 import com.nookdev.maker.dem.events.CheckPermissionAndExecuteEvent;
 import com.nookdev.maker.dem.events.RefreshEvent;
 import com.nookdev.maker.dem.events.SaveDemEvent;
+import com.nookdev.maker.dem.helpers.Ads;
 import com.nookdev.maker.dem.helpers.FileManager;
 import com.squareup.otto.Subscribe;
 

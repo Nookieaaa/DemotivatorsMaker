@@ -2,13 +2,16 @@ package com.nookdev.maker.dem.fragments.preview;
 
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
+import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,6 +44,21 @@ public class PreviewViewImpl implements PreviewView{
         fadeIn.setInterpolator(new AccelerateInterpolator());
         fadeIn.setDuration(500);
         mPreviewImage.setImageBitmap(bitmap);
+        mPreviewImage.startAnimation(fadeIn);
+    }
+
+    @Override
+    public void setPreviewImage(Uri uri) {
+        clearPreview();
+        Picasso.with(App.getAppContext()).invalidate(uri);
+        Animation fadeIn = new AlphaAnimation(0,1);
+        fadeIn.setInterpolator(new AccelerateInterpolator());
+        fadeIn.setDuration(500);
+        Picasso.with(App.getAppContext())
+                .load(uri)
+                .centerInside()
+                .fit()
+                .into(mPreviewImage);
         mPreviewImage.startAnimation(fadeIn);
     }
 

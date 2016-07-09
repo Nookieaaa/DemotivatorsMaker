@@ -7,6 +7,7 @@ import android.view.View;
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.events.DeliverDemInfoEvent;
 import com.nookdev.maker.dem.events.RequestDemInfo;
+import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.models.Demotivator;
 import com.squareup.otto.Subscribe;
 
@@ -32,8 +33,10 @@ public class PreviewControllerImpl implements PreviewController {
         if (!changed)
             return;
         Observable.just(new Demotivator(image,caption,text))
-                .map(Demotivator::toBitmap)
                 .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .map(Demotivator::toBitmap)
+                .map(FileManager.getInstance()::cachePreview)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mPreviewView::setPreviewImage, Throwable::printStackTrace);
     }

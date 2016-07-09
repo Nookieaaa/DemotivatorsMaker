@@ -14,11 +14,11 @@ import android.widget.Toast;
 
 import com.nookdev.maker.dem.App;
 import com.nookdev.maker.dem.R;
-import com.nookdev.maker.dem.events.CheckPermissionAndExecuteEvent;
 import com.nookdev.maker.dem.events.DeliverImageEvent;
 import com.nookdev.maker.dem.events.DemSavedEvent;
 import com.nookdev.maker.dem.events.ImagePickEvent;
 import com.nookdev.maker.dem.events.ShareOpenEvent;
+import com.nookdev.maker.dem.helpers.Ads;
 import com.nookdev.maker.dem.helpers.Constants;
 import com.nookdev.maker.dem.helpers.FileManager;
 import com.nookdev.maker.dem.models.Demotivator;
@@ -162,9 +162,10 @@ public class MainActivityControllerImpl implements MainActivityController {
                 break;
             }
             case 1:{
-                CheckPermissionAndExecuteEvent event = new CheckPermissionAndExecuteEvent();
-                event.setAction(CheckPermissionAndExecuteEvent.ACTION_SAVE);
-                App.getBus().post(event);
+//                CheckPermissionAndExecuteEvent event = new CheckPermissionAndExecuteEvent();
+//                event.setAction(CheckPermissionAndExecuteEvent.ACTION_SAVE);
+//                App.getBus().post(event);
+                Ads.showtime();
                 break;
             }
         }

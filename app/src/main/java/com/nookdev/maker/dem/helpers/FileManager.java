@@ -41,11 +41,7 @@ public class FileManager {
 
 
     private FileManager(){
-        try {
-        createFolderIfNeeded();
-            } catch (DirectoryCreationFailed directoryCreationFailed) {
-                directoryCreationFailed.printStackTrace();
-            }
+
     }
 
     private File getFolder(){
@@ -118,14 +114,12 @@ public class FileManager {
         if (isExternalStorageReadableAndWritable()){
             File deletedFile = new File(uri.getPath());
             if (deletedFile.exists()){
-                deletedFile.delete();
+                result = deletedFile.delete();
             }
             updateMediaScanner(Uri.fromFile(deletedFile));
         }
 
-        //App.getBus().post(new RefreshEvent());
-
-        return true;
+        return result;
     }
 
     public Uri saveDem(Demotivator demotivator) throws ExternalStorageNotReadyException, DirectoryCreationFailed {
@@ -265,6 +259,23 @@ public class FileManager {
         public DirectoryCreationFailed() {
             super(App.getStringResource(R.string.error_directory_not_created));
         }
+    }
+
+    public Uri cachePreview(Bitmap bitmap){
+        Uri outputUri = Uri.EMPTY;
+
+        File cache = new File(App.getAppContext().getCacheDir(),TMP_NAME);
+        try {
+            FileOutputStream fos = new FileOutputStream(cache);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos);
+            fos.close();
+            outputUri = Uri.fromFile(cache);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return outputUri;
     }
 
 
