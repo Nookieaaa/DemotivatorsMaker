@@ -24,8 +24,10 @@ import com.nookdev.maker.dem.events.DemSavedEvent;
 import com.nookdev.maker.dem.events.RequestDemInfo;
 import com.nookdev.maker.dem.events.ShareOpenEvent;
 import com.nookdev.maker.dem.fragments.constructor.ConstructorFragment;
+import com.nookdev.maker.dem.fragments.donate.DonateFragment;
 import com.nookdev.maker.dem.fragments.list.GalleryFragment;
 import com.nookdev.maker.dem.fragments.preview.PreviewFragment;
+import com.nookdev.maker.dem.helpers.Ads;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +84,7 @@ public class MainActivityViewImpl implements MainActivityView {
                         App.getBus().post(e);
                     })
                     .show();
+            Ads.onDemSaved();
         }
         else{
             Snackbar.make(mCoordinator,R.string.error_file_not_saved,Snackbar.LENGTH_LONG).show();
@@ -124,6 +127,7 @@ public class MainActivityViewImpl implements MainActivityView {
         adapter.addFragment(new ConstructorFragment(), App.getStringResource(R.string.tab_constructor_title));
         adapter.addFragment(new PreviewFragment(), App.getStringResource(R.string.tab_preview_title));
         adapter.addFragment(new GalleryFragment(), App.getStringResource(R.string.tab_collection_title));
+        adapter.addFragment(new DonateFragment(),App.getStringResource(R.string.tab_title_ads));
 
         mViewPager.setAdapter(adapter);
 
@@ -140,6 +144,9 @@ public class MainActivityViewImpl implements MainActivityView {
                         CheckPermissionAndExecuteEvent e = new CheckPermissionAndExecuteEvent();
                         e.setAction(CheckPermissionAndExecuteEvent.ACTION_GALLERY);
                         App.getBus().post(e);
+                }
+                else if(position==3){
+                    mFab.hide();
                 }
                 else {
                     if(position==1){

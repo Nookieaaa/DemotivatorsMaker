@@ -97,5 +97,13 @@
     <string name="message_rationale">This permission is needed to store your awesome demotivators</string>
     <string name="on_never_ask">You permanently declined this permission, you can enable it in application settings</string>
     <string name="empty_list">You didn`t save anything yet :(</string>
+    <string name="tab_title_ads">Ads</string>
+    <string name="watch_a_video_50_karma">Watch a video (+50 karma)</string>
+    <string name="watch_a_simple_ad_5_karma">Watch a simple ad (+5 karma)</string>
+    <string name="full_screen_ad_every_2nd_demotivator_saved">Simple ad (every 2nd demotivator saved)</string>
+    <string name="watch_a_video_once_a_day">Watch a video (once a day)</string>
+    <string name="choose_your_ad_type">Choose your ad type</string>
+    <string name="help_this_project">Help this project</string>
+    <string name="you_can_help_this_project_by_watching_an_ad">You can help this project by watching an ad</string>
 
 </resources>

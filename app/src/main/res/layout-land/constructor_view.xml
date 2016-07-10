@@ -81,7 +81,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/constructor_card_frame"
         android:layout_width="300dp"
-        android:layout_height="260dp"
+        android:layout_height="230dp"
         app:layout_constraintLeft_toLeftOf="@+id/constraintLayout2"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"

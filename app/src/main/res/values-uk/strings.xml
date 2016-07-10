@@ -36,4 +36,12 @@
     <string name="on_never_ask">Вы не дали дозволу на збереження файлiв, вы можете дозволити збереження у налаштуваннях додатку</string>
     <string name="message_rationale">Цей дозвiл потрiбен для збереження ваших чудових творiнь</string>
     <string name="empty_list">Ви досi нiчого не зберегли :(</string>
+    <string name="choose_your_ad_type">Оберiть тип реклами</string>
+    <string name="full_screen_ad_every_2nd_demotivator_saved">Звичайна реклама(кожний 2й збережений демотиватор)</string>
+    <string name="help_this_project">Допомога проекту</string>
+    <string name="tab_title_ads">Реклама</string>
+    <string name="watch_a_simple_ad_5_karma">Переглянь звичайну рекламу (+5 до карми)</string>
+    <string name="watch_a_video_50_karma">Переглянь вiдео-рекламу (+50 до карми)</string>
+    <string name="watch_a_video_once_a_day">Перегляд вiдео-реклами (раз в день)</string>
+    <string name="you_can_help_this_project_by_watching_an_ad">Ви можете допомогти, переглянувши рекламу</string>
 </resources>

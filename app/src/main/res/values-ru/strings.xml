@@ -36,4 +36,12 @@
     <string name="on_never_ask">Вы запретили доступ к памяти, сохранение не работает, вы можете дать разрешение на сохранение в настройках</string>
     <string name="message_rationale">Разрешите доступ к памяти, чтоб сохранять свои восхитительные работы</string>
     <string name="empty_list">Вы пока еще ничего не сохранили :(</string>
+    <string name="choose_your_ad_type">Выберите тип рекламы</string>
+    <string name="full_screen_ad_every_2nd_demotivator_saved">Обычная реклама (каждый 2й сохраненный демотиватор)</string>
+    <string name="help_this_project">Помощь проэкту</string>
+    <string name="tab_title_ads">Реклама</string>
+    <string name="watch_a_simple_ad_5_karma">Посмотри обычную рекламу (+5 к карме)</string>
+    <string name="watch_a_video_50_karma">Посмотри видео-рекламу (+50 к карме)</string>
+    <string name="watch_a_video_once_a_day">Просмотри видео-рекламы (раз в день)</string>
+    <string name="you_can_help_this_project_by_watching_an_ad">Вы можете помочь, просмотрев рекламу</string>
 </resources>
