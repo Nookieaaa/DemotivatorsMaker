@@ -1,7 +1,6 @@
 package com.nookdev.maker.dem.fragments.list;
 
 
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,6 +11,8 @@ import com.nookdev.maker.dem.events.RefreshEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
 public class GalleryViewImpl implements GalleryView {
     private static GalleryViewImpl instance = new GalleryViewImpl();
@@ -49,7 +50,11 @@ public class GalleryViewImpl implements GalleryView {
     private void init() {
         if(mRVAdapter==null)
             mRVAdapter = new RVAdapter();
-        mRecyclerView.setLayoutManager(new GridLayoutManager(mController.getContext(), 2, LinearLayoutManager.VERTICAL, false));
+        if(mRecyclerView.getContext().getResources().getConfiguration().orientation==ORIENTATION_LANDSCAPE){
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(mController.getContext(),LinearLayoutManager.HORIZONTAL, false));
+        }else{
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(mController.getContext(),LinearLayoutManager.VERTICAL, false));
+        }
         if(mRecyclerView.getAdapter()!=mRVAdapter)
             mRecyclerView.setAdapter(mRVAdapter);
         mRVAdapter.onRefreshRequested(new RefreshEvent());

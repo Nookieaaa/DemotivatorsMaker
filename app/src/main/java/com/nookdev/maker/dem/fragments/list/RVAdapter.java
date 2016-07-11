@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -78,7 +77,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_saved_pic,null,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_saved_pic,parent,false);
         return new ViewHolder(v);
     }
 
@@ -127,9 +126,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
         @Bind(R.id.card_image)
         ImageView image;
-
-        @Bind(R.id.card_checkbox)
-        CheckBox checkBox;
 
         @Bind(R.id.card)
         CardView cardView;
