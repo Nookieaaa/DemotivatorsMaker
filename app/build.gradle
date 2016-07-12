@@ -37,6 +37,17 @@ android {
         }
     }
 
+    productFlavors{
+        free{
+            buildConfigField "boolean", "IS_FULL", "false"
+        }
+
+        full{
+            applicationId "com.nookdev.maker.dem.full"
+            buildConfigField "boolean", "IS_FULL", "true"
+        }
+    }
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
