@@ -47,6 +47,8 @@ def ui = dependencyGroup {
     implementation support.constraintLayout
     implementation support.design
     implementation support.recyclerView
+    implementation support.navigationFragment
+    implementation support.navigationUi
 }
 
 def network = dependencyGroup {
