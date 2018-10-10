@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_navigation">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/constructorFragment">
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.nookdev.maker.dem.view.MainActivity"
+        android:label="MainActivity" />
+    <fragment
+        android:id="@+id/constructorFragment"
+        android:name="com.nookdev.maker.dem.view.constructor.ConstructorFragment"
+        android:label="ConstructorFragment">
+        <action
+            android:id="@+id/action_constructorFragment_to_previewFragment"
+            app:destination="@id/previewFragment" />
+        <action
+            android:id="@+id/action_constructorFragment_pop"
+            app:popUpTo="@id/constructorFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedPicsFragment"
+        android:name="com.nookdev.maker.dem.view.library.SavedPicsFragment"
+        android:label="SavedPicsFragment">
+        <action
+            android:id="@+id/action_savedPicsFragment_to_previewFragment"
+            app:destination="@id/previewFragment" />
+        <action
+            android:id="@+id/action_savedPicsFragment_to_constructorFragment"
+            app:destination="@id/constructorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/previewFragment"
+        android:name="com.nookdev.maker.dem.view.preview.PreviewFragment"
+        android:label="PreviewFragment" />
 </navigation>

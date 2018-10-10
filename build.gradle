@@ -1,6 +1,6 @@
 ext.versions = [
-        kotlin          : "1.2.71",
-        coroutines      : "0.26.0",
+        kotlin          : "1.3.0-rc-146",
+        coroutines      : "0.30.0-eap13",
         dagger          : "2.16",
         room            : "2.0.0-rc1",
         constraintLayout: "1.1.2",
@@ -29,13 +29,13 @@ ext.versions = [
         navigation      : "1.0.0-alpha06",
         androidx        : "1.0.0",
         design          : "1.0.0-rc01",
-        constraint      : "1.1.2"
+        constraint      : "2.0.0-alpha2"
 ]
 
 ext.kot = [
         stdlib           : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin",
         coroutines       : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines",
-        coroutinesAdnroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines",
+        coroutinesAndroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines",
         ktx              : "androidx.core:core-ktx:$versions.ktx"
 ]
 
@@ -120,17 +120,20 @@ ext.date = [
 
 
 buildscript {
-    ext.kotlin_version = "1.2.71"
+    ext.kotlin_version = "1.3.0-rc-146"
     ext.safe_args_version = "1.0.0-alpha06"
 
     repositories {
         google()
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
+        maven {
+            url "http://dl.bintray.com/kotlin/kotlin-eap"
+        }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.3.0-alpha13'
 //        classpath 'com.google.gms:google-services:3.2.1'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -145,8 +148,9 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
-        maven { url 'https://maven.fabric.io/public' }
-        maven { url 'https://zendesk.jfrog.io/zendesk/repo' }
+        maven {
+            url "http://dl.bintray.com/kotlin/kotlin-eap"
+        }
     }
 }
 

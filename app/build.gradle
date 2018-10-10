@@ -39,6 +39,7 @@ def dependencyGroup(Closure closure) {
 def kotlin = dependencyGroup {
     implementation kot.stdlib
     implementation kot.coroutines
+    implementation kot.coroutinesAndroid
     implementation kot.ktx
 }
 
@@ -78,6 +79,7 @@ def date = dependencyGroup {
 }
 
 dependencies {
+    kotlin()
     ui()
     network()
     dagger()
